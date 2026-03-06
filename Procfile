@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py initadmin && gunicorn core.wsgi
+web: bash railway_start.sh
