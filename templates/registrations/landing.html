@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}E-Cell Innovation Summit 2026{% endblock %}
+
+{% block content %}
+<div
+    class="flex flex-col items-center justify-center min-h-[70vh] bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-lg p-10 shadow-lg relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-40"></div>
+    <div class="relative z-10 text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight drop-shadow-md">INNOVATION SUMMIT <span
+                class="text-secondary">2026</span></h1>
+        <p class="text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto opacity-90">Join the brightest minds at the
+            premier Entrepreneurship Cell event of PCCOE Pune. Pitch your startup, learn from industry leaders, and
+            network with investors.</p>
+
+        <div class="flex flex-col md:flex-row justify-center gap-6 mb-12">
+            <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
+                <span class="font-semibold">March 25-26, 2026</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.242-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="font-semibold">PCCOE Main Campus, Pune</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
+            <a href="{% url 'register_participant' %}"
+                class="bg-secondary hover:bg-yellow-400 text-dark font-bold py-4 px-10 rounded-full transition transform hover:scale-105 shadow-xl w-full md:w-auto text-lg text-center">
+                Register as Participant
+            </a>
+            <a href="{% url 'register_exhibitor' %}"
+                class="bg-transparent border-2 border-white hover:bg-white hover:text-dark font-bold py-4 px-10 rounded-full transition transform hover:scale-105 shadow-xl w-full md:w-auto text-lg text-center">
+                Register as Exhibitor
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="grid md:grid-cols-3 gap-8 mt-16 px-4">
+    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition relative top-0 hover:-top-2">
+        <h3 class="text-2xl font-bold mb-4 text-primary">Keynote Speakers</h3>
+        <p class="text-gray-600">Listen to industry veterans and successful founders share their journey and insights on
+            building sustainable businesses.</p>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition relative top-0 hover:-top-2">
+        <h3 class="text-2xl font-bold mb-4 text-primary">Startup Expo</h3>
+        <p class="text-gray-600">Explore innovative products and services from emerging startups. A perfect networking
+            ground for investors and talent.</p>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition relative top-0 hover:-top-2">
+        <h3 class="text-2xl font-bold mb-4 text-primary">Pitch Competition</h3>
+        <p class="text-gray-600">Watch the top student entrepreneurs battle it out for seed funding in front of a panel
+            of angel investors.</p>
+    </div>
+</div>
+{% endblock %}

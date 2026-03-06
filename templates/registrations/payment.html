@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout | E-Cell{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto w-full bg-white p-8 md:p-12 rounded-2xl shadow-xl mt-12 border border-gray-100">
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Complete Registration</h2>
+        <p class="text-gray-500 mt-2">You are almost there, {{ registration.name }}!</p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200 shadow-inner">
+        <h3 class="text-sm uppercase tracking-wider text-gray-500 mb-4 font-semibold">Order Summary</h3>
+        <div class="flex justify-between items-center mb-3">
+            <span class="text-gray-600">Base Fee</span>
+            <span class="font-medium text-gray-800">₹{{ registration.base_price }}</span>
+        </div>
+        {% if registration.discount_amount > 0 %}
+        <div class="flex justify-between items-center mb-3 text-green-600">
+            <span>Discount Applied ({{ registration.referral_code_used.referral_code }})</span>
+            <span class="font-medium">-₹{{ registration.discount_amount }}</span>
+        </div>
+        {% endif %}
+        <div
+            class="border-t border-gray-200 mt-4 pt-4 flex justify-between items-center text-lg font-bold text-primary">
+            <span>Total Payable</span>
+            <span>₹{{ registration.final_price }}</span>
+        </div>
+    </div>
+
+    <button id="rzp-button1"
+        class="w-full flex justify-center py-4 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-blue-600 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+        Pay ₹{{ registration.final_price }} Now
+    </button>
+</div>
+
+<form action="{% url 'payment_verify' %}" method="POST" id="payment-verify-form" hidden>
+    {% csrf_token %}
+    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+    <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+    <input type="hidden" name="reg_id" value="{{ registration.id }}">
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ razorpay_key_id }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "name": "PCCOE E-Cell",
+        "description": "Event Registration Fee",
+        "order_id": "{{ registration.razorpay_order_id }}",
+        "handler": function (response) {
+            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+            document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+            document.getElementById('razorpay_signature').value = response.razorpay_signature;
+            document.getElementById('payment-verify-form').submit();
+        },
+        "prefill": {
+            "name": "{{ registration.name }}",
+            "email": "{{ registration.email }}",
+            "contact": "{{ registration.phone }}"
+        },
+        "theme": {
+            "color": "#1E40AF"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button1').onclick = function (e) {
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+{% endblock %}
