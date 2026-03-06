@@ -12,6 +12,7 @@ class Command(BaseCommand):
         u1.email = 'admin@example.com'
         u1.is_staff = True
         u1.is_superuser = True
+        u1.is_active = True
         u1.save()
         
         # Create/Update 'ecell_admin' (Backup)
@@ -19,8 +20,9 @@ class Command(BaseCommand):
         u2.set_password('ecell2026')
         u2.is_staff = True
         u2.is_superuser = True
+        u2.is_active = True
         u2.save()
 
         user_count = User.objects.count()
         self.stdout.write(self.style.SUCCESS(f'DEBUG: Database now has {user_count} users.'))
-        self.stdout.write(self.style.SUCCESS(f'READY: Users "admin" and "ecell_admin" are active.'))
+        self.stdout.write(self.style.SUCCESS(f'READY: Users "admin" (ID:{u1.id}) and "ecell_admin" (ID:{u2.id}) are active.'))
