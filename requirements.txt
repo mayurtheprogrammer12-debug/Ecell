@@ -1,0 +1,8 @@
+django
+razorpay
+python-dotenv
+django-unfold
+dj-database-url
+psycopg2-binary
+gunicorn
+whitenoise
