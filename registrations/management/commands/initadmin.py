@@ -6,18 +6,21 @@ class Command(BaseCommand):
     help = 'Initialize the admin superuser if it doesn\'t exist'
 
     def handle(self, *args, **options):
-        username = os.getenv('ADMIN_USERNAME', 'admin')
-        password = os.getenv('ADMIN_PASSWORD', 'adminpass')
-        email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
+        # Create/Update 'admin'
+        u1, created1 = User.objects.get_or_create(username='admin')
+        u1.set_password('adminpass')
+        u1.email = 'admin@example.com'
+        u1.is_staff = True
+        u1.is_superuser = True
+        u1.save()
         
-        user_query = User.objects.filter(username=username)
-        if not user_query.exists():
-            User.objects.create_superuser(username, email, password)
-            self.stdout.write(self.style.SUCCESS(f'Successfully created superuser "{username}"'))
-        else:
-            user = user_query.first()
-            user.set_password(password)
-            user.is_staff = True
-            user.is_superuser = True
-            user.save()
-            self.stdout.write(self.style.SUCCESS(f'Superuser "{username}" already exists. Password has been reset to ensure access.'))
+        # Create/Update 'ecell_admin' (Backup)
+        u2, created2 = User.objects.get_or_create(username='ecell_admin')
+        u2.set_password('ecell2026')
+        u2.is_staff = True
+        u2.is_superuser = True
+        u2.save()
+
+        user_count = User.objects.count()
+        self.stdout.write(self.style.SUCCESS(f'DEBUG: Database now has {user_count} users.'))
+        self.stdout.write(self.style.SUCCESS(f'READY: Users "admin" and "ecell_admin" are active.'))
