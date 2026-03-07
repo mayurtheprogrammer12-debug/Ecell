@@ -3,94 +3,195 @@
 {% block title %}Selection | Nexus Registry{% endblock %}
 
 {% block content %}
-<div class="relative min-h-screen flex flex-col items-center justify-center pt-40 pb-20 px-4">
+<div class="relative min-h-screen pt-48 pb-32 px-4 overflow-hidden">
     <div class="container mx-auto max-w-7xl">
-        <div class="text-center mb-32 reveal-content">
-            <h5 class="text-[12px] font-black uppercase tracking-[0.8em] text-white/20 mb-8">Access Protocols</h5>
-            <h1
-                class="text-6xl md:text-8xl font-display font-black tracking-tighter uppercase italic leading-[0.85] text-white mb-10">
-                ENNOVATE'X-26<br><span class="text-azure">TRAJECTORY</span>
+        <div class="text-center mb-24 reveal-content">
+            <div class="flex items-center justify-center space-x-4 mb-8">
+                <div class="h-px w-12 bg-cyan-400/20"></div>
+                <span class="text-[12px] font-black uppercase tracking-[0.8em] text-cyan-400/40">Secure Protocol</span>
+                <div class="h-px w-12 bg-cyan-400/20"></div>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-display font-black tracking-tighter uppercase italic text-white mb-6">
+                SELECT <span class="text-gradient-cyan">PATHWAY</span>
             </h1>
-            <div class="w-24 h-[1px] bg-azure mx-auto"></div>
+            <p class="text-white/30 text-sm font-bold uppercase tracking-[0.3em] max-w-sm mx-auto">Choose your
+                institutional role in the Ennovate'X ecosystem</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            <!-- Student -->
-            <a href="{% url 'register_participant' %}?role=student" class="role-card opacity-0 group">
-                <div
-                    class="premium-glass p-16 rounded-[3rem] text-center flex flex-col items-center transition-all duration-700 hover:border-champagne/40 hover:bg-champagne/[0.01]">
+            <!-- Student Card -->
+            <div class="role-card-container group">
+                <div class="role-card-inner">
+                    <!-- Front -->
                     <div
-                        class="w-20 h-20 rounded-full border border-white/10 flex items-center justify-center mb-12 group-hover:border-azure group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] transition-all duration-700">
-                        <svg class="w-8 h-8 opacity-20 group-hover:opacity-100 group-hover:text-azure transition-all"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
-                            </path>
-                        </svg>
+                        class="role-card-front premium-glass p-12 flex flex-col items-center justify-between text-center overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-glow/5 rounded-full blur-[60px]"></div>
+                        <div
+                            class="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center mb-10 bg-white/[0.02]">
+                            <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-display font-black italic uppercase text-white mb-3">Student</h3>
+                            <p class="text-[10px] font-black text-cyan-400/40 uppercase tracking-[0.4em]">Arena
+                                Competitor</p>
+                        </div>
+                        <div class="mt-10 flex items-center space-x-3 text-white/20">
+                            <span class="text-[10px] font-black uppercase tracking-widest">Hover to Flip</span>
+                            <div class="w-4 h-4 animate-bounce">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-display font-black italic uppercase tracking-tighter mb-6 text-white">
-                        Student</h3>
-                    <p class="text-white/20 text-[12px] font-black uppercase tracking-[0.4em] mb-12">Innovation Arena
-                    </p>
-                    <div class="w-10 h-px bg-white/5 mb-12 group-hover:bg-azure/40 transition-colors"></div>
-                    <span
-                        class="text-[12px] font-black uppercase tracking-[0.5em] text-white/40 group-hover:text-azure group-hover:tracking-[0.7em] transition-all">Synchronize</span>
+                    <!-- Back -->
+                    <div
+                        class="role-card-back premium-glass p-12 flex flex-col items-center justify-center text-center bg-cyan-glow/[0.03]">
+                        <h4 class="text-sm font-black text-cyan-400 uppercase tracking-[0.4em] mb-8">Access Authorized
+                        </h4>
+                        <p
+                            class="text-white/40 text-xs font-medium uppercase tracking-widest mb-12 px-4 leading-relaxed">
+                            Submit your credentials for high-stakes innovation sprints.</p>
+                        <a href="{% url 'register_participant' %}?role=student"
+                            class="btn-premium w-full !bg-cyan-400 !text-black !py-4 shadow-[0_0_30px_rgba(0,210,255,0.3)]">Confirm
+                            Entry</a>
+                    </div>
                 </div>
-            </a>
+            </div>
 
-            <!-- Visitor -->
-            <a href="{% url 'register_participant' %}?role=visitor" class="role-card opacity-0 group"
-                style="animation-delay: 0.2s;">
-                <div
-                    class="premium-glass p-16 rounded-[3rem] text-center flex flex-col items-center transition-all duration-700 hover:border-champagne/40 hover:bg-champagne/[0.01]">
+            <!-- Visitor Card -->
+            <div class="role-card-container group">
+                <div class="role-card-inner">
+                    <!-- Front -->
                     <div
-                        class="w-20 h-20 rounded-full border border-white/10 flex items-center justify-center mb-12 group-hover:border-azure group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] transition-all duration-700">
-                        <svg class="w-8 h-8 opacity-20 group-hover:opacity-100 group-hover:text-azure transition-all"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                            </path>
-                        </svg>
+                        class="role-card-front premium-glass p-12 flex flex-col items-center justify-between text-center overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-violet-600/5 rounded-full blur-[60px]"></div>
+                        <div
+                            class="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center mb-10 bg-white/[0.02]">
+                            <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-display font-black italic uppercase text-white mb-3">Visitor</h3>
+                            <p class="text-[10px] font-black text-violet-400/40 uppercase tracking-[0.4em]">Network
+                                Observer</p>
+                        </div>
+                        <div class="mt-10 flex items-center space-x-3 text-white/20">
+                            <span class="text-[10px] font-black uppercase tracking-widest">Hover to Flip</span>
+                            <div class="w-4 h-4 animate-bounce">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-display font-black italic uppercase tracking-tighter mb-6 text-white">
-                        Visitor</h3>
-                    <p class="text-white/20 text-[12px] font-black uppercase tracking-[0.4em] mb-12">Network Observer
-                    </p>
-                    <div class="w-10 h-px bg-white/5 mb-12 group-hover:bg-azure/40 transition-colors"></div>
-                    <span
-                        class="text-[12px] font-black uppercase tracking-[0.5em] text-white/40 group-hover:text-azure group-hover:tracking-[0.7em] transition-all">Synchronize</span>
+                    <!-- Back -->
+                    <div
+                        class="role-card-back premium-glass p-12 flex flex-col items-center justify-center text-center bg-violet-600/[0.03]">
+                        <h4 class="text-sm font-black text-violet-400 uppercase tracking-[0.4em] mb-8">Visitor Pass</h4>
+                        <p
+                            class="text-white/40 text-xs font-medium uppercase tracking-widest mb-12 px-4 leading-relaxed">
+                            Observe the frontier of technical achievement MMXXVI.</p>
+                        <a href="{% url 'register_participant' %}?role=visitor"
+                            class="btn-premium w-full !bg-violet-600 !text-white !py-4 shadow-[0_0_30px_rgba(139,92,246,0.3)]">Confirm
+                            Entry</a>
+                    </div>
                 </div>
-            </a>
+            </div>
 
-            <!-- Exhibitor -->
-            <a href="{% url 'register_exhibitor' %}" class="role-card opacity-0 group" style="animation-delay: 0.4s;">
-                <div
-                    class="premium-glass p-16 rounded-[3rem] text-center flex flex-col items-center transition-all duration-700 hover:border-champagne/40 hover:bg-champagne/[0.01]">
+            <!-- Exhibitor Card -->
+            <div class="role-card-container group">
+                <div class="role-card-inner">
+                    <!-- Front -->
                     <div
-                        class="w-20 h-20 rounded-full border border-white/10 flex items-center justify-center mb-12 group-hover:border-azure group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] transition-all duration-700">
-                        <svg class="w-8 h-8 opacity-20 group-hover:opacity-100 group-hover:text-azure transition-all"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                            </path>
-                        </svg>
+                        class="role-card-front premium-glass p-12 flex flex-col items-center justify-between text-center overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-[60px]"></div>
+                        <div
+                            class="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center mb-10 bg-white/[0.02]">
+                            <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-display font-black italic uppercase text-white mb-3">Exhibitor</h3>
+                            <p class="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Venture Launchpad
+                            </p>
+                        </div>
+                        <div class="mt-10 flex items-center space-x-3 text-white/20">
+                            <span class="text-[10px] font-black uppercase tracking-widest">Hover to Flip</span>
+                            <div class="w-4 h-4 animate-bounce">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-display font-black italic uppercase tracking-tighter mb-6 text-white">
-                        Exhibitor</h3>
-                    <p class="text-white/20 text-[12px] font-black uppercase tracking-[0.4em] mb-12">Showcase Venture
-                    </p>
-                    <div class="w-10 h-px bg-white/5 mb-12 group-hover:bg-azure/40 transition-colors"></div>
-                    <span
-                        class="text-[12px] font-black uppercase tracking-[0.5em] text-white/40 group-hover:text-azure group-hover:tracking-[0.7em] transition-all">Synchronize</span>
+                    <!-- Back -->
+                    <div
+                        class="role-card-back premium-glass p-12 flex flex-col items-center justify-center text-center bg-white/[0.03]">
+                        <h4 class="text-sm font-black text-white/60 uppercase tracking-[0.4em] mb-8">Venture Request
+                        </h4>
+                        <p
+                            class="text-white/40 text-xs font-medium uppercase tracking-widest mb-12 px-4 leading-relaxed">
+                            Position your initiative for high-conviction partners.</p>
+                        <a href="{% url 'register_exhibitor' %}"
+                            class="btn-premium w-full !bg-white !text-black !py-4 shadow-[0_0_30px_rgba(255,255,255,0.2)]">Confirm
+                            Entry</a>
+                    </div>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
+    .role-card-container {
+        perspective: 1500px;
+        height: 500px;
+    }
+
+    .role-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    .role-card-container:hover .role-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .role-card-front,
+    .role-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 3.5rem !important;
+    }
+
+    .role-card-back {
+        transform: rotateY(180deg);
+    }
+
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -107,8 +208,16 @@
         animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .role-card {
+    .role-card-container {
         animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .role-card-container:nth-child(2) {
+        animation-delay: 0.1s;
+    }
+
+    .role-card-container:nth-child(3) {
+        animation-delay: 0.2s;
     }
 </style>
 {% endblock %}
