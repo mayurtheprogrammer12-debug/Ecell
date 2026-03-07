@@ -54,8 +54,22 @@ class UserRegistration(models.Model):
         return f"{self.name} - {self.registration_type}"
 
     @property
-    def is_pccoe(self):
+    def is_free_eligible(self):
+        # Check specific emails first
+        if FreeEntryWhitelist.objects.filter(whitelist_type='EMAIL', value=self.email).exists():
+            return True
+        
+        # Check domains
+        domain = self.email.split('@')[-1]
+        if FreeEntryWhitelist.objects.filter(whitelist_type='DOMAIN', value=domain).exists():
+            return True
+            
+        # Default legacy check
         return self.email.endswith('@pccoepune.org')
+
+    @property
+    def is_pccoe(self):
+        return self.is_free_eligible
 
     # Auth & Dashboard Link
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, related_name='registration', null=True, blank=True)
@@ -64,3 +78,19 @@ class UserRegistration(models.Model):
     round1_completed = models.BooleanField(default=False)
     selected_for_round2 = models.BooleanField(default=False)
     round2_unlocked = models.BooleanField(default=False)
+
+class FreeEntryWhitelist(models.Model):
+    WHITELIST_TYPES = (
+        ('DOMAIN', 'Email Domain (e.g., gmail.com)'),
+        ('EMAIL', 'Specific Email Address'),
+    )
+    
+    value = models.CharField(max_length=255, help_text="The domain or email to whitelist", unique=True)
+    whitelist_type = models.CharField(max_length=10, choices=WHITELIST_TYPES, default='DOMAIN')
+    description = models.CharField(max_length=255, blank=True, null=True, help_text="Reason or note for this whitelist entry")
+
+    def __str__(self):
+        return f"{self.whitelist_type}: {self.value}"
+
+    class Meta:
+        verbose_name_plural = "Free Entry Whitelist"

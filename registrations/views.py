@@ -77,7 +77,7 @@ def register_participant(request):
             
             registration.base_price = base_price
 
-            if registration.is_pccoe:
+            if registration.is_free_eligible:
                 registration.discount_amount = base_price
                 registration.final_price = 0
                 registration.payment_status = 'FREE'
