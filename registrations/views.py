@@ -25,7 +25,8 @@ def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
     transaction_note_encoded = urllib.parse.quote(transaction_note)
     
     # tr is often required by PhonePe and GPay to uniquely identify the intent
-    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}"
+    # mc=0000 (Generic Merchant Code) and mode=02 (Secure intent) can sometimes help with limits
+    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}&mc=0000&mode=02"
     
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(upi_url)
