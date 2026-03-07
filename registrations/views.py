@@ -13,20 +13,12 @@ from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
 
 def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
-    # Standard UPI parameters:
-    # pa: Payee address (UPI ID)
-    # pn: Payee name
-    # am: Amount
-    # cu: Currency (INR)
-    # tn: Transaction note
-    # tr: Transaction reference ID (Crucial for some apps to track the payment)
-    
     payee_name_encoded = urllib.parse.quote(payee_name)
     transaction_note_encoded = urllib.parse.quote(transaction_note)
     
-    # tr is often required by PhonePe and GPay to uniquely identify the intent
-    # mc=0000 (Generic Merchant Code) and mode=02 (Secure intent) can sometimes help with limits
-    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}&mc=0000&mode=02"
+    # tr (transaction reference) is often the same as tn (note) for personal accounts
+    # we use a very clean URI structure here
+    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}"
     
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(upi_url)
@@ -107,12 +99,17 @@ def register_participant(request):
                 
                 qr_base64, upi_url = generate_upi_qr(upi_id, payee_name, amount, registration.reference_id)
                 
+                # Specific App Links
+                # Note: These are often just the upi:// link but targeted or with specific prefixes
                 context = {
                     'registration': registration,
                     'upi_id': upi_id,
                     'amount': amount,
                     'qr_base64': qr_base64,
                     'upi_url': upi_url,
+                    'paytm_url': upi_url.replace('upi://', 'paytmmp://'),
+                    'phonepe_url': upi_url.replace('upi://', 'phonepe://'),
+                    'gpay_url': upi_url, # GPay usually uses the standard upi:// scheme
                     'reference_id': registration.reference_id
                 }
                 return render(request, 'registrations/payment.html', context)
