@@ -31,52 +31,52 @@
                     </div>
 
                     {% if registration.payment_status == 'PENDING' %}
-                    <h5 class="text-[10px] font-black uppercase tracking-[1em] text-white/20 mb-10">Submission Cataloged
+                    <h5 class="text-[13px] font-black uppercase tracking-[1em] text-white/20 mb-10">Submission Cataloged
                     </h5>
                     <h2
                         class="text-5xl font-display font-black tracking-tighter uppercase italic leading-tight mb-10 text-white">
                         Registry<br>Synchronizing</h2>
                     <p
-                        class="text-white/30 text-[11px] font-medium leading-relaxed max-w-md mx-auto mb-20 uppercase tracking-[0.2em]">
+                        class="text-white/30 text-[14px] font-medium leading-relaxed max-w-md mx-auto mb-20 uppercase tracking-[0.2em]">
                         Validated, <span class="font-black text-champagne italic">{{ registration.name }}</span>. Your
                         identity is currently being inscribed into the MMXXVI summit registry.
                     </p>
                     {% elif registration.payment_status == 'FREE' or registration.payment_status == 'VERIFIED' %}
-                    <h5 class="text-[10px] font-black uppercase tracking-[1em] text-white/20 mb-10">Clearance
+                    <h5 class="text-[13px] font-black uppercase tracking-[1em] text-white/20 mb-10">Clearance
                         Established</h5>
                     <h2
                         class="text-6xl font-display font-black tracking-tighter uppercase italic leading-none mb-10 text-white">
                         Nexus<br><span class="text-champagne">Activated</span></h2>
                     <p
-                        class="text-white/30 text-[11px] font-medium leading-relaxed max-w-sm mx-auto mb-20 uppercase tracking-[0.2em]">
+                        class="text-white/30 text-[14px] font-medium leading-relaxed max-w-sm mx-auto mb-20 uppercase tracking-[0.2em]">
                         Sequence complete for <span class="font-black text-white italic">{{ registration.name }}</span>.
                         You are now part of the 2026 legacy.
                     </p>
                     {% else %}
                     <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic mb-10 text-white">
                         Registry Alert</h2>
-                    <p class="text-champagne/60 text-[10px] font-black uppercase tracking-[0.8em] mb-20">{{
+                    <p class="text-champagne/60 text-[13px] font-black uppercase tracking-[0.8em] mb-20">{{
                         registration.get_payment_status_display }}</p>
                     {% endif %}
 
                     <div class="space-y-8 text-left mb-24 p-10 border border-white/5 rounded-[3rem] bg-white/[0.01]">
                         <div class="flex justify-between items-center group">
-                            <span class="text-[9px] font-black text-white/10 uppercase tracking-[0.6em]">Registry
+                            <span class="text-[12px] font-black text-white/10 uppercase tracking-[0.6em]">Registry
                                 Tier</span>
-                            <span class="text-[11px] font-black uppercase tracking-[0.4em] text-champagne">{{
+                            <span class="text-[13px] font-black uppercase tracking-[0.4em] text-champagne">{{
                                 registration.get_registration_type_display }}</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-[9px] font-black text-white/10 uppercase tracking-[0.6em]">Network
+                            <span class="text-[12px] font-black text-white/10 uppercase tracking-[0.6em]">Network
                                 ID</span>
-                            <span class="text-[11px] font-black uppercase tracking-[0.4em] text-white/40 italic">{{
+                            <span class="text-[13px] font-black uppercase tracking-[0.4em] text-white/40 italic">{{
                                 registration.email }}</span>
                         </div>
                         {% if registration.reference_id %}
                         <div class="pt-8 border-t border-white/5 flex justify-between items-center">
-                            <span class="text-[9px] font-black text-white/10 uppercase tracking-[0.6em]">Trace
+                            <span class="text-[12px] font-black text-white/10 uppercase tracking-[0.6em]">Trace
                                 Token</span>
-                            <span class="text-[11px] font-mono text-white/60 font-black">{{ registration.reference_id
+                            <span class="text-[13px] font-mono text-white/60 font-black">{{ registration.reference_id
                                 }}</span>
                         </div>
                         {% endif %}
