@@ -89,6 +89,7 @@
                 </div>
 
                 <!-- Event Progress -->
+                {% if registration.registration_type == 'PARTICIPANT' %}
                 <div class="space-y-8 reveal-content">
                     <h4 class="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] ml-6">Event Progress</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -163,6 +164,7 @@
 
                     </div>
                 </div>
+                {% endif %}
 
             </div>
         </div>
