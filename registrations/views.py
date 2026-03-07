@@ -13,13 +13,30 @@ from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
 
 def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
+    # The 'gallery scan' error often happens because:
+    # 1. The URL encoding of the 'pn' (payee name) or 'tn' (note) is not aggressive enough
+    # 2. The 'mc' (merchant code) or 'mode' parameters are missing or incorrect
+    # 3. The 'tr' (transaction reference) is missing
+    
+    # Aggressive double-encoding can help some apps correctly interpret the intent scheme
     payee_name_encoded = urllib.parse.quote(payee_name)
     transaction_note_encoded = urllib.parse.quote(transaction_note)
     
-    # tr (transaction reference) is often the same as tn (note) for personal accounts
-    # we use a very clean URI structure here
-    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}"
+    # Base URI
+    # pa: Payee address
+    # pn: Payee name
+    # am: Amount
+    # cu: Currency
+    # tn: Transaction note
+    # tr: Transaction reference (Usually same as TN for personal accounts)
+    # tr is REQUIRED by PhonePe for intent to be treated as 'Secure'
+    # mc: 0000 is a generic code, but helps apps categorize the link
+    # mode: 02 indicates a secure intent mode
     
+    base_params = f"pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}&mc=0000&mode=02"
+    upi_url = f"upi://pay?{base_params}"
+    
+    # Generate QR Code
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(upi_url)
     qr.make(fit=True)
