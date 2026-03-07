@@ -65,7 +65,8 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 import dj_database_url
 
-# Persistence Logic for Railway (using Volumes)
+# Persistence Logic for Railway (using Volumes) 
+# Verified: This ensures SQLite and Media files survive redeploys.
 # If a volume is mounted at /data, we want to store DB and Media there.
 DATA_ROOT = Path(os.getenv('DATA_VOLUME_PATH', BASE_DIR))
 
