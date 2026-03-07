@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import UserRegistration
+from .models import UserRegistration, AttendanceSession, AttendanceRecord
 from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
 
@@ -239,3 +239,54 @@ def round2_view(request):
         return redirect('dashboard')
     
     return render(request, 'registrations/round2.html', {'registration': registration})
+@login_required(login_url='login')
+def attendance_checkin(request, session_id):
+    session = get_object_or_404(AttendanceSession, session_id=session_id)
+    registration = getattr(request.user, 'registration', None)
+    
+    if not registration:
+        return redirect('register_choice')
+
+    # Check if attendance already exists
+    attendance = AttendanceRecord.objects.filter(participant=registration, session=session).first()
+    
+    context = {
+        'session': session,
+        'registration': registration,
+        'attendance': attendance,
+    }
+    
+    if request.method == 'POST':
+        if not session.is_active:
+            context['error'] = "This attendance session is no longer active."
+            return render(request, 'registrations/attendance_page.html', context)
+            
+        if attendance:
+             context['info'] = "Attendance already recorded."
+             return render(request, 'registrations/attendance_page.html', context)
+        
+        AttendanceRecord.objects.create(
+            participant=registration,
+            session=session,
+            status='PRESENT'
+        )
+        context['success'] = True
+        context['attendance'] = True # Set to true to hide the button
+
+    return render(request, 'registrations/attendance_page.html', context)
+
+def generate_attendance_qr(session_id, request):
+    # Absolute URL for the QR code
+    domain = request.get_host()
+    protocol = 'https' if request.is_secure() else 'http'
+    url = f"{protocol}://{domain}/attendance/checkin/{session_id}/"
+    
+    qr = qrcode.QRCode(version=1, box_size=10, border=4)
+    qr.add_data(url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    return qr_base64, url

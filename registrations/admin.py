@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .admin_attendance import *
 from django.db.models import Q
 from unfold.admin import ModelAdmin
 from .models import UserRegistration, FreeEntryWhitelist

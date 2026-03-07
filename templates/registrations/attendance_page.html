@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Mark Attendance | Ennovate'X-26{% endblock %}
+{% block content %}
+<div class="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-32 px-4 text-center">
+    <div class="container mx-auto max-w-2xl">
+        <div class="mb-12 space-y-4 reveal-content">
+            <h4 class="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400/40">Attendance Vector</h4>
+            <h2 class="text-6xl font-display font-black text-white italic uppercase tracking-tighter">{{ session.name }}
+            </h2>
+        </div>
+
+        <div class="premium-glass p-12 md:p-20 rounded-[4rem] relative overflow-hidden group reveal-content">
+            <div
+                class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent">
+            </div>
+
+            <div class="space-y-10">
+                <div class="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-white/40">
+                        Current Time: <span class="text-white">{{ now|date:"H:i" }}</span>
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-display font-black text-white uppercase italic tracking-tighter">Identity
+                        Verified</h3>
+                    <p class="text-white/60 leading-relaxed text-sm uppercase tracking-widest">
+                        Validated node: <span class="text-cyan-400 font-bold">{{ registration.name }}</span>
+                    </p>
+                </div>
+
+                {% if success %}
+                <div class="bg-cyan-400/10 border border-cyan-400/20 p-8 rounded-3xl">
+                    <div class="flex justify-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-black">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[12px] font-black text-cyan-400 uppercase tracking-widest">✔ Attendance Successfully
+                        Recorded</p>
+                </div>
+                {% elif error %}
+                <div class="bg-red-500/10 border border-red-500/20 p-8 rounded-3xl">
+                    <p class="text-[12px] font-black text-red-500 uppercase tracking-widest">{{ error }}</p>
+                </div>
+                {% elif info %}
+                <div class="bg-violet-500/10 border border-violet-500/20 p-8 rounded-3xl">
+                    <p class="text-[12px] font-black text-violet-500 uppercase tracking-widest">{{ info }}</p>
+                </div>
+                {% elif attendance %}
+                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
+                    <p class="text-[12px] font-black text-white/40 uppercase tracking-widest">Attendance Status:
+                        Recorded</p>
+                </div>
+                {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full btn-premium py-6 text-base tracking-[0.2em] !bg-gradient-to-r from-cyan-400 to-violet-600 !text-white hover:scale-105 transition-transform duration-500">
+                        Mark My Attendance
+                    </button>
+                </form>
+                {% endif %}
+
+                <div class="pt-8 text-center">
+                    <a href="{% url 'dashboard' %}"
+                        class="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] hover:text-white transition-all">Go
+                        to Hub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

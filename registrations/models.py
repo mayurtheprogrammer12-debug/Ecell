@@ -94,3 +94,35 @@ class FreeEntryWhitelist(models.Model):
 
     class Meta:
         verbose_name_plural = "Free Entry Whitelist"
+import uuid
+
+class AttendanceSession(models.Model):
+    name = models.CharField(max_length=255, help_text="e.g. Event Check-in, Round 1 Attendance")
+    session_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({'Active' if self.is_active else 'Closed'})"
+
+    @property
+    def qr_data(self):
+        # This will be used to generate the QR code URL
+        return f"/attendance/checkin/{self.session_id}/"
+
+class AttendanceRecord(models.Model):
+    STATUS_CHOICES = (
+        ('PRESENT', 'Present'),
+        ('ABSENT', 'Absent'),
+    )
+    
+    participant = models.ForeignKey(UserRegistration, on_delete=models.CASCADE, related_name='attendance_records')
+    session = models.ForeignKey(AttendanceSession, on_delete=models.CASCADE, related_name='records')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='ABSENT')
+
+    class Meta:
+        unique_together = ('participant', 'session')
+
+    def __str__(self):
+        return f"{self.participant.name} - {self.session.name}: {self.status}"

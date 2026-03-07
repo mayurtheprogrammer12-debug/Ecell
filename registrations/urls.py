@@ -12,4 +12,5 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('round2/', views.round2_view, name='round2'),
+    path('attendance/checkin/<uuid:session_id>/', views.attendance_checkin, name='attendance_checkin'),
 ]
