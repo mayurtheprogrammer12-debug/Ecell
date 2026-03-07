@@ -36,11 +36,17 @@ class AttendanceSessionAdmin(ModelAdmin):
             
             return mark_safe(f'''
                 <div style="text-align:center;">
-                    <img src="data:image/png;base64,{qr_base64}" /><br/>
-                    <a href="/attendance/session/{obj.session_id}/qr/" target="_blank" 
-                       style="display:inline-block; margin-top:5px; padding:4px 8px; background:#06b6d4; color:white; border-radius:4px; font-size:10px; text-decoration:none; font-weight:bold;">
-                       Open Full Screen
-                    </a>
+                    <img id="qr-{obj.id}" src="data:image/png;base64,{qr_base64}" /><br/>
+                    <div style="margin-top:10px; display:flex; gap:5px; justify-content:center;">
+                        <a href="/attendance/session/{obj.session_id}/qr/" target="_blank" 
+                           style="padding:6px 12px; background:#06b6d4; color:white; border-radius:8px; font-size:11px; text-decoration:none; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">
+                           Full Screen
+                        </a>
+                        <a href="data:image/png;base64,{qr_base64}" download="attendance_qr_{obj.id}.png"
+                           style="padding:6px 12px; background:#4c1d95; color:white; border-radius:8px; font-size:11px; text-decoration:none; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">
+                           Download
+                        </a>
+                    </div>
                 </div>
             ''')
         return "-"
