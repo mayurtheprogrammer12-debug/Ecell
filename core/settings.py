@@ -65,11 +65,15 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 import dj_database_url
 
+# Persistence Logic for Railway (using Volumes)
+# If a volume is mounted at /data, we want to store DB and Media there.
+DATA_ROOT = Path(os.getenv('DATA_VOLUME_PATH', BASE_DIR))
+
 # Database
 # Use dj-database-url to parse the DATABASE_URL environment variable from Railway
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
+        default='sqlite:///' + str(DATA_ROOT / 'db.sqlite3'),
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -104,9 +108,9 @@ SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True'
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
 CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
 
-# Media files storage
+# Media files storage (also persisted via volume if set)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = DATA_ROOT / 'media'
 
 # Registration settings
 BASE_PARTICIPANT_FEE = 1
