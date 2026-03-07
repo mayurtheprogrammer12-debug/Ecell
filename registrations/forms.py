@@ -9,10 +9,10 @@ class ParticipantForm(forms.ModelForm):
         model = UserRegistration
         fields = ['name', 'email', 'phone', 'college']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black', 'placeholder': 'John Doe'}),
-            'email': forms.EmailInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black', 'placeholder': 'john@example.com'}),
-            'phone': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black', 'placeholder': '+91 9876543210'}),
-            'college': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black', 'placeholder': 'PCCOE Pune'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'nexus@example.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': '+91 0000 0000'}),
+            'college': forms.TextInput(attrs={'placeholder': 'Institute Name'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -42,12 +42,12 @@ class ExhibitorForm(forms.ModelForm):
         model = UserRegistration
         fields = ['name', 'email', 'phone', 'org_name', 'description', 'website']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black'}),
-            'email': forms.EmailInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black'}),
-            'phone': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black'}),
-            'org_name': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black'}),
-            'description': forms.Textarea(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black', 'rows': 4}),
-            'website': forms.URLInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Venture Representative'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'corp@nexus.ia'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'Active ID'}),
+            'org_name': forms.TextInput(attrs={'placeholder': 'Venture Identity'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Technical Core', 'rows': 4}),
+            'website': forms.URLInput(attrs={'placeholder': 'https://nexus.ia'}),
         }
 
     def clean_email(self):

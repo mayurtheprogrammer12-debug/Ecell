@@ -16,16 +16,16 @@ class UserRegistration(models.Model):
     )
 
     # Common Fields
-    name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20)
-    college = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, help_text="Full legal name as per ID")
+    email = models.EmailField(unique=True, help_text="Primary communication node")
+    phone = models.CharField(max_length=20, help_text="Active contact sequence")
+    college = models.CharField(max_length=255, blank=True, null=True, help_text="Institutional affiliation")
     registration_type = models.CharField(max_length=20, choices=REGISTRATION_TYPES)
 
     # Exhibitor Specific
-    org_name = models.CharField(max_length=255, blank=True, null=True, verbose_name="Organization/Startup Name")
-    description = models.TextField(blank=True, null=True, verbose_name="Product/Startup Description")
-    website = models.URLField(blank=True, null=True, verbose_name="Website/Social Media Link")
+    org_name = models.CharField(max_length=255, blank=True, null=True, verbose_name="Organization/Startup Name", help_text="Venture or entity designation")
+    description = models.TextField(blank=True, null=True, verbose_name="Product/Startup Description", help_text="Brief technical or business core")
+    website = models.URLField(blank=True, null=True, verbose_name="Website/Social Media Link", help_text="Digital archive or portfolio")
 
     # Payment & Pricing
     referral_code_used = models.ForeignKey(ReferralCode, on_delete=models.SET_NULL, null=True, blank=True, related_name='registrations')
