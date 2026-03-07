@@ -1,41 +1,46 @@
+import csv
 from django.contrib import admin
+from django.http import HttpResponse
 from unfold.admin import ModelAdmin
 from .models import PaymentRecord
 
-@admin.action(description="Mark selected payments as Verified")
-def mark_as_verified(modeladmin, request, queryset):
-    for record in queryset:
-        record.payment_status = 'verified'
-        record.save()
-        if record.registration:
-            record.registration.payment_status = 'VERIFIED'
-            record.registration.save()
+def export_payments_as_csv(modeladmin, request, queryset):
+    meta = modeladmin.model._meta
+    field_names = [field.name for field in meta.fields]
 
-@admin.action(description="Mark selected payments as Rejected")
-def mark_as_rejected(modeladmin, request, queryset):
-    for record in queryset:
-        record.payment_status = 'rejected'
-        record.save()
-        if record.registration:
-            record.registration.payment_status = 'REJECTED'
-            record.registration.save()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename={meta}.csv'
+    writer = csv.writer(response)
 
-from django.utils.html import format_html
+    writer.writerow(field_names)
+    for obj in queryset:
+        writer.writerow([getattr(obj, field) for field in field_names])
+
+    return response
+
+export_payments_as_csv.short_description = "🚀 Export Selected to CSV"
 
 @admin.register(PaymentRecord)
 class PaymentRecordAdmin(ModelAdmin):
-    list_display = ('registration_info', 'amount', 'payment_status', 'reference_id', 'transaction_id', 'screenshot_preview', 'created_at')
-    list_filter = ('payment_status',)
-    search_fields = ('reference_id', 'transaction_id', 'registration__email', 'registration__name')
-    readonly_fields = ('created_at', 'updated_at')
-    actions = [mark_as_verified, mark_as_rejected]
+    list_display = (
+        'participant_name', 'amount', 'payment_status', 
+        'transaction_id', 'reference_id', 'created_at'
+    )
+    list_filter = ('payment_status', 'created_at')
+    search_fields = ('registration__name', 'registration__email', 'transaction_id', 'reference_id')
+    actions = [export_payments_as_csv]
+    
+    def participant_name(self, obj):
+        return obj.registration.name
+    participant_name.short_description = "Participant"
 
-    def screenshot_preview(self, obj):
-        if obj.screenshot:
-            return format_html('<a href="{0}" target="_blank"><img src="{0}" width="50" height="50" /></a>', obj.screenshot.url)
-        return "No Screenshot"
-    screenshot_preview.short_description = 'Screenshot'
-
-    def registration_info(self, obj):
-        return f"{obj.registration.id} - {obj.registration.name} ({obj.registration.email})"
-    registration_info.short_description = 'Registration'
+    readonly_fields = ('created_at',)
+    
+    fieldsets = (
+        ("Basic Info", {
+            "fields": ("registration", "amount", "payment_status", "created_at")
+        }),
+        ("Transaction Details", {
+            "fields": ("transaction_id", "reference_id", "screenshot")
+        }),
+    )

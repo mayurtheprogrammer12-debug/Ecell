@@ -1,4 +1,19 @@
 from django.db import models
+import uuid
+
+class EventSettings(models.Model):
+    event_name = models.CharField(max_length=255, default="Ennovate'X-26")
+    is_registration_open = models.BooleanField(default=True)
+    round1_name = models.CharField(max_length=100, default="Round 1")
+    round2_name = models.CharField(max_length=100, default="Round 2")
+    contact_email = models.EmailField(default="nexus@ecellpccoe.com")
+
+    def __str__(self):
+        return self.event_name
+
+    class Meta:
+        verbose_name = "Event Settings"
+        verbose_name_plural = "Event Settings"
 from referrals.models import ReferralCode
 
 class UserRegistration(models.Model):
