@@ -1,50 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}E-Cell Event Registration{% endblock %}</title>
+    <title>{% block title %}Innovation Summit | E-CELL PCCOE{% endblock %}</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1E40AF',
-                        secondary: '#F59E0B',
-                        dark: '#111827',
+                        primary: '#6366f1',
+                        secondary: '#f59e0b',
+                        dark: '#020205',
+                        surface: '#0a0a0f',
+                    },
+                    fontFamily: {
+                        sans: ['DM Sans', 'Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
                     }
                 }
             }
         }
     </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --glass-bg: rgba(10, 10, 18, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.05);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: #020205;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Grainy Texture Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Premium Glassmorphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: inset 0 1px 1px var(--glass-highlight);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020205;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1e1b4b;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #312e81;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Cursor Glow */
+        #cursor-glow {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: opacity 1s ease;
+        }
+
+        .premium-btn {
+            position: relative;
+            background: #6366f1;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.6);
+            background: #4f46e5;
+        }
+
+        .premium-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .premium-btn:hover::after {
+            opacity: 1;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
-    <nav class="bg-dark text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="{% url 'landing_page' %}" class="text-2xl font-bold tracking-wider">E-CELL</a>
-            <div class="space-x-4">
-                <a href="{% url 'landing_page' %}" class="hover:text-secondary transition">Home</a>
-                <a href="{% url 'register_participant' %}" class="hover:text-secondary transition">Participant</a>
-                <a href="{% url 'register_exhibitor' %}" class="hover:text-secondary transition">Exhibitor</a>
+<body class="flex flex-col min-h-screen selection:bg-indigo-500/40">
+    <div class="grain"></div>
+    <div id="cursor-glow"></div>
+
+    <nav class="glass sticky top-0 z-[100]">
+        <div class="container mx-auto px-8 py-5 flex justify-between items-center">
+            <a href="{% url 'landing_page' %}" class="group flex items-center space-x-3">
+                <div
+                    class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20 group-hover:rotate-12 transition-transform">
+                    <span class="text-white font-black text-xl italic uppercase">E</span>
+                </div>
+                <div class="flex flex-col leading-tight">
+                    <span class="text-lg font-black tracking-tighter text-white uppercase italic">INNOVATION <span
+                            class="text-indigo-500">SUMMIT</span></span>
+                    <span class="text-[10px] text-gray-600 font-bold tracking-[0.4em] uppercase">PCCOE E-CELL</span>
+                </div>
+            </a>
+            <div class="hidden lg:flex items-center space-x-12">
+                <a href="{% url 'landing_page' %}"
+                    class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition">Home</a>
+                <a href="#"
+                    class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition">Events</a>
+                <a href="#"
+                    class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition">Speakers</a>
+                <a href="{% url 'register_choice' %}" class="premium-btn">
+                    Register
+                </a>
             </div>
         </div>
     </nav>
-    <main class="flex-grow container mx-auto p-4 flex flex-col">
+
+    <main class="flex-grow flex flex-col pt-0 relative overflow-hidden">
         {% block content %}{% endblock %}
     </main>
-    <footer class="bg-dark text-white text-center p-4 mt-auto">
-        <p>&copy; 2026 PCCOE Entrepreneurship Cell. All Rights Reserved.</p>
+
+    <footer class="bg-dark/80 border-t border-white/5 py-20">
+        <div class="container mx-auto px-8">
+            <div class="grid md:grid-cols-4 gap-16 mb-20">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-8">
+                        <div
+                            class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center">
+                            <span class="text-white font-black text-2xl italic">E</span>
+                        </div>
+                        <span class="text-2xl font-black text-white italic tracking-tighter uppercase">E-CELL <span
+                                class="text-indigo-500">PCCOE</span></span>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-sm leading-relaxed mb-8 font-medium">
+                        Accelerating innovation and nurturing the entrepreneurial mindset. Join the largest startup
+                        community at PCCOE.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-600 hover:text-white transition-colors">Twitter</a>
+                        <a href="#" class="text-gray-600 hover:text-white transition-colors">LinkedIn</a>
+                        <a href="#" class="text-gray-600 hover:text-white transition-colors">Instagram</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-8">Navigation</h4>
+                    <ul class="space-y-4 text-gray-500 text-xs font-bold uppercase tracking-widest">
+                        <li><a href="{% url 'landing_page' %}" class="hover:text-indigo-400 transition">Portal Home</a>
+                        </li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">About E-Cell</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Sponsors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-8">Location</h4>
+                    <p class="text-gray-500 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose">
+                        Research & Development Cell,<br>PCCOE Pune,<br>Maharashtra Pin-411044
+                    </p>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-[10px] font-bold text-gray-700 uppercase tracking-[0.3em]">&copy; 2026 PCCOE
+                    Entrepreneurship Cell. Registered Entity.</p>
+                <p class="text-[10px] font-bold text-indigo-500/50 uppercase tracking-[0.3em] mt-4 md:mt-0 italic">
+                    Innovation Beyond Limits</p>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        const glow = document.getElementById('cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // Dynamic Glow Intensity
+        window.addEventListener('mousedown', () => {
+            glow.style.opacity = '1.5';
+            glow.style.width = '1200px';
+            glow.style.height = '1200px';
+        });
+        window.addEventListener('mouseup', () => {
+            glow.style.opacity = '1';
+            glow.style.width = '800px';
+            glow.style.height = '800px';
+        });
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 

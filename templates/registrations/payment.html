@@ -1,120 +1,157 @@
 {% extends "base.html" %}
 
-{% block title %}Checkout | E-Cell{% endblock %}
+{% block title %}Checkout | Innovation Summit{% endblock %}
 
 {% block content %}
-<div class="max-w-lg mx-auto w-full bg-white p-8 md:p-12 rounded-2xl shadow-xl mt-12 border border-gray-100 mb-12">
-    <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold text-gray-800">Complete Payment</h2>
-        <p class="text-gray-500 mt-2">Final step for {{ registration.name }}!</p>
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
+    <div
+        class="absolute top-[30%] right-[0%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[150px] animate-blob">
     </div>
+</div>
 
-    <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200 shadow-inner">
-        <div class="flex flex-col items-center justify-center space-y-4">
-            <h3 class="text-lg font-bold text-gray-800">Scan QR to Pay</h3>
+<div class="max-w-xl mx-auto w-full py-16 px-4">
+    <div class="reveal">
+        <div class="glass-card p-10 md:p-14 border-white/5 shadow-2xl relative">
+            <div class="text-center mb-14">
+                <div
+                    class="inline-flex items-center space-x-2 px-4 py-2 bg-indigo-500/10 rounded-full border border-indigo-500/20 mb-6">
+                    <span class="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Awaiting
+                        Transaction</span>
+                </div>
+                <h2 class="text-4xl font-black text-white italic tracking-tighter mb-4">Finalize Entry</h2>
+                <p class="text-gray-500 text-[10px] font-black uppercase tracking-[0.3em]">ID: {{ registration.id }} |
+                    {{ registration.name }}</p>
+            </div>
 
-            <img src="data:image/png;base64,{{ qr_base64 }}" alt="UPI QR Code"
-                class="w-48 h-48 border-2 border-primary rounded-lg shadow-sm">
+            <!-- Pricing Engine -->
+            <div class="glass p-8 rounded-[2rem] border-white/10 mb-12 text-center shadow-inner">
+                <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Total Investment</p>
+                <div class="text-7xl font-black text-white italic tracking-tighter mb-6">₹{{ amount }}</div>
+                <div class="inline-flex items-center space-x-3 bg-black/40 px-5 py-2 rounded-2xl border border-white/5">
+                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">REFERENCE</span>
+                    <span class="font-mono text-indigo-400 text-sm font-black">{{ reference_id }}</span>
+                </div>
+            </div>
 
-            <div class="w-full space-y-2 mt-4">
-                <div class="flex items-center justify-between text-sm bg-white p-3 rounded-lg border border-gray-200">
-                    <span class="text-gray-500 font-medium">UPI ID:</span>
-                    <span id="upi-id-text" class="font-bold text-gray-900">{{ upi_id }}</span>
-                    <button onclick="copyToClipboard('{{ upi_id }}')"
-                        class="text-primary hover:text-blue-800 font-bold ml-2 flex items-center">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
-                            </path>
-                        </svg>
-                        Copy
+            <div class="space-y-12">
+                <!-- QR Hub -->
+                <div class="flex flex-col items-center">
+                    <div
+                        class="relative group/qr p-6 bg-white rounded-[2.5rem] shadow-[0_0_80px_rgba(99,102,241,0.25)] transition-transform duration-700 hover:scale-105">
+                        <img src="data:image/png;base64,{{ qr_base64 }}" alt="UPI QR Code"
+                            class="w-52 h-52 rounded-2xl">
+                        <div
+                            class="absolute -top-3 -right-3 w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center border-4 border-surface shadow-xl">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 17h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 w-full">
+                        <div
+                            class="glass p-5 rounded-2xl border-white/5 flex items-center justify-between transition-all hover:border-indigo-500/30">
+                            <div class="flex flex-col space-y-1">
+                                <span class="text-[9px] text-gray-600 font-black uppercase tracking-widest">UPI
+                                    IDENTITY</span>
+                                <span class="text-sm text-gray-300 font-black tracking-tight">{{ upi_id }}</span>
+                            </div>
+                            <button onclick="copyToClipboard('{{ upi_id }}')"
+                                class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl hover:bg-indigo-500 hover:text-white transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <a href="{{ upi_url }}"
+                        class="premium-btn w-full py-6 text-sm flex items-center justify-center space-x-3">
+                        <span class="relative z-10 flex items-center">
+                            Launch UPI Application <svg class="w-4 h-4 ml-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="relative py-6 flex items-center">
+                    <div class="flex-grow border-t border-white/5"></div>
+                    <span class="px-6 text-[9px] font-black text-gray-600 uppercase tracking-[0.4em]">Audit Trail</span>
+                    <div class="flex-grow border-t border-white/5"></div>
+                </div>
+
+                <!-- Verification Protocol -->
+                <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data" class="space-y-8">
+                    {% csrf_token %}
+                    <input type="hidden" name="reg_id" value="{{ registration.id }}">
+
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">UTR /
+                            Transaction Hash</label>
+                        <input type="text" name="transaction_id" required placeholder="Enter the 12-digit UPI reference"
+                            class="w-full bg-white/[0.03] border border-white/5 text-white p-4 rounded-2xl focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all placeholder:text-gray-800 font-mono text-sm tracking-widest">
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Digital
+                            Receipt</label>
+                        <div class="relative">
+                            <input type="file" name="screenshot" accept="image/*" required
+                                class="w-full bg-white/[0.03] border border-white/5 text-white p-4 rounded-2xl cursor-pointer file:mr-6 file:py-2 file:px-6 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 transition-all font-medium text-xs">
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full py-6 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-emerald-900/10 active:scale-95 border border-emerald-500/30">
+                        Confirm Submission
                     </button>
-                </div>
-                <div class="flex items-center justify-between text-sm bg-white p-3 rounded-lg border border-gray-200">
-                    <span class="text-gray-500 font-medium">Ref ID:</span>
-                    <span class="font-bold text-gray-900">{{ reference_id }}</span>
-                </div>
-            </div>
-        </div>
-
-        <div
-            class="border-t border-gray-200 mt-6 pt-4 flex justify-between items-center text-xl font-bold text-primary">
-            <span>Amount to Pay</span>
-            <span>₹{{ amount }}</span>
-        </div>
-    </div>
-
-    <!-- Simple payment instructions -->
-    <div class="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-        <div class="flex">
-            <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                        clip-rule="evenodd" />
-                </svg>
-            </div>
-            <div class="ml-3">
-                <p class="text-xs text-blue-800 font-medium">
-                    Click the button below to pay using any installed UPI app (PhonePe, GPay, Paytm).
-                </p>
-                <p class="text-xs text-blue-700 mt-1">
-                    If scanning the QR code, please scan directly from your camera, not your gallery.
-                </p>
+                </form>
             </div>
         </div>
     </div>
-
-    <div class="mb-8">
-        <a href="{{ upi_url }}"
-            class="w-full flex justify-center py-4 px-4 rounded-lg shadow-lg text-xl font-bold text-white bg-primary hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
-            Pay via UPI App
-        </a>
-        <p class="text-center text-gray-400 text-[10px] mt-2 uppercase tracking-tight">Standard UPI Intent Protocol</p>
-    </div>
-
-    <hr class="my-8 border-gray-200">
-
-    <div class="text-center mb-6">
-        <h3 class="text-xl font-bold text-gray-800">Submit Verification</h3>
-        <p class="text-gray-500 mt-2 text-sm">Upload proof after making the payment.</p>
-    </div>
-
-    <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data" class="space-y-6">
-        {% csrf_token %}
-        <input type="hidden" name="reg_id" value="{{ registration.id }}">
-
-        <!-- Transaction ID -->
-        <div>
-            <label for="transaction_id" class="block text-sm font-semibold text-gray-700">UPI Transaction ID <span
-                    class="text-red-500">*</span></label>
-            <input type="text" name="transaction_id" id="transaction_id" required
-                placeholder="12 digit number (e.g. 403212...)"
-                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
-        </div>
-
-        <!-- Screenshot Upload -->
-        <div>
-            <label for="screenshot" class="block text-sm font-semibold text-gray-700">Payment Screenshot <span
-                    class="text-red-500">*</span></label>
-            <input type="file" name="screenshot" id="screenshot" accept="image/*" required
-                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-gray-700 file:bg-gray-100 file:border-0 file:rounded-md file:px-4 file:py-2 file:mr-4 file:font-semibold file:text-primary hover:file:bg-gray-200 cursor-pointer">
-        </div>
-
-        <button type="submit"
-            class="w-full flex justify-center py-4 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300">
-            I Have Paid - Verify Me
-        </button>
-    </form>
 </div>
 
 <script>
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(function () {
-            alert('UPI ID copied to clipboard!');
-        }, function (err) {
-            console.error('Could not copy text: ', err);
+            console.log('Identifier Copied');
         });
     }
 </script>
+
+<style>
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .reveal {
+        animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    input::placeholder {
+        color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        cursor: pointer;
+    }
+</style>
 {% endblock %}

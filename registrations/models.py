@@ -5,6 +5,7 @@ class UserRegistration(models.Model):
     REGISTRATION_TYPES = (
         ('PARTICIPANT', 'Participant'),
         ('EXHIBITOR', 'Exhibitor'),
+        ('VISITOR', 'Visitor'),
     )
 
     PAYMENT_STATUS_CHOICES = (

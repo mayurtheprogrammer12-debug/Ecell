@@ -45,14 +45,27 @@ def register_choice(request):
     return render(request, 'registrations/choice.html')
 
 def register_participant(request):
+    role = request.GET.get('role', 'student').upper()
+    if role not in ['STUDENT', 'VISITOR', 'PARTICIPANT']:
+        role = 'PARTICIPANT'
+        
     if request.method == 'POST':
         form = ParticipantForm(request.POST)
         if form.is_valid():
             registration = form.save(commit=False)
-            registration.registration_type = 'PARTICIPANT'
+            # Map role to registration type
+            if role == 'VISITOR':
+                registration.registration_type = 'VISITOR'
+            else:
+                registration.registration_type = 'PARTICIPANT'
             
             # Logic for fee
             base_price = settings.BASE_PARTICIPANT_FEE
+            if role == 'VISITOR':
+                # Maybe visitors have a different fee? For now assume same as participant
+                # but we could adjust here.
+                pass
+            
             registration.base_price = base_price
 
             if registration.is_pccoe:
@@ -113,13 +126,14 @@ def register_participant(request):
                     'amount': amount,
                     'qr_base64': qr_base64,
                     'upi_url': upi_url,
-                    'reference_id': registration.reference_id
+                    'reference_id': registration.reference_id,
+                    'role': role
                 }
                 return render(request, 'registrations/payment.html', context)
     else:
         form = ParticipantForm()
     
-    return render(request, 'registrations/participant_form.html', {'form': form})
+    return render(request, 'registrations/participant_form.html', {'form': form, 'role': role})
 
 def register_exhibitor(request):
     if request.method == 'POST':

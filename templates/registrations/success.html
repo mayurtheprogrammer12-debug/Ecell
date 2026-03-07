@@ -1,49 +1,145 @@
 {% extends "base.html" %}
 
-{% block title %}Success | E-Cell{% endblock %}
+{% block title %}Confirmation | Innovation Summit{% endblock %}
 
 {% block content %}
-<div
-    class="max-w-md mx-auto w-full bg-white p-10 rounded-2xl shadow-xl mt-16 text-center border-t-8 {% if registration.payment_status == 'PENDING' %}border-yellow-500{% elif registration.payment_status == 'REJECTED' %}border-red-500{% else %}border-green-500{% endif %}">
-    <div class="mb-6 flex justify-center">
-        <svg class="w-20 h-20 {% if registration.payment_status == 'PENDING' %}text-yellow-500{% elif registration.payment_status == 'REJECTED' %}text-red-500{% else %}text-green-500{% endif %}"
-            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-600/10 rounded-full blur-[180px] animate-pulse-slow">
     </div>
-    {% if registration.payment_status == 'PENDING' %}
-    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Payment Submitted!</h2>
-    <p class="text-lg text-gray-600 mb-8">Thank you, {{ registration.name }}. Your payment is pending verification. We
-        will notify you once confirmed.</p>
-    {% elif registration.payment_status == 'FREE' or registration.payment_status == 'VERIFIED' %}
-    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Registration Confirmed!</h2>
-    <p class="text-lg text-gray-600 mb-8">Thank you, {{ registration.name }}. Your spot is confirmed.</p>
-    {% else %}
-    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Registration Status</h2>
-    <p class="text-lg text-gray-600 mb-8">Status: {{ registration.get_payment_status_display }}</p>
-    {% endif %}
-
-    <div class="bg-gray-50 p-4 rounded-lg text-left mb-8 space-y-2 text-sm text-gray-700">
-        <p><span class="font-semibold w-24 inline-block">Role:</span> {{ registration.get_registration_type_display }}
-        </p>
-        <p><span class="font-semibold w-24 inline-block">Email:</span> {{ registration.email }}</p>
-        <p><span class="font-semibold w-24 inline-block">Amount:</span>
-            {% if registration.payment_status == 'FREE' %}
-            <span class="text-green-600 font-bold">FREE</span>
-            {% else %}
-            ₹{{ registration.final_price }}
-            {% endif %}
-        </p>
-        {% if registration.reference_id %}
-        <p><span class="font-semibold w-24 inline-block">Ref ID:</span> <span class="text-xs">{{
-                registration.reference_id }}</span></p>
-        {% endif %}
-    </div>
-
-    <a href="{% url 'landing_page' %}"
-        class="inline-block bg-primary hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-full shadow-md transition transform hover:-translate-y-1">
-        Return to Home
-    </a>
 </div>
+
+<div class="max-w-2xl mx-auto w-full py-20 px-4">
+    <div class="reveal">
+        <div class="glass-card p-12 md:p-20 border-white/5 shadow-2xl text-center relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute -top-32 -left-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10">
+                <div class="mb-12 flex justify-center">
+                    <div
+                        class="w-28 h-28 rounded-[2.5rem] {% if registration.payment_status == 'PENDING' %}bg-yellow-500/10 text-yellow-400 border-yellow-500/20{% elif registration.payment_status == 'REJECTED' %}bg-red-500/10 text-red-400 border-red-500/20{% else %}bg-emerald-500/10 text-emerald-400 border-emerald-500/20{% endif %} flex items-center justify-center border-2 animate-bounce-slow shadow-xl">
+                        <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                {% if registration.payment_status == 'PENDING' %}
+                <h2 class="text-5xl font-black text-white italic tracking-tighter mb-4">Transmission Held</h2>
+                <p class="text-gray-600 text-xs font-black uppercase tracking-[0.4em] mb-12">Verification in Pipeline
+                </p>
+                <p class="text-gray-400 text-sm md:text-base mb-12 leading-relaxed font-medium">
+                    Welcome, <span class="text-white font-black uppercase italic">{{ registration.name }}</span>.
+                    We've received your data. Our network operators are currently confirming your transaction. Expect a
+                    secure update shortly.
+                </p>
+                {% elif registration.payment_status == 'FREE' or registration.payment_status == 'VERIFIED' %}
+                <h2 class="text-6xl font-black text-white italic tracking-tighter mb-4 leading-none">Access <span
+                        class="text-emerald-500">Granted</span></h2>
+                <p class="text-gray-600 text-xs font-black uppercase tracking-[0.4em] mb-12">Security Clearance Approved
+                </p>
+                <p
+                    class="text-gray-400 text-sm md:text-base mb-12 leading-relaxed font-bold italic uppercase tracking-tight">
+                    See you in 2026, <span class="text-emerald-400 uppercase italic">{{ registration.name }}</span>.
+                    Prepare for the summit.
+                </p>
+                {% else %}
+                <h2 class="text-4xl font-black text-white italic tracking-tighter mb-4">Security Notice</h2>
+                <p class="text-gray-600 text-xs font-black uppercase tracking-[0.4em] mb-12">STATUS: {{
+                    registration.get_payment_status_display }}</p>
+                {% endif %}
+
+                <div class="glass p-8 rounded-[2rem] border-white/5 text-left mb-12 space-y-6 shadow-inner">
+                    <div class="flex items-center justify-between group">
+                        <span class="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">Designation</span>
+                        <span
+                            class="text-xs text-indigo-400 font-black uppercase italic tracking-tighter group-hover:scale-110 transition-transform">{{
+                            registration.get_registration_type_display }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">Network ID</span>
+                        <span class="text-xs text-gray-400 font-medium">{{ registration.email }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">Entry
+                            Credits</span>
+                        <span
+                            class="text-sm font-black {% if registration.payment_status == 'FREE' %}text-emerald-500 underline decoration-2 underline-offset-4{% else %}text-white{% endif %} italic tracking-tighter">
+                            {% if registration.payment_status == 'FREE' %}COMPLIMENTARY{% else %}₹{{
+                            registration.final_price }}{% endif %}
+                        </span>
+                    </div>
+                    {% if registration.reference_id %}
+                    <div class="pt-6 border-t border-white/5 flex items-center justify-between">
+                        <span class="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">REF_TOKEN</span>
+                        <span
+                            class="font-mono text-xs text-indigo-400 bg-indigo-500/10 px-4 py-2 rounded-xl border border-indigo-500/20 font-black">{{
+                            registration.reference_id }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <a href="{% url 'landing_page' %}"
+                    class="premium-btn w-full py-6 text-sm flex items-center justify-center space-x-3 bg-white/5 hover:bg-white/10 border-white/5 shadow-none text-gray-300 hover:text-white">
+                    Return to Terminal
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .reveal {
+        animation: fadeInUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes bounceSlow {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1.05);
+        }
+
+        50% {
+            transform: translateY(-15px) scale(1);
+        }
+    }
+
+    .animate-bounce-slow {
+        animation: bounceSlow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulseSlow {
+
+        0%,
+        100% {
+            opacity: 0.1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.2;
+            transform: scale(1.2);
+        }
+    }
+
+    .animate-pulse-slow {
+        animation: pulseSlow 8s ease-in-out infinite;
+    }
+</style>
 {% endblock %}
