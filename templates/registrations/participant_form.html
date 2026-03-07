@@ -40,24 +40,21 @@
                         {% for field in form %}
                         <div class="space-y-4">
                             <label for="{{ field.id_for_label }}"
-                                class="block text-[14px] font-black text-white uppercase tracking-[0.5em] ml-2">
-                                {{ field.label }}{% if field.field.required %}<span class="text-azure">*</span>{% endif
-                                %}
-                            </label>
+                                class="block text-[14px] font-black text-white uppercase tracking-[0.5em] ml-2">{{
+                                field.label }}{% if field.field.required %}<span class="text-azure">*</span>{% endif
+                                %}</label>
                             <div class="relative group">
                                 {{ field }}
                                 <div
                                     class="absolute bottom-0 left-0 w-full h-[2px] bg-white/10 group-focus-within:bg-azure transition-all duration-700">
                                 </div>
                             </div>
-                            {% if field.help_text %}
-                            <p class="text-[12px] text-azure font-bold uppercase tracking-widest italic mt-2">{{
-                                field.help_text }}</p>
-                            {% endif %}
-                            {% if field.errors %}
-                            <div class="text-[12px] text-red-500/60 font-medium uppercase tracking-tighter italic">{{
-                                field.errors }}</div>
-                            {% endif %}
+                            {% if field.help_text %}<p
+                                class="text-[12px] text-azure font-bold uppercase tracking-widest italic mt-2">{{
+                                field.help_text }}</p>{% endif %}
+                            {% if field.errors %}<div
+                                class="text-[12px] text-red-500/60 font-medium uppercase tracking-tighter italic">{{
+                                field.errors }}</div>{% endif %}
                         </div>
                         {% endfor %}
                     </div>
