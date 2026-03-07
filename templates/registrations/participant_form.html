@@ -1,64 +1,70 @@
 {% extends "base.html" %}
 
-{% block title %}Acquisition Form | Innovation Summit 2026{% endblock %}
+{% block title %}Acquisition | Innovation Summit 2026{% endblock %}
 
 {% block content %}
-<div class="relative min-h-screen flex flex-col items-center justify-center pt-40 pb-20 px-4">
-    <div class="container mx-auto max-w-xl">
+<div class="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-32 px-4">
+    <div class="container mx-auto max-w-2xl">
         <div class="reveal-content">
-            <div class="luxury-card p-12 md:p-16 rounded-[2.5rem]">
-                <div class="mb-16 text-center">
-                    <h5 class="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-6">Nexus Portal</h5>
-                    <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic leading-none mb-4">
-                        Registration</h2>
-                    <p class="font-serif italic text-white/40 text-sm">
+            <div class="premium-glass p-16 md:p-20 rounded-[4rem] relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-champagne/40 to-transparent">
+                </div>
+
+                <div class="mb-20 text-center">
+                    <h5 class="text-[9px] font-black uppercase tracking-[0.8em] text-white/20 mb-8">Access Token
+                        Generation</h5>
+                    <h2
+                        class="text-5xl font-display font-black tracking-tighter uppercase italic leading-none mb-6 text-white">
+                        Registry</h2>
+                    <p class="font-serif italic text-champagne/60 text-base">
                         {% if request.GET.role == 'visitor' %}
-                        general admission protocol
+                        observer protocol activation
                         {% else %}
-                        participant engagement portal
+                        participant engagement sequence
                         {% endif %}
                     </p>
                 </div>
 
-                <form method="POST" class="space-y-10">
+                <form method="POST" class="space-y-12">
                     {% csrf_token %}
 
                     {% if form.non_field_errors %}
                     <div
-                        class="text-white/50 border border-white/10 p-4 rounded-xl text-[10px] font-bold uppercase tracking-widest text-center">
+                        class="text-white/40 border border-white/5 p-6 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-center gold-shimmer">
                         {{ form.non_field_errors }}
                     </div>
                     {% endif %}
 
-                    <div class="space-y-8">
+                    <div class="space-y-10">
                         {% for field in form %}
                         <div class="space-y-4">
                             <label for="{{ field.id_for_label }}"
-                                class="block text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] ml-2">
+                                class="block text-[9px] font-black text-white/20 uppercase tracking-[0.5em] ml-2">
                                 {{ field.label }}
-                                {% if field.field.required %} <span class="text-white/20">*</span>{% endif %}
+                                {% if field.field.required %} <span class="text-champagne">*</span>{% endif %}
                             </label>
                             <div class="relative group">
                                 {{ field }}
                                 <div
-                                    class="absolute bottom-0 left-0 w-full h-px bg-white/10 group-focus-within:bg-white transition-colors">
+                                    class="absolute bottom-0 left-0 w-full h-px bg-white/5 group-focus-within:bg-champagne transition-all duration-700">
                                 </div>
                             </div>
                             {% if field.help_text %}
-                            <p class="text-[9px] text-white/20 font-medium italic tracking-wide uppercase">{{
+                            <p class="text-[8px] text-white/10 font-black uppercase tracking-widest italic">{{
                                 field.help_text }}</p>
                             {% endif %}
                             {% if field.errors %}
-                            <div class="text-[9px] text-white/60 font-medium uppercase tracking-tighter italic">{{
+                            <div class="text-[9px] text-red-500/60 font-medium uppercase tracking-tighter italic">{{
                                 field.errors }}</div>
                             {% endif %}
                         </div>
                         {% endfor %}
                     </div>
 
-                    <div class="pt-10">
-                        <button type="submit" class="btn-classy w-full">
-                            Confirm and Continue
+                    <div class="pt-16">
+                        <button type="submit" class="btn-premium w-full shadow-2xl shadow-champagne/5">
+                            Validate Identities
                         </button>
                     </div>
                 </form>
@@ -71,7 +77,7 @@
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(60px);
         }
 
         to {
@@ -81,7 +87,7 @@
     }
 
     .reveal-content {
-        animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     input,
@@ -90,18 +96,24 @@
         background: transparent !important;
         border: none !important;
         color: white !important;
-        padding: 1rem 0.5rem !important;
+        padding: 1.25rem 0.5rem !important;
         width: 100% !important;
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
         font-family: 'Inter', sans-serif !important;
         outline: none !important;
+        transition: all 0.5s ease !important;
+    }
+
+    input:focus {
+        padding-left: 1rem !important;
+        background: rgba(197, 163, 104, 0.02) !important;
     }
 
     input::placeholder {
-        color: rgba(255, 255, 255, 0.1) !important;
+        color: rgba(255, 255, 255, 0.05) !important;
         text-transform: uppercase;
-        font-size: 0.7rem;
-        letter-spacing: 0.2em;
+        font-size: 0.8rem;
+        letter-spacing: 0.4em;
     }
 </style>
 {% endblock %}

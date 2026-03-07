@@ -13,34 +13,44 @@
             theme: {
                 extend: {
                     colors: {
-                        onyx: '#050505',
-                        glass: 'rgba(255, 255, 255, 0.03)',
-                        silver: '#e2e8f0',
-                        gold: '#d4af37',
-                        accent: '#ffffff',
+                        onyx: '#030303',
+                        platinum: '#e5e5e5',
+                        champagne: '#c5a368',
+                        sapphire: '#0f172a',
+                        emerald: '#064e3b',
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
                         display: ['Outfit', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
         body {
-            background-color: #050505;
+            background-color: #030303;
             color: #ffffff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             font-family: 'Inter', sans-serif;
         }
 
-        /* Sophisticated Grain */
         .grain-overlay {
             position: fixed;
             top: 0;
@@ -49,78 +59,71 @@
             height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Minimal Luxury Glass */
-        .luxury-glass {
-            background: rgba(255, 255, 255, 0.015);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .premium-glass {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(30px) saturate(150%);
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .luxury-card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        .gold-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(197, 163, 104, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite;
         }
 
-        .luxury-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
-        /* 3D Scene Container */
-        .scene-3d {
-            perspective: 2000px;
+        .btn-premium {
+            position: relative;
+            padding: 1.25rem 3rem;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 800;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* Custom Scrollbar */
+        .btn-premium:hover {
+            letter-spacing: 0.4em;
+            background: #c5a368;
+            color: #ffffff;
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(197, 163, 104, 0.2);
+        }
+
         ::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #050505;
+            background: #030303;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #222;
-            border-radius: 4px;
+            background: #c5a368;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #333;
-        }
-
-        /* Classy Button */
-        .btn-classy {
-            position: relative;
-            padding: 1rem 2.5rem;
-            background: #ffffff;
-            color: #000000;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            border-radius: 2px;
-            transition: all 0.4s ease;
-        }
-
-        .btn-classy:hover {
-            background: #f0f0f0;
-            letter-spacing: 0.25em;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
-        }
-
-        #mouse-light {
+        #spotlight {
             position: fixed;
-            width: 1200px;
-            height: 1200px;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            width: 1400px;
+            height: 1400px;
+            background: radial-gradient(circle at center, rgba(197, 163, 104, 0.04) 0%, transparent 60%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
@@ -129,80 +132,91 @@
     </style>
 </head>
 
-<body class="selection:bg-white selection:text-black">
+<body>
     <div class="grain-overlay"></div>
-    <div id="mouse-light"></div>
+    <div id="spotlight"></div>
 
     <nav
-        class="luxury-glass fixed w-[95%] left-1/2 -translate-x-1/2 top-6 z-[1000] rounded-full px-10 py-4 flex justify-between items-center">
-        <a href="{% url 'landing_page' %}" class="flex items-center space-x-3">
-            <span class="font-display font-black text-xl tracking-[0.2em] uppercase">SUMMIT</span>
-            <div class="h-4 w-px bg-white/20"></div>
-            <span class="font-display font-light text-sm tracking-[0.5em] text-white/60">2026</span>
+        class="premium-glass fixed w-[90%] md:w-[85%] left-1/2 -translate-x-1/2 top-8 z-[1000] rounded-2xl px-12 py-5 flex justify-between items-center">
+        <a href="{% url 'landing_page' %}" class="flex items-center space-x-4 group">
+            <div
+                class="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-champagne transition-all duration-700">
+                <span class="font-display font-black text-xl italic text-champagne">Σ</span>
+            </div>
+            <span class="font-display font-black text-lg tracking-[0.25em] uppercase text-white">SUMMIT '26</span>
         </a>
 
-        <div class="hidden md:flex items-center space-x-12">
-            <a href="{% url 'landing_page' %}"
-                class="text-[10px] font-medium uppercase tracking-[0.3em] hover:text-white/60 transition">Nexus</a>
-            <a href="#"
-                class="text-[10px] font-medium uppercase tracking-[0.3em] hover:text-white/60 transition">About</a>
+        <div class="hidden lg:flex items-center space-x-16">
+            <nav class="flex items-center space-x-10">
+                <a href="{% url 'landing_page' %}"
+                    class="text-[9px] font-black uppercase tracking-[0.4em] text-white/40 hover:text-champagne transition">Protocols</a>
+                <a href="#"
+                    class="text-[9px] font-black uppercase tracking-[0.4em] text-white/40 hover:text-champagne transition">Archives</a>
+                <a href="#"
+                    class="text-[9px] font-black uppercase tracking-[0.4em] text-white/40 hover:text-champagne transition">Legacy</a>
+            </nav>
             <a href="{% url 'register_choice' %}"
-                class="px-6 py-2 border border-white/20 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition duration-500 rounded-full">
-                Enter
+                class="px-8 py-3 bg-white text-black text-[9px] font-black uppercase tracking-[0.4em] hover:bg-champagne hover:text-white transition-all duration-500 rounded-sm">
+                Join Network
             </a>
         </div>
     </nav>
 
-    <main class="pt-0">
+    <main>
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-black/80 border-t border-white/5 py-32 mt-20">
-        <div class="container mx-auto px-8 max-w-7xl">
-            <div class="grid md:grid-cols-2 gap-24 mb-20">
-                <div>
-                    <h2 class="font-display font-black text-4xl mb-8 tracking-tighter uppercase italic">Stay Ahead.</h2>
-                    <p class="text-white/40 text-sm leading-relaxed max-w-sm font-light">
-                        The annual entrepreneurship gathering at PCCOE. Connecting the visionaries of tomorrow with the
-                        mentors of today.
+    <footer class="bg-onyx border-t border-white/5 py-32 mt-40">
+        <div class="container mx-auto px-12 max-w-7xl">
+            <div class="grid lg:grid-cols-4 gap-20">
+                <div class="lg:col-span-2">
+                    <h2
+                        class="font-display font-black text-4xl mb-10 tracking-tighter uppercase italic text-white flex items-center">
+                        <span class="mr-6 w-12 h-[1px] bg-champagne"></span> E-CELL PCCOE
+                    </h2>
+                    <p class="text-white/30 text-xs leading-relaxed max-w-sm font-medium tracking-wide uppercase">
+                        The definitive ecosystem for high-conviction creators and venture capital. Engineering the
+                        future with absolute precision.
                     </p>
                 </div>
-                <div class="grid grid-cols-2 gap-12">
-                    <div class="space-y-6">
-                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">Discovery</h4>
-                        <ul class="space-y-4 text-[11px] font-medium uppercase tracking-widest">
-                            <li><a href="#" class="hover:text-white/60">Schedule</a></li>
-                            <li><a href="#" class="hover:text-white/60">Speakers</a></li>
-                        </ul>
-                    </div>
-                    <div class="space-y-6">
-                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">Follow</h4>
-                        <ul class="space-y-4 text-[11px] font-medium uppercase tracking-widest">
-                            <li><a href="#" class="hover:text-white/60">Instagram</a></li>
-                            <li><a href="#" class="hover:text-white/60">LinkedIn</a></li>
-                        </ul>
-                    </div>
+                <div>
+                    <h4
+                        class="text-[9px] font-black uppercase tracking-[0.6em] text-champagne mb-10 text-right md:text-left">
+                        Navigation</h4>
+                    <ul
+                        class="space-y-6 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 text-right md:text-left">
+                        <li><a href="#" class="hover:text-white transition">Technical Matrix</a></li>
+                        <li><a href="#" class="hover:text-white transition">Venture Sprints</a></li>
+                        <li><a href="#" class="hover:text-white transition">Network Status</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4
+                        class="text-[9px] font-black uppercase tracking-[0.6em] text-champagne mb-10 text-right md:text-left">
+                        Coordinates</h4>
+                    <p
+                        class="text-white/40 text-[9px] font-bold uppercase tracking-[0.4em] leading-loose text-right md:text-left">
+                        Research Park v2<br>Maharashtra, IN<br>nexus@ecellpccoe.com
+                    </p>
                 </div>
             </div>
             <div
-                class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[9px] font-bold uppercase tracking-[0.5em] text-white/20">
-                <p>&copy; 2026 Innovation Summit PCCOE.</p>
-                <div class="mt-4 md:mt-0 flex space-x-10">
-                    <span>Privacy Protocol</span>
-                    <span>Terms of Entry</span>
+                class="pt-20 mt-20 border-t border-white/5 flex justify-between items-center text-[8px] font-black uppercase tracking-[0.8em] text-white/10">
+                <p>&copy; MMXXVI INNOVATION SUMMIT.</p>
+                <div class="flex space-x-12">
+                    <span>Alpha Build 0.26</span>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        const light = document.getElementById('mouse-light');
+        const spotlight = document.getElementById('spotlight');
         window.addEventListener('mousemove', (e) => {
-            light.style.left = e.clientX + 'px';
-            light.style.top = e.clientY + 'px';
+            spotlight.style.left = e.clientX + 'px';
+            spotlight.style.top = e.clientY + 'px';
         });
     </script>
-    {% block scripts %}{% endblock %}
 </body>
 
 </html>

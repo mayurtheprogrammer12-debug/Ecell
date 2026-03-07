@@ -3,22 +3,27 @@
 {% block title %}Confirmation | Innovation Summit{% endblock %}
 
 {% block content %}
-<div class="relative min-h-screen flex flex-col items-center justify-center pt-40 pb-20 px-4 overflow-hidden">
-    <div class="container mx-auto max-w-2xl px-4">
+<div class="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-32 px-4 overflow-hidden">
+    <div class="container mx-auto max-w-3xl px-4">
         <div class="reveal-content">
-            <div class="luxury-card p-16 md:p-24 rounded-[3rem] text-center relative overflow-hidden">
+            <div class="premium-glass p-16 md:p-24 rounded-[5rem] text-center relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-champagne/40 to-transparent">
+                </div>
+
                 <div class="relative z-10">
-                    <div class="mb-16 flex justify-center">
+                    <div class="mb-20 flex justify-center">
                         <div
-                            class="w-24 h-24 rounded-full border border-white/10 flex items-center justify-center animate-pulse">
+                            class="w-32 h-32 rounded-full border border-champagne/20 flex items-center justify-center animate-pulse-slow bg-champagne/5">
                             {% if registration.payment_status == 'PENDING' %}
-                            <svg class="w-10 h-10 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-12 h-12 text-champagne" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             {% else %}
-                            <svg class="w-10 h-10 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            <svg class="w-12 h-12 text-champagne font-black" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 13l4 4L19 7"></path>
                             </svg>
                             {% endif %}
@@ -26,53 +31,59 @@
                     </div>
 
                     {% if registration.payment_status == 'PENDING' %}
-                    <h5 class="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 mb-8">Asset Received</h5>
-                    <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic leading-tight mb-8">
-                        Access Pending<br>Verification</h2>
+                    <h5 class="text-[10px] font-black uppercase tracking-[1em] text-white/20 mb-10">Submission Cataloged
+                    </h5>
+                    <h2
+                        class="text-5xl font-display font-black tracking-tighter uppercase italic leading-tight mb-10 text-white">
+                        Registry<br>Synchronizing</h2>
                     <p
-                        class="text-white/40 text-sm font-light leading-relaxed max-w-sm mx-auto mb-16 uppercase tracking-widest">
-                        Thank you, <span class="font-black text-white italic">{{ registration.name }}</span>. Your
-                        submission is being processed within our secure stack.
+                        class="text-white/30 text-[11px] font-medium leading-relaxed max-w-md mx-auto mb-20 uppercase tracking-[0.2em]">
+                        Validated, <span class="font-black text-champagne italic">{{ registration.name }}</span>. Your
+                        identity is currently being inscribed into the MMXXVI summit registry.
                     </p>
                     {% elif registration.payment_status == 'FREE' or registration.payment_status == 'VERIFIED' %}
-                    <h5 class="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 mb-8">Clearance Approved
-                    </h5>
-                    <h2 class="text-5xl font-display font-black tracking-tighter uppercase italic leading-none mb-8">
-                        Welcome<br>to Nexus</h2>
+                    <h5 class="text-[10px] font-black uppercase tracking-[1em] text-white/20 mb-10">Clearance
+                        Established</h5>
+                    <h2
+                        class="text-6xl font-display font-black tracking-tighter uppercase italic leading-none mb-10 text-white">
+                        Nexus<br><span class="text-champagne">Activated</span></h2>
                     <p
-                        class="text-white/40 text-sm font-light leading-relaxed max-w-xs mx-auto mb-16 uppercase tracking-widest">
-                        Spot confirmed for <span class="font-black text-white italic">{{ registration.name }}</span>.
-                        Prepare for the summit.
+                        class="text-white/30 text-[11px] font-medium leading-relaxed max-w-sm mx-auto mb-20 uppercase tracking-[0.2em]">
+                        Sequence complete for <span class="font-black text-white italic">{{ registration.name }}</span>.
+                        You are now part of the 2026 legacy.
                     </p>
                     {% else %}
-                    <h2 class="text-3xl font-display font-black tracking-tighter uppercase italic mb-8">Security Notice
-                    </h2>
-                    <p class="text-white/30 text-xs font-bold uppercase tracking-widest mb-16">{{
+                    <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic mb-10 text-white">
+                        Registry Alert</h2>
+                    <p class="text-champagne/60 text-[10px] font-black uppercase tracking-[0.8em] mb-20">{{
                         registration.get_payment_status_display }}</p>
                     {% endif %}
 
-                    <div class="space-y-6 text-left mb-20 p-8 border border-white/5 rounded-3xl bg-white/[0.01]">
+                    <div class="space-y-8 text-left mb-24 p-10 border border-white/5 rounded-[3rem] bg-white/[0.01]">
                         <div class="flex justify-between items-center group">
-                            <span
-                                class="text-[9px] font-bold text-white/20 uppercase tracking-widest">Designation</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-white/60">{{
+                            <span class="text-[9px] font-black text-white/10 uppercase tracking-[0.6em]">Registry
+                                Tier</span>
+                            <span class="text-[11px] font-black uppercase tracking-[0.4em] text-champagne">{{
                                 registration.get_registration_type_display }}</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-[9px] font-bold text-white/20 uppercase tracking-widest">Identity</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-white/40">{{
+                            <span class="text-[9px] font-black text-white/10 uppercase tracking-[0.6em]">Network
+                                ID</span>
+                            <span class="text-[11px] font-black uppercase tracking-[0.4em] text-white/40 italic">{{
                                 registration.email }}</span>
                         </div>
                         {% if registration.reference_id %}
-                        <div class="pt-6 border-t border-white/5 flex justify-between items-center">
-                            <span class="text-[9px] font-bold text-white/20 uppercase tracking-widest">Token ID</span>
-                            <span class="text-[10px] font-mono text-white/80">{{ registration.reference_id }}</span>
+                        <div class="pt-8 border-t border-white/5 flex justify-between items-center">
+                            <span class="text-[9px] font-black text-white/10 uppercase tracking-[0.6em]">Trace
+                                Token</span>
+                            <span class="text-[11px] font-mono text-white/60 font-black">{{ registration.reference_id
+                                }}</span>
                         </div>
                         {% endif %}
                     </div>
 
-                    <a href="{% url 'landing_page' %}" class="btn-classy w-full text-center block">
-                        Exit Portal
+                    <a href="{% url 'landing_page' %}" class="btn-premium w-full text-center block">
+                        Return to Hub
                     </a>
                 </div>
             </div>
@@ -84,7 +95,7 @@
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(60px);
         }
 
         to {
