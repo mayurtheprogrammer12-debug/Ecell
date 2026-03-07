@@ -3,15 +3,26 @@
 {% block title %}Success | E-Cell{% endblock %}
 
 {% block content %}
-<div class="max-w-md mx-auto w-full bg-white p-10 rounded-2xl shadow-xl mt-16 text-center border-t-8 border-green-500">
+<div
+    class="max-w-md mx-auto w-full bg-white p-10 rounded-2xl shadow-xl mt-16 text-center border-t-8 {% if registration.payment_status == 'PENDING' %}border-yellow-500{% elif registration.payment_status == 'REJECTED' %}border-red-500{% else %}border-green-500{% endif %}">
     <div class="mb-6 flex justify-center">
-        <svg class="w-20 h-20 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-20 h-20 {% if registration.payment_status == 'PENDING' %}text-yellow-500{% elif registration.payment_status == 'REJECTED' %}text-red-500{% else %}text-green-500{% endif %}"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
     </div>
-    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Registration Successful!</h2>
+    {% if registration.payment_status == 'PENDING' %}
+    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Payment Submitted!</h2>
+    <p class="text-lg text-gray-600 mb-8">Thank you, {{ registration.name }}. Your payment is pending verification. We
+        will notify you once confirmed.</p>
+    {% elif registration.payment_status == 'FREE' or registration.payment_status == 'VERIFIED' %}
+    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Registration Confirmed!</h2>
     <p class="text-lg text-gray-600 mb-8">Thank you, {{ registration.name }}. Your spot is confirmed.</p>
+    {% else %}
+    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Registration Status</h2>
+    <p class="text-lg text-gray-600 mb-8">Status: {{ registration.get_payment_status_display }}</p>
+    {% endif %}
 
     <div class="bg-gray-50 p-4 rounded-lg text-left mb-8 space-y-2 text-sm text-gray-700">
         <p><span class="font-semibold w-24 inline-block">Role:</span> {{ registration.get_registration_type_display }}
@@ -24,9 +35,9 @@
             ₹{{ registration.final_price }}
             {% endif %}
         </p>
-        {% if registration.razorpay_payment_id %}
-        <p><span class="font-semibold w-24 inline-block">Txn ID:</span> <span class="text-xs">{{
-                registration.razorpay_payment_id }}</span></p>
+        {% if registration.reference_id %}
+        <p><span class="font-semibold w-24 inline-block">Ref ID:</span> <span class="text-xs">{{
+                registration.reference_id }}</span></p>
         {% endif %}
     </div>
 

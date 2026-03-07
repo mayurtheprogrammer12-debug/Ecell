@@ -1,4 +1,9 @@
 import json
+import uuid
+import qrcode
+import base64
+import urllib.parse
+from io import BytesIO
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
@@ -6,7 +11,19 @@ from django.conf import settings
 from .models import UserRegistration
 from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
-from payments.razorpay_client import create_razorpay_order, verify_razorpay_payment
+
+def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
+    payee_name_encoded = urllib.parse.quote(payee_name)
+    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note}"
+    qr = qrcode.QRCode(version=1, box_size=10, border=4)
+    qr.add_data(upi_url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    return qr_base64, upi_url
 
 def landing_page(request):
     return render(request, 'registrations/landing.html')
@@ -29,6 +46,7 @@ def register_participant(request):
                 registration.discount_amount = base_price
                 registration.final_price = 0
                 registration.payment_status = 'FREE'
+                registration.reference_id = f"FREE-{uuid.uuid4().hex[:8].upper()}"
                 registration.save()
                 return redirect('registration_success', reg_id=registration.id)
             else:
@@ -46,6 +64,7 @@ def register_participant(request):
                 if registration.final_price <= 0:
                     registration.final_price = 0
                     registration.payment_status = 'FREE'
+                    registration.reference_id = f"FREE-{uuid.uuid4().hex[:8].upper()}"
                     registration.save()
                     if referral_code_obj:
                         referral_code_obj.current_usage += 1
@@ -53,22 +72,15 @@ def register_participant(request):
                     return redirect('registration_success', reg_id=registration.id)
 
                 registration.payment_status = 'PENDING'
-                
-                # Razorpay Order Create
-                try:
-                    order = create_razorpay_order(registration.final_price)
-                    registration.razorpay_order_id = order['id']
-                except Exception as e:
-                    print(f"Razorpay Order Error: {e}. Using mock order.")
-                    registration.razorpay_order_id = "order_mock_1234"
-                    
+                registration.reference_id = f"ECELL-REG-{uuid.uuid4().hex[:8].upper()}"
                 registration.save()
                 
                 # Save Attempt
                 PaymentRecord.objects.create(
                     registration=registration,
-                    razorpay_order_id=registration.razorpay_order_id,
-                    amount=registration.final_price
+                    reference_id=registration.reference_id,
+                    amount=registration.final_price,
+                    payment_status='pending'
                 )
 
                 if referral_code_obj:
@@ -76,10 +88,19 @@ def register_participant(request):
                     referral_code_obj.save()
                 
                 # Render payment template
+                upi_id = "princevallecha@upi"
+                payee_name = "PCCOE ECell"
+                amount = int(registration.final_price)
+                
+                qr_base64, upi_url = generate_upi_qr(upi_id, payee_name, amount, registration.reference_id)
+                
                 context = {
                     'registration': registration,
-                    'razorpay_key_id': settings.RAZORPAY_KEY_ID,
-                    'amount': int(registration.final_price * 100)
+                    'upi_id': upi_id,
+                    'amount': amount,
+                    'qr_base64': qr_base64,
+                    'upi_url': upi_url,
+                    'reference_id': registration.reference_id
                 }
                 return render(request, 'registrations/payment.html', context)
     else:
@@ -95,55 +116,37 @@ def register_exhibitor(request):
             registration.registration_type = 'EXHIBITOR'
             registration.payment_status = 'FREE'
             registration.final_price = 0
+            registration.reference_id = f"FREE-{uuid.uuid4().hex[:8].upper()}"
             registration.save()
             return redirect('registration_success', reg_id=registration.id)
     else:
         form = ExhibitorForm()
     return render(request, 'registrations/exhibitor_form.html', {'form': form})
 
-@csrf_exempt
+# Not CSRF exempt because it should be submitted via a normal Django form with csrf token!
 def payment_verify(request):
     if request.method == 'POST':
-        razorpay_payment_id = request.POST.get('razorpay_payment_id')
-        razorpay_order_id = request.POST.get('razorpay_order_id')
-        razorpay_signature = request.POST.get('razorpay_signature')
-        
-        reg_id = request.POST.get('reg_id') # Pass reg_id through form as hidden field to safely identify
+        reg_id = request.POST.get('reg_id')
+        transaction_id = request.POST.get('transaction_id')
+        screenshot = request.FILES.get('screenshot')
         
         if not reg_id:
-            # Fallback based on order_id
-            registration = UserRegistration.objects.filter(razorpay_order_id=razorpay_order_id).first()
-        else:
-            registration = UserRegistration.objects.filter(id=reg_id).first()
-            
-        if not registration:
-            return HttpResponseBadRequest('Invalid registration')
+            return HttpResponseBadRequest('Invalid registration id')
 
-        if verify_razorpay_payment(razorpay_order_id, razorpay_payment_id, razorpay_signature):
-            registration.payment_status = 'PAID'
-            registration.razorpay_payment_id = razorpay_payment_id
-            registration.razorpay_signature = razorpay_signature
-            registration.save()
+        registration = get_object_or_404(UserRegistration, id=reg_id)
+        
+        record = PaymentRecord.objects.filter(registration=registration, reference_id=registration.reference_id).first()
+        if record:
+            record.transaction_id = transaction_id
+            if screenshot:
+                record.screenshot = screenshot
+            record.payment_status = 'pending'
+            record.save()
             
-            record = PaymentRecord.objects.filter(razorpay_order_id=razorpay_order_id).first()
-            if record:
-                record.status = 'SUCCESS'
-                record.razorpay_payment_id = razorpay_payment_id
-                record.razorpay_signature = razorpay_signature
-                record.save()
-                
-            return redirect('registration_success', reg_id=registration.id)
-        else:
-            registration.payment_status = 'FAILED'
-            registration.save()
+        registration.payment_status = 'PENDING'
+        registration.save()
             
-            record = PaymentRecord.objects.filter(razorpay_order_id=razorpay_order_id).first()
-            if record:
-                record.status = 'FAILED'
-                record.error_message = 'Signature verification failed'
-                record.save()
-                
-            return render(request, 'registrations/payment_failed.html', {'registration': registration})
+        return redirect('registration_success', reg_id=registration.id)
 
     return HttpResponseBadRequest('Invalid request')
 

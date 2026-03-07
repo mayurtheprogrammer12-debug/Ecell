@@ -9,11 +9,11 @@ def admin_dashboard(request):
     total_registrations = UserRegistration.objects.count()
     total_participants = UserRegistration.objects.filter(registration_type='PARTICIPANT').count()
     total_exhibitors = UserRegistration.objects.filter(registration_type='EXHIBITOR').count()
-    paid_registrations = UserRegistration.objects.filter(payment_status='PAID').count()
+    paid_registrations = UserRegistration.objects.filter(payment_status='VERIFIED').count()
     free_registrations = UserRegistration.objects.filter(payment_status='FREE').count()
     
     # Calculate revenue based on Paid registrations
-    total_revenue_dict = UserRegistration.objects.filter(payment_status='PAID').aggregate(total_revenue=Sum('final_price'))
+    total_revenue_dict = UserRegistration.objects.filter(payment_status='VERIFIED').aggregate(total_revenue=Sum('final_price'))
     total_revenue = total_revenue_dict['total_revenue'] or 0
 
     # Ambassador Analytics
@@ -23,7 +23,7 @@ def admin_dashboard(request):
     for code in codes:
         registrations = UserRegistration.objects.filter(referral_code_used=code)
         num_regs = registrations.count()
-        rev_gen_dict = registrations.filter(payment_status='PAID').aggregate(rev=Sum('final_price'))
+        rev_gen_dict = registrations.filter(payment_status='VERIFIED').aggregate(rev=Sum('final_price'))
         rev_gen = rev_gen_dict['rev'] or 0
         ambassadors.append({
             'code': code.referral_code,

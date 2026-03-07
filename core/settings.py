@@ -94,7 +94,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # Static files storage using WhiteNoise for production
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# CSRF settings for production (Required for Razorpay redirects)
+# CSRF settings for production
 CSRF_TRUSTED_ORIGINS = [
     "https://*.railway.app",
 ]
@@ -104,9 +104,9 @@ SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True'
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
 CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
 
-# Razorpay settings
-RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
-RAZORPAY_SECRET_KEY = os.getenv('RAZORPAY_SECRET_KEY', '')
+# Media files storage
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Registration settings
 BASE_PARTICIPANT_FEE = 300

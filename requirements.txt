@@ -1,5 +1,5 @@
 django
-razorpay
+qrcode[pil]
 python-dotenv
 django-unfold
 dj-database-url
