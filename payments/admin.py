@@ -9,7 +9,7 @@ def export_payments_as_csv(modeladmin, request, queryset):
     field_names = [field.name for field in meta.fields]
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename={meta}.csv'
+    response['Content-Disposition'] = f'attachment; filename={meta}_export.csv'
     writer = csv.writer(response)
 
     writer.writerow(field_names)
@@ -18,7 +18,7 @@ def export_payments_as_csv(modeladmin, request, queryset):
 
     return response
 
-export_payments_as_csv.short_description = "🚀 Export Selected to CSV"
+export_payments_as_csv.short_description = "🚀 Export Selected to Excel (CSV)"
 
 @admin.register(PaymentRecord)
 class PaymentRecordAdmin(ModelAdmin):

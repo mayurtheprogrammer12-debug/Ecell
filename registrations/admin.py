@@ -59,7 +59,7 @@ def export_as_csv(modeladmin, request, queryset):
     field_names = [field.name for field in meta.fields]
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename={meta}.csv'
+    response['Content-Disposition'] = f'attachment; filename={meta}_export.csv'
     writer = csv.writer(response)
 
     writer.writerow(field_names)
@@ -74,7 +74,7 @@ def export_as_csv(modeladmin, request, queryset):
 
     return response
 
-export_as_csv.short_description = "🚀 Export Selected to CSV"
+export_as_csv.short_description = "🚀 Export Selected to Excel (CSV)"
 
 def mark_round2_qualified(modeladmin, request, queryset):
     queryset.update(selected_for_round2=True, round2_unlocked=True)

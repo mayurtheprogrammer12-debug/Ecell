@@ -1,7 +1,30 @@
+import csv
 from django.contrib import admin
+from django.http import HttpResponse
 from django.utils.safestring import mark_safe
 from .models import AttendanceSession, AttendanceRecord
 from unfold.admin import ModelAdmin
+
+def export_attendance_as_csv(modeladmin, request, queryset):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=attendance_records.csv'
+    writer = csv.writer(response)
+
+    writer.writerow(['Participant Name', 'Email', 'College', 'Session', 'Status', 'Timestamp'])
+
+    for obj in queryset:
+        writer.writerow([
+            obj.participant.name,
+            obj.participant.email,
+            obj.participant.college,
+            obj.session.name,
+            obj.status,
+            obj.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        ])
+
+    return response
+
+export_attendance_as_csv.short_description = "🚀 Export Selected to CSV (Excel)"
 
 @admin.register(AttendanceSession)
 class AttendanceSessionAdmin(ModelAdmin):
@@ -69,6 +92,7 @@ class AttendanceRecordAdmin(ModelAdmin):
     )
     list_filter = ('session', 'status', 'timestamp')
     search_fields = ('participant__name', 'participant__email', 'session__name')
+    actions = [export_attendance_as_csv]
 
     def participant_name(self, obj):
         return obj.participant.name
