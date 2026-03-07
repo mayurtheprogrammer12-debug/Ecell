@@ -1,118 +1,39 @@
 {% extends "base.html" %}
-
 {% block title %}Acquisition | Ennovate'X-26{% endblock %}
-
 {% block content %}
 <div class="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-32 px-4">
-    <div class="container mx-auto max-w-2xl">
-        <div class="reveal-content">
-            <div class="premium-glass p-16 md:p-20 rounded-[4rem] relative overflow-hidden">
-                <div
-                    class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-champagne/40 to-transparent">
-                </div>
-
-                <div class="mb-20 text-center">
-                    <h5 class="text-[12px] font-black uppercase tracking-[0.8em] text-white/20 mb-8">Access Token
-                        Generation</h5>
-                    <h2
-                        class="text-5xl font-display font-black tracking-tighter uppercase italic leading-none mb-6 text-white">
-                        Registry</h2>
-                    <p class="font-serif italic text-azure/60 text-base">
-                        {% if request.GET.role == 'visitor' %}
-                        observer protocol activation
-                        {% else %}
-                        participant engagement sequence
-                        {% endif %}
-                    </p>
-                </div>
-
-                <form method="POST" class="space-y-12">
-                    {% csrf_token %}
-
-                    {% if form.non_field_errors %}
-                    <div
-                        class="text-white/40 border border-white/5 p-6 rounded-2xl text-[13px] font-bold uppercase tracking-widest text-center shadow-[0_0_40px_rgba(59,130,246,0.05)] bg-azure/[0.02]">
-                        {{ form.non_field_errors }}
-                    </div>
-                    {% endif %}
-
-                    <div class="space-y-10">
-                        {% for field in form %}
-                        <div class="space-y-4">
-                            <label for="{{ field.id_for_label }}"
-                                class="block text-[14px] font-black text-white uppercase tracking-[0.5em] ml-2">{{ field.label }}{% if field.field.required %}<span class="text-azure">*</span>{% endif %}</label>
-                            <div class="relative group">
-                                {{ field }}
-                                <div
-                                    class="absolute bottom-0 left-0 w-full h-[2px] bg-white/10 group-focus-within:bg-azure transition-all duration-700">
-                                </div>
-                            </div>
-                            {% if field.help_text %}<p
-                                class="text-[12px] text-azure font-bold uppercase tracking-widest italic mt-2">{{ field.help_text }}</p>{% endif %}
-                            {% if field.errors %}<div
-                                class="text-[12px] text-red-500/60 font-medium uppercase tracking-tighter italic">
-                                {{field.errors }}</div>{% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="pt-16">
-                        <button type="submit"
-                            class="btn-premium w-full shadow-2xl shadow-azure/10 !bg-azure !text-white hover:!bg-white hover:!text-azure">
-                            Validate Identities
-                        </button>
-                    </div>
-                </form>
+    <div class="container mx-auto max-w-2xl text-center">
+        <h2 class="text-5xl font-display font-black text-white mb-12 italic uppercase">Registry</h2>
+        <form method="POST" class="space-y-12 text-left premium-glass p-20 rounded-[4rem]">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="space-y-4">
+                <label class="block text-sm font-black text-white uppercase tracking-widest">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <p class="text-xs text-azure font-bold italic">{{ field.help_text }}</p>
+                {% endif %}
             </div>
-        </div>
+            {% endfor %}
+            <button type="submit" class="btn-premium w-full !bg-azure !text-white">Validate</button>
+        </form>
     </div>
 </div>
-
 <style>
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(60px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .reveal-content {
-        animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    input,
-    select,
-    textarea {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 0.75rem !important;
-        color: #ffffff !important;
-        padding: 1.5rem 1.25rem !important;
-        width: 100% !important;
-        font-size: 1.1rem !important;
-        font-family: 'Inter', sans-serif !important;
-        font-weight: 500 !important;
-        outline: none !important;
-        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        color: #fff;
+        outline: none;
+        transition: 0.3s;
     }
 
     input:focus {
-        background: rgba(59, 130, 246, 0.05) !important;
-        border-color: rgba(59, 130, 246, 0.5) !important;
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.1) !important;
-        transform: translateY(-2px) !important;
-    }
-
-    input::placeholder {
-        color: rgba(255, 255, 255, 0.2) !important;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        letter-spacing: 0.3em;
+        border-bottom-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.05);
     }
 </style>
 {% endblock %}
