@@ -56,3 +56,11 @@ class UserRegistration(models.Model):
     @property
     def is_pccoe(self):
         return self.email.endswith('@pccoepune.org')
+
+    # Auth & Dashboard Link
+    user = models.OneToOneField('auth.User', on_delete=models.CASCADE, related_name='registration', null=True, blank=True)
+    
+    # Event Progress
+    round1_completed = models.BooleanField(default=False)
+    selected_for_round2 = models.BooleanField(default=False)
+    round2_unlocked = models.BooleanField(default=False)

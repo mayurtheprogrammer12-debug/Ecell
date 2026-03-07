@@ -8,4 +8,8 @@ urlpatterns = [
     path('register/exhibitor/', views.register_exhibitor, name='register_exhibitor'),
     path('payment/verify/', views.payment_verify, name='payment_verify'),
     path('success/<int:reg_id>/', views.registration_success, name='registration_success'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('round2/', views.round2_view, name='round2'),
 ]

@@ -8,6 +8,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .models import UserRegistration
 from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
@@ -37,6 +40,12 @@ def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
     return qr_base64, upi_url
+
+def create_auth_user(email, password, registration):
+    user = User.objects.create_user(username=email, email=email, password=password)
+    registration.user = user
+    registration.save()
+    return user
 
 def landing_page(request):
     return render(request, 'registrations/landing.html')
@@ -74,6 +83,10 @@ def register_participant(request):
                 registration.payment_status = 'FREE'
                 registration.reference_id = f"FREE-{uuid.uuid4().hex[:8].upper()}"
                 registration.save()
+                
+                # Create User Account
+                create_auth_user(registration.email, form.cleaned_data['password'], registration)
+                
                 return redirect('registration_success', reg_id=registration.id)
             else:
                 discount_amount = 0
@@ -92,6 +105,10 @@ def register_participant(request):
                     registration.payment_status = 'FREE'
                     registration.reference_id = f"FREE-{uuid.uuid4().hex[:8].upper()}"
                     registration.save()
+                    
+                    # Create User Account
+                    create_auth_user(registration.email, form.cleaned_data['password'], registration)
+                    
                     if referral_code_obj:
                         referral_code_obj.current_usage += 1
                         referral_code_obj.save()
@@ -100,6 +117,9 @@ def register_participant(request):
                 registration.payment_status = 'PENDING'
                 registration.reference_id = f"ECELL-REG-{uuid.uuid4().hex[:8].upper()}"
                 registration.save()
+                
+                # Create User Account
+                create_auth_user(registration.email, form.cleaned_data['password'], registration)
                 
                 # Save Attempt
                 PaymentRecord.objects.create(
@@ -145,6 +165,10 @@ def register_exhibitor(request):
             registration.final_price = 0
             registration.reference_id = f"FREE-{uuid.uuid4().hex[:8].upper()}"
             registration.save()
+            
+            # Create User Account
+            create_auth_user(registration.email, form.cleaned_data['password'], registration)
+            
             return redirect('registration_success', reg_id=registration.id)
     else:
         form = ExhibitorForm()
@@ -180,3 +204,38 @@ def payment_verify(request):
 def registration_success(request, reg_id):
     registration = get_object_or_404(UserRegistration, id=reg_id)
     return render(request, 'registrations/success.html', {'registration': registration})
+
+def user_login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            return render(request, 'registrations/login.html', {'error': 'Invalid credentials'})
+    return render(request, 'registrations/login.html')
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
+
+@login_required(login_url='login')
+def dashboard(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration:
+        return redirect('register_choice') # Or handle case where user is admin with no registration
+    
+    context = {
+        'registration': registration,
+    }
+    return render(request, 'registrations/dashboard.html', context)
+
+@login_required(login_url='login')
+def round2_view(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration or not registration.selected_for_round2:
+        return redirect('dashboard')
+    
+    return render(request, 'registrations/round2.html', {'registration': registration})

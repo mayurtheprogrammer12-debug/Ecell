@@ -1,13 +1,16 @@
 from django import forms
+from django.contrib.auth.models import User
 from .models import UserRegistration
 from referrals.models import ReferralCode
 
 class ParticipantForm(forms.ModelForm):
     referral_code = forms.CharField(max_length=50, required=False, help_text="Optional referral code for discount")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Set Password'}), help_text="Secure access key")
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}), help_text="Re-verify access key")
 
     class Meta:
         model = UserRegistration
-        fields = ['name', 'gender', 'age', 'phone', 'email', 'city', 'college', 'referral_code']
+        fields = ['name', 'gender', 'age', 'phone', 'email', 'city', 'college', 'referral_code', 'password', 'confirm_password']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
             'gender': forms.Select(attrs={'class': 'form-select'}),
@@ -42,6 +45,15 @@ class ParticipantForm(forms.ModelForm):
                 raise forms.ValidationError('Invalid referral code.')
         return None
 
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if UserRegistration.objects.filter(email=email).exists():
@@ -49,9 +61,12 @@ class ParticipantForm(forms.ModelForm):
         return email
 
 class ExhibitorForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Set Password'}), help_text="Secure access key")
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}), help_text="Re-verify access key")
+
     class Meta:
         model = UserRegistration
-        fields = ['exhibitor_category', 'name', 'age', 'gender', 'email', 'phone', 'org_name', 'description']
+        fields = ['exhibitor_category', 'name', 'age', 'gender', 'email', 'phone', 'org_name', 'description', 'password', 'confirm_password']
         widgets = {
             'exhibitor_category': forms.Select(attrs={'class': 'form-select'}),
             'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
@@ -73,6 +88,15 @@ class ExhibitorForm(forms.ModelForm):
         self.fields['phone'].help_text = "Active Contact Number"
         self.fields['org_name'].help_text = "Startup or Organization Identity"
         self.fields['description'].help_text = "Core business overview"
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
