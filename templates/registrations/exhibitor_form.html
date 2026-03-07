@@ -3,90 +3,63 @@
 {% block title %}Exhibitor Portal | Innovation Summit 2026{% endblock %}
 
 {% block content %}
-<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
-    <div
-        class="absolute top-[20%] right-[5%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-blob">
-    </div>
-    <div class="absolute bottom-[20%] left-[5%] w-[500px] h-[500px] bg-pink-600/10 rounded-full blur-[120px] animate-blob"
-        style="animation-delay: 2s;"></div>
-</div>
-
-<div class="max-w-3xl mx-auto w-full py-16 px-4">
-    <div class="reveal">
-        <div class="glass-card p-10 md:p-16 border-white/5 shadow-2xl relative overflow-hidden">
-            <!-- Decorative Glimmer -->
-            <div class="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
-
-            <div class="mb-16 text-center">
-                <div
-                    class="inline-flex items-center justify-center w-24 h-24 rounded-[2.5rem] bg-purple-600/10 text-purple-500 mb-8 border border-purple-500/20 shadow-inner group">
-                    <svg class="w-12 h-12 transition-transform group-hover:scale-110 duration-500" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                        </path>
-                    </svg>
+<div class="relative min-h-screen flex flex-col items-center justify-center pt-40 pb-20 px-4">
+    <div class="container mx-auto max-w-4xl">
+        <div class="reveal-content">
+            <div class="luxury-card p-12 md:p-20 rounded-[3rem]">
+                <div class="mb-20 text-center">
+                    <h5 class="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 mb-8">Asset Allocation
+                    </h5>
+                    <h2 class="text-5xl font-display font-black tracking-tighter uppercase italic leading-none mb-4">
+                        Exhibitor<br><span
+                            class="font-serif font-normal lowercase italic text-white/50 tracking-normal">Registration</span>
+                    </h2>
                 </div>
-                <h2 class="text-5xl font-black text-white mb-6 italic tracking-tighter leading-none">Exhibitor <span
-                        class="text-purple-500">Portal</span></h2>
-                <p
-                    class="text-gray-500 text-[11px] font-black uppercase tracking-[0.3em] max-w-md mx-auto leading-relaxed">
-                    Scale your venture by showcasing to a global audience of investors and technology enthusiasts.
-                </p>
-                <div class="mt-8 flex justify-center">
+
+                <form method="POST" class="space-y-12">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
                     <div
-                        class="px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-[9px] font-black text-purple-400 uppercase tracking-widest animate-pulse">
-                        Application Window Open
+                        class="text-white/40 border border-white/5 p-6 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-center">
+                        {{ form.non_field_errors }}
                     </div>
-                </div>
-            </div>
+                    {% endif %}
 
-            <form method="POST" class="space-y-10">
-                {% csrf_token %}
-
-                {% if form.non_field_errors %}
-                <div
-                    class="bg-red-500/10 border border-red-500/50 text-red-500 p-5 rounded-2xl text-xs font-black uppercase tracking-widest text-center">
-                    {{ form.non_field_errors }}
-                </div>
-                {% endif %}
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                    {% for field in form %}
-                    <div
-                        class="space-y-4 {% if field.name == 'description' or field.name == 'website' %}md:col-span-2{% endif %}">
-                        <label for="{{ field.id_for_label }}"
-                            class="block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">
-                            {{ field.label }}
-                            {% if field.field.required %} <span class="text-purple-500">*</span>{% endif %}
-                        </label>
-                        <div class="relative group/input">
-                            {{ field }}
-                            <div
-                                class="absolute inset-0 rounded-2xl bg-purple-500/0 border border-purple-500/0 pointer-events-none transition-all duration-300 group-focus-within/input:bg-purple-500/[0.02] group-focus-within/input:border-purple-500/40">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+                        {% for field in form %}
+                        <div
+                            class="space-y-4 {% if field.name == 'description' or field.name == 'website' %}md:col-span-2{% endif %}">
+                            <label for="{{ field.id_for_label }}"
+                                class="block text-[10px] font-bold text-white/40 uppercase tracking-[0.4em] ml-2">
+                                {{ field.label }}
+                                {% if field.field.required %} <span class="text-white/20">*</span>{% endif %}
+                            </label>
+                            <div class="relative group">
+                                {{ field }}
+                                <div
+                                    class="absolute bottom-0 left-0 w-full h-px bg-white/10 group-focus-within:bg-white transition-colors duration-700">
+                                </div>
                             </div>
+                            {% if field.help_text %}
+                            <p class="text-[9px] text-white/20 font-medium italic uppercase tracking-widest">{{
+                                field.help_text }}</p>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="text-[9px] text-white/60 font-medium uppercase tracking-tighter italic">{{
+                                field.errors }}</div>
+                            {% endif %}
                         </div>
-                        {% if field.help_text %}
-                        <p class="text-[10px] text-gray-600 font-medium italic">{{ field.help_text }}</p>
-                        {% endif %}
-                        {% if field.errors %}
-                        <div class="text-[10px] text-red-500 font-bold uppercase tracking-tighter">{{ field.errors }}
-                        </div>
-                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>
 
-                <div class="pt-10">
-                    <button type="submit"
-                        class="premium-btn w-full py-6 text-sm bg-purple-600 hover:bg-purple-500 shadow-purple-600/20">
-                        Register Organization
-                    </button>
-                    <p class="mt-8 text-center text-[10px] font-bold text-gray-600 uppercase tracking-widest">
-                        Selection results will be shared via official email within 48 hours.
-                    </p>
-                </div>
-            </form>
+                    <div class="pt-16">
+                        <button type="submit" class="btn-classy w-full py-6 text-base tracking-[0.3em]">
+                            Submit Application
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -95,7 +68,7 @@
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(50px);
         }
 
         to {
@@ -104,40 +77,32 @@
         }
     }
 
-    .reveal {
+    .reveal-content {
         animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     input,
     select,
     textarea {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        background: transparent !important;
+        border: none !important;
         color: white !important;
-        border-radius: 1rem !important;
-        padding: 1.125rem 1.5rem !important;
+        padding: 1rem 0.5rem !important;
         width: 100% !important;
-        font-size: 0.875rem !important;
-        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
-        font-family: 'DM Sans', sans-serif !important;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-color: rgba(168, 85, 247, 0.5) !important;
+        font-size: 0.95rem !important;
+        font-family: 'Inter', sans-serif !important;
         outline: none !important;
-        box-shadow: 0 0 0 5px rgba(168, 85, 247, 0.1) !important;
-        transform: translateY(-2px);
-    }
-
-    textarea {
-        min-height: 140px;
     }
 
     input::placeholder {
-        color: rgba(255, 255, 255, 0.1) !important;
+        color: rgba(255, 255, 255, 0.05) !important;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+    }
+
+    textarea {
+        min-height: 120px;
     }
 </style>
 {% endblock %}

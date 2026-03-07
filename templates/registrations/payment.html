@@ -1,128 +1,109 @@
 {% extends "base.html" %}
 
-{% block title %}Checkout | Summit Nexus{% endblock %}
+{% block title %}Checkout | Innovation Summit{% endblock %}
 
 {% block content %}
-<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
-    <div
-        class="absolute top-[20%] right-[0%] w-[800px] h-[800px] bg-brand-cyan/10 rounded-full blur-[150px] animate-pulse">
-    </div>
-</div>
-
-<div class="max-w-xl mx-auto w-full py-24 px-4">
-    <div class="reveal">
-        <div class="neo-glass p-12 md:p-16 rounded-[3rem] border-white/5 shadow-2xl relative overflow-hidden">
-            <!-- Scan line animation -->
-            <div
-                class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-cyan to-transparent animate-[scan_3s_linear_infinite]">
-            </div>
-
-            <div class="text-center mb-16">
+<div class="relative min-h-screen flex flex-col items-center justify-center pt-40 pb-20 px-4 overflow-hidden">
+    <div class="container mx-auto max-w-xl">
+        <div class="reveal-content">
+            <div class="luxury-card p-12 md:p-16 rounded-[2.5rem] relative overflow-hidden">
+                <!-- Subtle internal lighting -->
                 <div
-                    class="inline-flex items-center space-x-3 px-5 py-2 bg-brand-cyan/5 rounded-full border border-brand-cyan/20 mb-8">
-                    <span class="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-ping"></span>
-                    <span class="text-[10px] font-black text-brand-cyan uppercase tracking-[0.4em]">Transaction
-                        Gateway</span>
+                    class="absolute top-0 right-0 w-64 h-64 bg-white/[0.02] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2">
                 </div>
-                <h2 class="text-4xl font-black text-white italic tracking-tighter mb-4 scale-y-110 uppercase">Security
-                    Portal</h2>
-                <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.4em]">{{ registration.name }} |
-                    ACCESS-ID: {{ registration.id }}</p>
-            </div>
 
-            <!-- Pricing Hub -->
-            <div
-                class="bg-brand-obsidian/60 p-10 rounded-[2.5rem] border border-white/5 mb-12 text-center shadow-inner group">
-                <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4">Total Credits Required
-                </p>
-                <div
-                    class="text-7xl font-black text-white italic tracking-tighter mb-8 group-hover:text-brand-cyan transition-colors">
-                    ₹{{ amount }}</div>
-                <div class="inline-flex items-center space-x-4 bg-brand-obsidian p-4 rounded-2xl border border-white/5">
-                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">TRACE_TOKEN</span>
-                    <span class="font-mono text-brand-cyan text-sm font-black tracking-tight">{{ reference_id }}</span>
+                <div class="text-center mb-16 relative z-10">
+                    <h5 class="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 mb-8">Asset Acquisition
+                    </h5>
+                    <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic mb-4">
+                        Complete<br>Payment</h2>
+                    <div class="w-8 h-px bg-white/10 mx-auto my-6"></div>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">{{ registration.name }}
+                    </p>
                 </div>
-            </div>
 
-            <div class="space-y-12">
-                <!-- QR Interface -->
-                <div class="flex flex-col items-center">
+                <!-- Price Engine -->
+                <div class="text-center mb-16 relative z-10">
+                    <p class="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">Entry Fee</p>
+                    <div class="text-7xl font-display font-black italic tracking-tighter">₹{{ amount }}</div>
                     <div
-                        class="relative group/qr p-8 bg-white rounded-[3rem] shadow-[0_0_100px_rgba(6,182,212,0.2)] transition-all duration-1000 hover:rotate-[2deg]">
-                        <img src="data:image/png;base64,{{ qr_base64 }}" alt="UPI QR Code"
-                            class="w-56 h-56 rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-1000">
+                        class="mt-6 inline-block px-4 py-1.5 border border-white/5 rounded-full text-[9px] font-black tracking-widest uppercase text-white/30">
+                        REF: {{ reference_id }}
+                    </div>
+                </div>
+
+                <div class="space-y-16 relative z-10">
+                    <!-- QR Display -->
+                    <div class="flex flex-col items-center">
                         <div
-                            class="absolute -top-4 -right-4 w-12 h-12 bg-brand-obsidian rounded-2xl flex items-center justify-center border border-white/10 shadow-2xl">
-                            <span class="text-brand-cyan font-black text-xl italic">Σ</span>
+                            class="p-4 bg-white rounded-3xl shadow-2xl transition-transform hover:scale-105 duration-700">
+                            <img src="data:image/png;base64,{{ qr_base64 }}" alt="UPI QR"
+                                class="w-48 h-48 opacity-90 rounded-2xl">
+                        </div>
+
+                        <div class="mt-12 w-full">
+                            <button onclick="copyToClipboard('{{ upi_id }}')"
+                                class="w-full luxury-glass p-5 rounded-2xl border-white/10 flex items-center justify-between group">
+                                <div class="flex flex-col items-start ml-2">
+                                    <span
+                                        class="text-[8px] font-bold text-white/30 uppercase tracking-[0.3em] mb-1">Network
+                                        Identity</span>
+                                    <span
+                                        class="text-sm font-black tracking-tight text-white/80 group-hover:text-white transition-colors">{{
+                                        upi_id }}</span>
+                                </div>
+                                <div
+                                    class="p-3 border border-white/10 rounded-xl group-hover:bg-white group-hover:text-black transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </button>
                         </div>
                     </div>
 
-                    <div class="mt-12 w-full">
-                        <div class="bg-brand-obsidian/40 p-6 rounded-2xl border border-white/5 flex items-center justify-between group hover:border-brand-cyan/50 transition-all cursor-pointer"
-                            onclick="copyToClipboard('{{ upi_id }}')">
-                            <div class="flex flex-col space-y-1">
-                                <span class="text-[9px] text-gray-600 font-black uppercase tracking-widest">NETWORK
-                                    IDENTITY</span>
-                                <span class="text-sm text-gray-300 font-black tracking-tighter">{{ upi_id }}</span>
-                            </div>
-                            <div
-                                class="p-3 bg-brand-cyan/10 text-brand-cyan rounded-xl group-hover:bg-brand-cyan group-hover:text-brand-obsidian transition-all">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
-                                    </path>
-                                </svg>
-                            </div>
+                    <div class="pt-4">
+                        <a href="{{ upi_url }}" class="btn-classy w-full text-center block">
+                            Launch UPI App
+                        </a>
+                    </div>
+
+                    <div class="relative py-6 flex items-center">
+                        <div class="flex-grow h-px bg-white/5"></div>
+                        <span class="px-6 text-[8px] font-bold text-white/20 uppercase tracking-[0.4em]">Verification
+                            Required</span>
+                        <div class="flex-grow h-px bg-white/5"></div>
+                    </div>
+
+                    <!-- Submission Flow -->
+                    <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data"
+                        class="space-y-10">
+                        {% csrf_token %}
+                        <input type="hidden" name="reg_id" value="{{ registration.id }}">
+
+                        <div class="space-y-4">
+                            <label class="block text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] ml-2">UTR
+                                / Transaction ID</label>
+                            <input type="text" name="transaction_id" required placeholder="DIGIT SEQUENCE"
+                                class="w-full bg-transparent border-b border-white/10 text-white p-3 outline-none focus:border-white transition-colors placeholder:text-white/5 text-[10px] tracking-[0.5em] font-black uppercase">
                         </div>
-                    </div>
-                </div>
 
-                <div class="pt-4">
-                    <a href="{{ upi_url }}"
-                        class="btn-premium w-full py-6 text-sm flex items-center justify-center space-x-4 shadow-[0_0_40px_rgba(6,182,212,0.3)] hover:shadow-brand-cyan/60">
-                        LAUNCH UPI PROTOCOL <svg class="w-5 h-5 ml-2 group-hover:translate-x-3 transition-transform"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="relative py-8 flex items-center">
-                    <div class="flex-grow border-t border-white/5"></div>
-                    <span class="px-6 text-[9px] font-black text-gray-700 uppercase tracking-[0.5em]">Audit
-                        Required</span>
-                    <div class="flex-grow border-t border-white/5"></div>
-                </div>
-
-                <!-- Verification Protocol -->
-                <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data"
-                    class="space-y-10">
-                    {% csrf_token %}
-                    <input type="hidden" name="reg_id" value="{{ registration.id }}">
-
-                    <div class="space-y-4">
-                        <label class="block text-[10px] font-black text-gray-600 uppercase tracking-widest ml-1">UTR /
-                            TRANSACTION-HASH</label>
-                        <input type="text" name="transaction_id" required placeholder="DIGIT-SEQUENCE"
-                            class="w-full bg-brand-obsidian/40 border border-white/5 text-white p-5 rounded-2xl focus:border-brand-cyan focus:ring-0 outline-none transition-all placeholder:text-gray-800 font-mono text-xs tracking-[0.2em] uppercase">
-                    </div>
-
-                    <div class="space-y-4">
-                        <label
-                            class="block text-[10px] font-black text-gray-600 uppercase tracking-widest ml-1">ENCRYPTED
-                            SCREENSHOT</label>
-                        <div class="relative group/file">
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] ml-2">Digital
+                                Receipt</label>
                             <input type="file" name="screenshot" accept="image/*" required
-                                class="w-full bg-brand-obsidian/40 border border-white/5 text-white p-5 rounded-2xl cursor-pointer file:mr-6 file:py-2 file:px-6 file:rounded-xl file:border-0 file:text-[9px] file:font-black file:uppercase file:bg-brand-cyan file:text-brand-obsidian hover:file:bg-white transition-all font-bold text-xs">
+                                class="w-full text-white/40 p-4 border border-white/5 rounded-2xl cursor-pointer file:mr-6 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-[9px] file:font-black file:uppercase file:bg-white file:text-black transition-all">
                         </div>
-                    </div>
 
-                    <button type="submit"
-                        class="w-full py-6 bg-brand-obsidian hover:bg-brand-cyan hover:text-brand-obsidian text-brand-cyan font-black text-[10px] uppercase tracking-[0.3em] rounded-2xl transition-all shadow-xl shadow-cyan-900/5 active:scale-95 border border-brand-cyan/20">
-                        SYNCHRONIZE TRANSACTION
-                    </button>
-                </form>
+                        <button type="submit"
+                            class="w-full py-5 border border-white/10 text-white/60 hover:text-white font-black text-[10px] uppercase tracking-[0.4em] rounded-2xl transition-all hover:bg-white/5 active:scale-95">
+                            Verify Transaction
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -131,7 +112,7 @@
 <script>
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(function () {
-            console.log('TRACE-TOKEN SYNCHRONIZED');
+            console.log('Nexus Identity Copied');
         });
     }
 </script>
@@ -140,7 +121,7 @@
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(60px);
+            transform: translateY(50px);
         }
 
         to {
@@ -149,24 +130,8 @@
         }
     }
 
-    .reveal {
+    .reveal-content {
         animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes scan {
-        0% {
-            transform: translateY(0);
-            opacity: 0;
-        }
-
-        50% {
-            opacity: 1;
-        }
-
-        100% {
-            transform: translateY(480px);
-            opacity: 0;
-        }
     }
 
     input[type="file"]::-webkit-file-upload-button {

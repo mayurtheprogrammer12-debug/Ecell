@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Innovation Summit | E-CELL PCCOE{% endblock %}</title>
+    <title>{% block title %}Innovation Summit 2026{% endblock %}</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,56 +13,35 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            cyan: '#06b6d4',
-                            violet: '#7c3aed',
-                            rose: '#e11d48',
-                            gold: '#fbbf24',
-                            obsidian: '#020204',
-                            surface: '#08080c',
-                        }
+                        onyx: '#050505',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                        silver: '#e2e8f0',
+                        gold: '#d4af37',
+                        accent: '#ffffff',
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Outfit', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
                         display: ['Outfit', 'sans-serif'],
-                    },
-                    animation: {
-                        'spin-slow': 'spin 12s linear infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'glow': 'glow 4s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0) rotate(0)' },
-                            '50%': { transform: 'translateY(-20px) rotate(2deg)' },
-                        },
-                        glow: {
-                            '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
-                            '50%': { opacity: 0.6, transform: 'scale(1.1)' },
-                        }
+                        serif: ['Playfair Display', 'serif'],
                     }
                 }
             }
         }
     </script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
     <style>
-        :root {
-            --accent: #06b6d4;
-            --accent-glow: rgba(6, 182, 212, 0.2);
-        }
-
         body {
-            background-color: #020204;
-            color: #ecf3f9;
+            background-color: #050505;
+            color: #ffffff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Luxury Grain Overlay */
-        .grain {
+        /* Sophisticated Grain */
+        .grain-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -70,218 +49,157 @@
             height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Neo-Glassmorphism */
-        .neo-glass {
-            background: rgba(8, 8, 12, 0.7);
-            backdrop-filter: blur(24px) saturate(200%);
-            -webkit-backdrop-filter: blur(24px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        /* Minimal Luxury Glass */
+        .luxury-glass {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        /* Magnetic Glow Button */
-        .btn-premium {
+        .luxury-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .luxury-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        /* 3D Scene Container */
+        .scene-3d {
+            perspective: 2000px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #333;
+        }
+
+        /* Classy Button */
+        .btn-classy {
             position: relative;
-            background: linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%);
-            padding: 0.8rem 2.2rem;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 600;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: white;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px -10px var(--accent-glow);
-            overflow: hidden;
-        }
-
-        .btn-premium:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 20px 40px -10px var(--accent-glow);
             letter-spacing: 0.2em;
+            border-radius: 2px;
+            transition: all 0.4s ease;
         }
 
-        .btn-premium::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, white, transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-            animation: rotate 4s linear infinite;
-            z-index: -1;
+        .btn-classy:hover {
+            background: #f0f0f0;
+            letter-spacing: 0.25em;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Spotlight Cursor */
-        #spotlight {
+        #mouse-light {
             position: fixed;
-            width: 1000px;
-            height: 1000px;
-            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.06) 0%, rgba(124, 58, 237, 0.03) 30%, transparent 60%);
+            width: 1200px;
+            height: 1200px;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
             transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        /* Custom Selection */
-        ::selection {
-            background-color: var(--accent);
-            color: white;
-        }
-
-        /* Grid Background Extension */
-        .bg-grid {
-            background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
         }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen">
-    <div class="grain"></div>
-    <div id="spotlight"></div>
-    <div class="bg-grid fixed inset-0 z-[-2]"></div>
+<body class="selection:bg-white selection:text-black">
+    <div class="grain-overlay"></div>
+    <div id="mouse-light"></div>
 
-    <nav class="neo-glass sticky top-0 z-[1000] border-b border-white/5 mx-4 mt-4 rounded-2xl">
-        <div class="container mx-auto px-8 py-4 flex justify-between items-center">
-            <a href="{% url 'landing_page' %}" class="group flex items-center space-x-4">
-                <div class="relative">
-                    <div class="absolute inset-0 bg-brand-cyan blur-lg opacity-20 group-hover:opacity-40 transition">
-                    </div>
-                    <div
-                        class="w-11 h-11 bg-brand-obsidian border border-white/10 rounded-xl flex items-center justify-center group-hover:rotate-[360deg] transition-all duration-1000">
-                        <span class="text-brand-cyan font-black text-2xl">Σ</span>
-                    </div>
-                </div>
-                <div class="flex flex-col leading-none">
-                    <span class="text-xl font-black tracking-tighter text-white uppercase italic">SUMMIT<span
-                            class="text-brand-cyan">26</span></span>
-                    <span class="text-[9px] text-gray-500 font-bold tracking-[0.5em] uppercase mt-1">Innovation
-                        Redefined</span>
-                </div>
+    <nav
+        class="luxury-glass fixed w-[95%] left-1/2 -translate-x-1/2 top-6 z-[1000] rounded-full px-10 py-4 flex justify-between items-center">
+        <a href="{% url 'landing_page' %}" class="flex items-center space-x-3">
+            <span class="font-display font-black text-xl tracking-[0.2em] uppercase">SUMMIT</span>
+            <div class="h-4 w-px bg-white/20"></div>
+            <span class="font-display font-light text-sm tracking-[0.5em] text-white/60">2026</span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-12">
+            <a href="{% url 'landing_page' %}"
+                class="text-[10px] font-medium uppercase tracking-[0.3em] hover:text-white/60 transition">Nexus</a>
+            <a href="#"
+                class="text-[10px] font-medium uppercase tracking-[0.3em] hover:text-white/60 transition">About</a>
+            <a href="{% url 'register_choice' %}"
+                class="px-6 py-2 border border-white/20 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition duration-500 rounded-full">
+                Enter
             </a>
-
-            <div class="hidden lg:flex items-center space-x-12">
-                <nav class="flex items-center space-x-8">
-                    <a href="{% url 'landing_page' %}"
-                        class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-brand-cyan transition">Nexus</a>
-                    <a href="#"
-                        class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-brand-cyan transition">Arena</a>
-                    <a href="#"
-                        class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-brand-cyan transition">Mentors</a>
-                </nav>
-                <a href="{% url 'register_choice' %}" class="btn-premium">
-                    Access Portal
-                </a>
-            </div>
         </div>
     </nav>
 
-    <main class="flex-grow relative">
+    <main class="pt-0">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-brand-obsidian/80 border-t border-white/5 py-24 mt-20">
-        <div class="container mx-auto px-8">
-            <div class="grid lg:grid-cols-5 gap-16">
-                <div class="lg:col-span-2">
-                    <div class="flex items-center space-x-3 mb-10">
-                        <div
-                            class="w-10 h-10 bg-brand-cyan/10 border border-brand-cyan/20 rounded-lg flex items-center justify-center">
-                            <span class="text-brand-cyan font-black">Σ</span>
-                        </div>
-                        <span class="text-2xl font-black text-white italic tracking-tighter uppercase">E-CELL <span
-                                class="text-brand-cyan">PCCOE</span></span>
-                    </div>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-10 font-medium max-w-sm">
-                        Engineering the future of innovation. The flagship summit designed to connect visionary creators
-                        with global capital.
+    <footer class="bg-black/80 border-t border-white/5 py-32 mt-20">
+        <div class="container mx-auto px-8 max-w-7xl">
+            <div class="grid md:grid-cols-2 gap-24 mb-20">
+                <div>
+                    <h2 class="font-display font-black text-4xl mb-8 tracking-tighter uppercase italic">Stay Ahead.</h2>
+                    <p class="text-white/40 text-sm leading-relaxed max-w-sm font-light">
+                        The annual entrepreneurship gathering at PCCOE. Connecting the visionaries of tomorrow with the
+                        mentors of today.
                     </p>
-                    <div class="flex space-x-8">
-                        <a href="#" class="text-gray-600 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.23.148 5.005 1.954 5.153 5.153.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.197-1.923 4.978-5.153 5.153-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.197-.148-4.978-1.923-5.153-5.153-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.148-3.197 1.923-4.978 5.153-5.153 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.28.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.28-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                            </svg>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg>
-                        </a>
+                </div>
+                <div class="grid grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">Discovery</h4>
+                        <ul class="space-y-4 text-[11px] font-medium uppercase tracking-widest">
+                            <li><a href="#" class="hover:text-white/60">Schedule</a></li>
+                            <li><a href="#" class="hover:text-white/60">Speakers</a></li>
+                        </ul>
                     </div>
-                </div>
-                <div>
-                    <h4 class="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10">Gateway</h4>
-                    <ul class="space-y-6 text-gray-500 text-[10px] font-bold uppercase tracking-widest">
-                        <li><a href="#" class="hover:text-brand-cyan transition">Dashboard</a></li>
-                        <li><a href="#" class="hover:text-brand-cyan transition">Sponsorship</a></li>
-                        <li><a href="#" class="hover:text-brand-cyan transition">Technical Hub</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10">Archives</h4>
-                    <ul class="space-y-6 text-gray-500 text-[10px] font-bold uppercase tracking-widest">
-                        <li><a href="#" class="hover:text-brand-cyan transition">Summit '25</a></li>
-                        <li><a href="#" class="hover:text-brand-cyan transition">Impact Stories</a></li>
-                        <li><a href="#" class="hover:text-brand-cyan transition">Newsletter</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10">Coordinates</h4>
-                    <p class="text-gray-500 text-[10px] font-bold uppercase tracking-[0.3em] leading-loose">
-                        Research Park,<br>PCCOE Pune 411044<br>Inquiry: nexus@ecellpccoe.com
-                    </p>
+                    <div class="space-y-6">
+                        <h4 class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">Follow</h4>
+                        <ul class="space-y-4 text-[11px] font-medium uppercase tracking-widest">
+                            <li><a href="#" class="hover:text-white/60">Instagram</a></li>
+                            <li><a href="#" class="hover:text-white/60">LinkedIn</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-[9px] font-black text-gray-700 uppercase tracking-[0.5em]">&copy; MMXXVI PCCOE E-CELL
-                    REGISTRY.</p>
-                <div class="mt-6 md:mt-0 flex items-center space-x-6">
-                    <span class="text-[9px] font-black text-brand-cyan/40 uppercase tracking-[0.4em] italic">Viper
-                        Protocol 2.0</span>
+            <div
+                class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[9px] font-bold uppercase tracking-[0.5em] text-white/20">
+                <p>&copy; 2026 Innovation Summit PCCOE.</p>
+                <div class="mt-4 md:mt-0 flex space-x-10">
+                    <span>Privacy Protocol</span>
+                    <span>Terms of Entry</span>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        const spotlight = document.getElementById('spotlight');
+        const light = document.getElementById('mouse-light');
         window.addEventListener('mousemove', (e) => {
-            spotlight.style.left = e.clientX + 'px';
-            spotlight.style.top = e.clientY + 'px';
-        });
-
-        // Smooth interaction
-        window.addEventListener('mousedown', () => {
-            spotlight.style.width = '1200px';
-            spotlight.style.height = '1200px';
-        });
-        window.addEventListener('mouseup', () => {
-            spotlight.style.width = '1000px';
-            spotlight.style.height = '1000px';
+            light.style.left = e.clientX + 'px';
+            light.style.top = e.clientY + 'px';
         });
     </script>
     {% block scripts %}{% endblock %}
