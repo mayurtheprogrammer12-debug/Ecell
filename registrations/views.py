@@ -212,7 +212,8 @@ def user_login(request):
         user = authenticate(request, username=email, password=password)
         if user:
             login(request, user)
-            return redirect('dashboard')
+            next_url = request.GET.get('next', 'dashboard')
+            return redirect(next_url)
         else:
             return render(request, 'registrations/login.html', {'error': 'Invalid credentials'})
     return render(request, 'registrations/login.html')
@@ -244,17 +245,25 @@ def attendance_checkin(request, session_id):
     session = get_object_or_404(AttendanceSession, session_id=session_id)
     registration = getattr(request.user, 'registration', None)
     
-    if not registration:
-        return redirect('register_choice')
-
-    # Check if attendance already exists
-    attendance = AttendanceRecord.objects.filter(participant=registration, session=session).first()
-    
     context = {
         'session': session,
         'registration': registration,
-        'attendance': attendance,
     }
+
+    if not registration:
+        # If user is staff/admin but no registration, show error
+        if request.user.is_staff:
+            context['error'] = "Admins must have a Participant record to mark attendance. Please register as a participant first."
+            return render(request, 'registrations/attendance_page.html', context)
+        return redirect('register_choice')
+
+    if registration.registration_type != 'PARTICIPANT':
+        context['error'] = f"Attendance is only for Participants. Your registration type is {registration.get_registration_type_display()}."
+        return render(request, 'registrations/attendance_page.html', context)
+
+    # Check if attendance already exists
+    attendance = AttendanceRecord.objects.filter(participant=registration, session=session).first()
+    context['attendance'] = attendance
     
     if request.method == 'POST':
         if not session.is_active:
