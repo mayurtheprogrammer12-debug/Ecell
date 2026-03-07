@@ -290,3 +290,18 @@ def generate_attendance_qr(session_id, request):
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
     return qr_base64, url
+
+@login_required(login_url='login')
+def show_session_qr(request, session_id):
+    # This view is for organizers to show the QR code on a screen
+    if not request.user.is_staff:
+        return redirect('dashboard')
+        
+    session = get_object_or_404(AttendanceSession, session_id=session_id)
+    qr_base64, full_url = generate_attendance_qr(session_id, request)
+    
+    return render(request, 'registrations/show_qr.html', {
+        'session': session,
+        'qr_base64': qr_base64,
+        'full_url': full_url
+    })

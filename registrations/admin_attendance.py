@@ -21,9 +21,9 @@ class AttendanceSessionAdmin(ModelAdmin):
             import base64
             from io import BytesIO
             
-            # Use a dummy request-like object or just build the URL
-            # In a production environment, you'd want the full domain.
-            url = f"/attendance/checkin/{obj.session_id}/"
+            # Use the absolute production domain provided by the user
+            domain = "ennovatex.up.railway.app"
+            url = f"https://{domain}/attendance/checkin/{obj.session_id}/"
             
             qr = qrcode.QRCode(version=1, box_size=5, border=2)
             qr.add_data(url)
@@ -34,7 +34,15 @@ class AttendanceSessionAdmin(ModelAdmin):
             img.save(buffer, format="PNG")
             qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
             
-            return mark_safe(f'<div style="text-align:center;"><img src="data:image/png;base64,{qr_base64}" /><br/><code style="font-size:10px;">{url}</code></div>')
+            return mark_safe(f'''
+                <div style="text-align:center;">
+                    <img src="data:image/png;base64,{qr_base64}" /><br/>
+                    <a href="/attendance/session/{obj.session_id}/qr/" target="_blank" 
+                       style="display:inline-block; margin-top:5px; padding:4px 8px; background:#06b6d4; color:white; border-radius:4px; font-size:10px; text-decoration:none; font-weight:bold;">
+                       Open Full Screen
+                    </a>
+                </div>
+            ''')
         return "-"
     get_qr_preview.short_description = "Attendance QR"
 
