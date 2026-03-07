@@ -146,7 +146,7 @@
             position: fixed;
             width: 1400px;
             height: 1400px;
-            background: radial-gradient(circle at center, rgba(197, 163, 104, 0.04) 0%, transparent 60%);
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
@@ -156,6 +156,8 @@
 </head>
 
 <body>
+    <div class="bg-mesh"></div>
+    <div class="grid-overlay" id="grid"></div>
     <div class="grain-overlay"></div>
     <div id="spotlight"></div>
 
@@ -163,8 +165,8 @@
         class="premium-glass fixed w-[90%] md:w-[85%] left-1/2 -translate-x-1/2 top-8 z-[1000] rounded-2xl px-12 py-5 flex justify-between items-center">
         <a href="{% url 'landing_page' %}" class="flex items-center space-x-4 group">
             <div
-                class="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-champagne transition-all duration-700">
-                <span class="font-display font-black text-xl italic text-champagne">E</span>
+                class="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-azure transition-all duration-700">
+                <span class="font-display font-black text-xl italic text-azure">E</span>
             </div>
             <span class="font-display font-black text-lg tracking-[0.25em] uppercase text-white">ENNOVATE'X-26</span>
         </a>
@@ -179,7 +181,7 @@
                     class="text-[12px] font-black uppercase tracking-[0.4em] text-white/40 hover:text-champagne transition">Legacy</a>
             </nav>
             <a href="{% url 'register_choice' %}"
-                class="px-8 py-3 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-champagne hover:text-white transition-all duration-500 rounded-sm">
+                class="px-8 py-3 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-azure hover:text-white transition-all duration-500 rounded-sm">
                 Join Network
             </a>
         </div>
@@ -195,7 +197,7 @@
                 <div class="lg:col-span-2">
                     <h2
                         class="font-display font-black text-4xl mb-10 tracking-tighter uppercase italic text-white flex items-center">
-                        <span class="mr-6 w-12 h-[1px] bg-champagne"></span> E-CELL PCCOE
+                        <span class="mr-6 w-12 h-[1px] bg-azure"></span> E-CELL PCCOE
                     </h2>
                     <p class="text-white/30 text-sm leading-relaxed max-w-sm font-medium tracking-wide uppercase">
                         The definitive ecosystem for high-conviction creators and venture capital. Engineering the
@@ -204,7 +206,7 @@
                 </div>
                 <div>
                     <h4
-                        class="text-[12px] font-black uppercase tracking-[0.6em] text-champagne mb-10 text-right md:text-left">
+                        class="text-[12px] font-black uppercase tracking-[0.6em] text-azure mb-10 text-right md:text-left">
                         Navigation</h4>
                     <ul
                         class="space-y-6 text-[12px] font-bold uppercase tracking-[0.4em] text-white/40 text-right md:text-left">
@@ -215,7 +217,7 @@
                 </div>
                 <div>
                     <h4
-                        class="text-[12px] font-black uppercase tracking-[0.6em] text-champagne mb-10 text-right md:text-left">
+                        class="text-[12px] font-black uppercase tracking-[0.6em] text-azure mb-10 text-right md:text-left">
                         Coordinates</h4>
                     <p
                         class="text-white/40 text-[12px] font-bold uppercase tracking-[0.4em] leading-loose text-right md:text-left">

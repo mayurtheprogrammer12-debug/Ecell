@@ -17,7 +17,7 @@
                     <h2
                         class="text-5xl font-display font-black tracking-tighter uppercase italic leading-none mb-6 text-white">
                         Registry</h2>
-                    <p class="font-serif italic text-champagne/60 text-base">
+                    <p class="font-serif italic text-azure/60 text-base">
                         {% if request.GET.role == 'visitor' %}
                         observer protocol activation
                         {% else %}
@@ -31,7 +31,7 @@
 
                     {% if form.non_field_errors %}
                     <div
-                        class="text-white/40 border border-white/5 p-6 rounded-2xl text-[13px] font-bold uppercase tracking-widest text-center gold-shimmer">
+                        class="text-white/40 border border-white/5 p-6 rounded-2xl text-[13px] font-bold uppercase tracking-widest text-center shadow-[0_0_40px_rgba(59,130,246,0.05)] bg-azure/[0.02]">
                         {{ form.non_field_errors }}
                     </div>
                     {% endif %}
@@ -63,7 +63,8 @@
                     </div>
 
                     <div class="pt-16">
-                        <button type="submit" class="btn-premium w-full shadow-2xl shadow-champagne/5">
+                        <button type="submit"
+                            class="btn-premium w-full shadow-2xl shadow-azure/10 !bg-azure !text-white hover:!bg-white hover:!text-azure">
                             Validate Identities
                         </button>
                     </div>
