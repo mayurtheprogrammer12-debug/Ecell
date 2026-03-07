@@ -21,8 +21,8 @@ class IsPccoEFilter(admin.SimpleListFilter):
 
 @admin.register(UserRegistration)
 class UserRegistrationAdmin(ModelAdmin):
-    list_display = ('name', 'email', 'gender', 'age', 'city', 'college', 'registration_type', 'payment_status', 'final_price', 'referral_code_used')
-    list_filter = ('registration_type', 'payment_status', IsPccoEFilter, 'referral_code_used', 'gender', 'city')
+    list_display = ('name', 'email', 'gender', 'age', 'city', 'college', 'registration_type', 'exhibitor_category', 'payment_status', 'final_price', 'referral_code_used')
+    list_filter = ('registration_type', 'exhibitor_category', 'payment_status', IsPccoEFilter, 'referral_code_used', 'gender', 'city')
     search_fields = ('name', 'email', 'phone', 'college', 'org_name', 'city')
     readonly_fields = ('created_at',)
     

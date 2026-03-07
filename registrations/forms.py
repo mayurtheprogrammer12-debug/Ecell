@@ -51,24 +51,28 @@ class ParticipantForm(forms.ModelForm):
 class ExhibitorForm(forms.ModelForm):
     class Meta:
         model = UserRegistration
-        fields = ['name', 'email', 'phone', 'org_name', 'description', 'website']
+        fields = ['exhibitor_category', 'name', 'age', 'gender', 'email', 'phone', 'org_name', 'description']
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Venture Representative'}),
+            'exhibitor_category': forms.Select(attrs={'class': 'form-select'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
+            'age': forms.NumberInput(attrs={'placeholder': 'Age'}),
+            'gender': forms.Select(attrs={'class': 'form-select'}),
             'email': forms.EmailInput(attrs={'placeholder': 'corp@nexus.ia'}),
-            'phone': forms.TextInput(attrs={'placeholder': 'Active ID'}),
-            'org_name': forms.TextInput(attrs={'placeholder': 'Venture Identity'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Technical Core', 'rows': 4}),
-            'website': forms.URLInput(attrs={'placeholder': 'https://nexus.ia'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'Contact Number'}),
+            'org_name': forms.TextInput(attrs={'placeholder': 'Startup / Organization Name'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Basic description about business', 'rows': 4}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].help_text = "Venture Representative Name"
-        self.fields['email'].help_text = "Corporate communication node"
-        self.fields['phone'].help_text = "Active contact sequence"
-        self.fields['org_name'].help_text = "Venture or entity designation"
-        self.fields['description'].help_text = "Brief technical or business core"
-        self.fields['website'].help_text = "Digital archive or portfolio"
+        self.fields['exhibitor_category'].help_text = "Select Partnership Category"
+        self.fields['name'].help_text = "Full Name"
+        self.fields['age'].help_text = "Age"
+        self.fields['gender'].help_text = "Gender"
+        self.fields['email'].help_text = "Official Communication Email"
+        self.fields['phone'].help_text = "Active Contact Number"
+        self.fields['org_name'].help_text = "Startup or Organization Identity"
+        self.fields['description'].help_text = "Core business overview"
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

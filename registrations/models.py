@@ -15,6 +15,13 @@ class UserRegistration(models.Model):
         ('FREE', 'Free')
     )
 
+    EXHIBITOR_CATEGORIES = (
+        ('EXHIBITION', 'Exhibition Partner'),
+        ('WORKSHOP', 'Workshop Partner'),
+        ('MERCHANDISED', 'Merchandised Partner'),
+        ('MEDIA', 'Media Partner'),
+    )
+
     # Common Fields
     name = models.CharField(max_length=255, help_text="Full legal name as per ID")
     gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True, null=True, help_text="Gender identity")
@@ -24,6 +31,7 @@ class UserRegistration(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True, help_text="City of residence")
     college = models.CharField(max_length=255, blank=True, null=True, help_text="Institutional affiliation / Organisation")
     registration_type = models.CharField(max_length=20, choices=REGISTRATION_TYPES)
+    exhibitor_category = models.CharField(max_length=50, choices=EXHIBITOR_CATEGORIES, blank=True, null=True, help_text="Category of exhibition partnership")
 
     # Exhibitor Specific
     org_name = models.CharField(max_length=255, blank=True, null=True, verbose_name="Organization/Startup Name", help_text="Venture or entity designation")
