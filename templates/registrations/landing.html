@@ -18,12 +18,12 @@
                 <span class="text-gradient-cyan">SHOWCASE</span>
             </h1>
 
-            
+
         </div>
     </div>
 
     <!-- Event Schedule Section -->
-    <div class="container mx-auto max-w-7xl mb-40">
+    <div id="schedule" class="container mx-auto max-w-7xl mb-40">
         <div class="reveal-content">
             <div class="flex items-center space-x-6 mb-12">
                 <div class="w-1.5 h-10 bg-gradient-to-b from-cyan-400 to-violet-600 rounded-full"></div>
@@ -460,21 +460,21 @@
     </div>
 
 
-<style>
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(60px);
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        .reveal-content {
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-    }
-
-    .reveal-content {
-        animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-</style>
-{% endblock %}
+    </style>
+    {% endblock %}
