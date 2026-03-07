@@ -7,21 +7,27 @@ class ParticipantForm(forms.ModelForm):
 
     class Meta:
         model = UserRegistration
-        fields = ['name', 'email', 'phone', 'college', 'referral_code']
+        fields = ['name', 'gender', 'age', 'phone', 'email', 'city', 'college', 'referral_code']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'nexus@example.com'}),
+            'gender': forms.Select(attrs={'class': 'form-select'}),
+            'age': forms.NumberInput(attrs={'placeholder': 'Age'}),
             'phone': forms.TextInput(attrs={'placeholder': '+91 0000 0000'}),
-            'college': forms.TextInput(attrs={'placeholder': 'Institute Name'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'nexus@example.com'}),
+            'city': forms.TextInput(attrs={'placeholder': 'City'}),
+            'college': forms.TextInput(attrs={'placeholder': 'College / Organisation'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['referral_code'].widget.attrs.update({'placeholder': 'DISCOUNT20'})
         self.fields['name'].help_text = "Full legal name as per ID"
-        self.fields['email'].help_text = "Primary communication node"
+        self.fields['gender'].help_text = "Gender identity"
+        self.fields['age'].help_text = "Chronological age"
         self.fields['phone'].help_text = "Active contact sequence"
-        self.fields['college'].help_text = "Institutional affiliation"
+        self.fields['email'].help_text = "Official communication node"
+        self.fields['city'].help_text = "City of residence"
+        self.fields['college'].help_text = "Institutional affiliation / Organisation"
         self.fields['referral_code'].help_text = "Optional referral code for discount"
 
     def clean_referral_code(self):

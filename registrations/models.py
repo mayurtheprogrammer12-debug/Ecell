@@ -17,9 +17,12 @@ class UserRegistration(models.Model):
 
     # Common Fields
     name = models.CharField(max_length=255, help_text="Full legal name as per ID")
-    email = models.EmailField(unique=True, help_text="Primary communication node")
+    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True, null=True, help_text="Gender identity")
+    age = models.PositiveIntegerField(blank=True, null=True, help_text="Chronological age")
     phone = models.CharField(max_length=20, help_text="Active contact sequence")
-    college = models.CharField(max_length=255, blank=True, null=True, help_text="Institutional affiliation")
+    email = models.EmailField(unique=True, help_text="Official communication node")
+    city = models.CharField(max_length=100, blank=True, null=True, help_text="City of residence")
+    college = models.CharField(max_length=255, blank=True, null=True, help_text="Institutional affiliation / Organisation")
     registration_type = models.CharField(max_length=20, choices=REGISTRATION_TYPES)
 
     # Exhibitor Specific
