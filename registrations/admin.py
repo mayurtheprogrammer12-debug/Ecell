@@ -97,28 +97,53 @@ def mark_attendance_present_bulk(modeladmin, request, queryset):
         pass
 mark_attendance_present_bulk.short_description = "📍 Mark Attendance (Active Session)"
 
+def mark_round3_qualified(modeladmin, request, queryset):
+    queryset.update(selected_for_round3=True, round3_unlocked=True)
+mark_round3_qualified.short_description = "🏆 Qualify for Round 3"
+
 # --- ADMIN CLASSES ---
 
 @admin.register(UserRegistration)
 class UserRegistrationAdmin(ModelAdmin):
     list_display = (
         'name', 'email', 'phone', 'college', 'registration_type', 
-        'payment_status', 'final_price', 'referral_code_used', 
-        'round1_completed', 'selected_for_round2', 'created_at'
+        'payment_status', 'final_price', 'round1_completed', 
+        'selected_for_round2', 'selected_for_round3', 'created_at'
     )
     
     list_filter = (
-        CollegeDomainFilter,
-        'registration_type', 'payment_status', 'round1_completed', 
-        'selected_for_round2', 'referral_code_used', 'created_at', 
-        IsFreeEligibleFilter
+        CollegeDomainFilter, 'registration_type', 'payment_status', 
+        'round1_completed', 'selected_for_round2', 'selected_for_round3',
+        'referral_code_used', 'created_at', IsFreeEligibleFilter
     )
     
-    search_fields = ('name', 'email', 'phone', 'college', 'referral_code_used__referral_code')
+    search_fields = ('name', 'email', 'phone', 'college', 'referral_code_used__referral_code', 'idea_title')
     
-    actions = [export_as_csv, mark_round2_qualified, verify_payments_bulk, mark_attendance_present_bulk]
+    actions = [export_as_csv, mark_round2_qualified, mark_round3_qualified, verify_payments_bulk, mark_attendance_present_bulk]
     
-    readonly_fields = ('created_at',)
+    fieldsets = (
+        ('IDENTITY', {
+            'fields': ('registration_type', 'name', 'email', 'phone', 'gender', 'age', 'college', 'city', 'user')
+        }),
+        ('PAYMENT', {
+            'fields': ('payment_status', 'base_price', 'discount_amount', 'final_price', 'referral_code_used', 'reference_id')
+        }),
+        ('CORE IDEA (ROUND 1)', {
+            'fields': ('idea_title', 'idea_description', 'idea_domain', 'idea_agreement', 'round1_completed', 'round1_submitted_at')
+        }),
+        ('SELECTION STATUS', {
+            'fields': (
+                'selected_for_round2', 'round2_unlocked', 'round2_completed',
+                'selected_for_round3', 'round3_unlocked', 'round3_completed'
+            )
+        }),
+        ('METADATA', {
+            'fields': ('created_at',),
+            'classes': ('collapse',),
+        }),
+    )
+    
+    readonly_fields = ('created_at', 'round1_submitted_at')
 
 @admin.register(EventSettings)
 class EventSettingsAdmin(ModelAdmin):

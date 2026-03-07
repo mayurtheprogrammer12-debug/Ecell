@@ -91,8 +91,21 @@ class UserRegistration(models.Model):
     
     # Event Progress
     round1_completed = models.BooleanField(default=False)
+    round1_submitted_at = models.DateTimeField(null=True, blank=True)
+    
+    # Round 1 Submission Data
+    idea_title = models.CharField(max_length=255, blank=True, null=True)
+    idea_description = models.TextField(blank=True, null=True)
+    idea_domain = models.CharField(max_length=100, blank=True, null=True)
+    idea_agreement = models.BooleanField(default=False)
+
     selected_for_round2 = models.BooleanField(default=False)
     round2_unlocked = models.BooleanField(default=False)
+    round2_completed = models.BooleanField(default=False)
+    
+    selected_for_round3 = models.BooleanField(default=False)
+    round3_unlocked = models.BooleanField(default=False)
+    round3_completed = models.BooleanField(default=False)
 
 class FreeEntryWhitelist(models.Model):
     WHITELIST_TYPES = (

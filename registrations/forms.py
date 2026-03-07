@@ -103,3 +103,24 @@ class ExhibitorForm(forms.ModelForm):
         if UserRegistration.objects.filter(email=email).exists():
             raise forms.ValidationError('A registration with this email already exists.')
         return email
+
+class Round1SubmissionForm(forms.ModelForm):
+    class Meta:
+        model = UserRegistration
+        fields = ['idea_title', 'idea_description', 'idea_domain', 'idea_agreement']
+        widgets = {
+            'idea_title': forms.TextInput(attrs={'placeholder': 'Enter your disruptive idea title', 'class': 'premium-input'}),
+            'idea_description': forms.Textarea(attrs={'placeholder': 'Describe your solution, target market, and core technology...', 'rows': 6, 'class': 'premium-input'}),
+            'idea_domain': forms.TextInput(attrs={'placeholder': 'e.g. Fintech, Edtech, Sustainability...', 'class': 'premium-input'}),
+            'idea_agreement': forms.CheckboxInput(attrs={'class': 'premium-checkbox'}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['idea_title'].label = "Project Identity"
+        self.fields['idea_description'].label = "Solution Architecture"
+        self.fields['idea_domain'].label = "Market Sector"
+        self.fields['idea_agreement'].label = "I certify that this project is an original creation and I hold all associated intellectual property rights."
+        
+        for field in self.fields.values():
+            field.required = True

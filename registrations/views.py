@@ -10,10 +10,33 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import UserRegistration, AttendanceSession, AttendanceRecord
-from .forms import ParticipantForm, ExhibitorForm
+from .forms import ParticipantForm, ExhibitorForm, Round1SubmissionForm
 from payments.models import PaymentRecord
+
+@login_required(login_url='login')
+def round1_submit(request):
+    registration = get_object_or_404(UserRegistration, user=request.user)
+    
+    if registration.round1_completed:
+        return redirect('dashboard')
+        
+    if request.method == 'POST':
+        form = Round1SubmissionForm(request.POST, instance=registration)
+        if form.is_valid():
+            reg = form.save(commit=False)
+            reg.round1_completed = True
+            reg.round1_submitted_at = timezone.now()
+            reg.save()
+            return redirect('dashboard')
+    else:
+        form = Round1SubmissionForm(instance=registration)
+        
+    return render(request, 'registrations/round1_form.html', {
+        'form': form,
+        'registration': registration
+    })
 
 def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
     # Simplest possible UPI link
