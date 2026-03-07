@@ -14,7 +14,7 @@
                 extend: {
                     colors: {
                         midnight: '#050a15',
-                                                foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+                        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
                         background: 'rgb(var(--color-background) / <alpha-value>)',
                         onyx: '#020202',
                         platinum: '#f8fafc',
@@ -54,7 +54,7 @@
             }
         }
     </script>
-        <script>
+    <script>
         // Check local storage for theme
         if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
             document.documentElement.classList.remove('dark');
@@ -66,10 +66,12 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
-                :root {
-            --color-background: 248 250 252; /* slate-50 */
-            --color-foreground: 15 23 42; /* slate-900 */
-            
+        :root {
+            --color-background: 248 250 252;
+            /* slate-50 */
+            --color-foreground: 15 23 42;
+            /* slate-900 */
+
             --mesh-color-1: rgba(6, 182, 212, 0.15);
             --mesh-color-2: rgba(139, 92, 246, 0.15);
             --mesh-bg-1: #e2e8f0;
@@ -77,9 +79,10 @@
 
             --grid-line: rgba(0, 0, 0, 0.05);
 
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --glass-shadow: rgba(0, 0, 0, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(148, 163, 184, 0.2);
+            /* slate-400 */
+            --glass-shadow: rgba(15, 23, 42, 0.15);
 
             --btn-bg: #000000;
             --btn-text: #ffffff;
@@ -239,16 +242,23 @@
                     </div>
 
                 </div>
-                                <!-- Theme Toggle -->
-                <button id="themeToggle" class="relative w-10 h-10 rounded-full premium-glass flex items-center justify-center hover:bg-foreground/5 transition-all outline-none">
-                    <svg id="themeIconDark" class="w-5 h-5 text-foreground hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                <!-- Theme Toggle -->
+                <button id="themeToggle"
+                    class="relative w-10 h-10 rounded-full premium-glass flex items-center justify-center hover:bg-foreground/5 transition-all outline-none">
+                    <svg id="themeIconDark" class="w-5 h-5 text-foreground hidden dark:block" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                        </path>
                     </svg>
-                    <svg id="themeIconLight" class="w-5 h-5 text-foreground block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    <svg id="themeIconLight" class="w-5 h-5 text-foreground block dark:hidden" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
                     </svg>
                 </button>
-                
+
                 {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}"
                     class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Dashboard</a>
