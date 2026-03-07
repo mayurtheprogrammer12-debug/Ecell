@@ -13,12 +13,30 @@ class AttendanceSessionAdmin(ModelAdmin):
 
     def get_qr_preview(self, obj):
         if obj.session_id:
-            # We need a request object for absolute URL, but let's just show a simple link 
-            # or try to provide a preview if we are in admin. 
-            # In a real scenario, we'd use a custom admin view for this.
-            return mark_safe(f'<a href="/attendance/checkin/{obj.session_id}/" target="_blank" style="color:#06b6d4; font-weight:bold;">View Target URL</a>')
+            from .views import generate_attendance_qr
+            # Since we don't have request here easily for list_display, 
+            # we'll use a placeholder/relative URL or try to get current site
+            # For the admin list view, we'll try to use a simple relative URL QR
+            import qrcode
+            import base64
+            from io import BytesIO
+            
+            # Use a dummy request-like object or just build the URL
+            # In a production environment, you'd want the full domain.
+            url = f"/attendance/checkin/{obj.session_id}/"
+            
+            qr = qrcode.QRCode(version=1, box_size=5, border=2)
+            qr.add_data(url)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+            
+            return mark_safe(f'<div style="text-align:center;"><img src="data:image/png;base64,{qr_base64}" /><br/><code style="font-size:10px;">{url}</code></div>')
         return "-"
-    get_qr_preview.short_description = "Attendance URL"
+    get_qr_preview.short_description = "Attendance QR"
 
     def get_total_participants(self, obj):
         from .models import UserRegistration
