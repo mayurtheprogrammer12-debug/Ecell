@@ -13,8 +13,20 @@ from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
 
 def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
+    # Standard UPI parameters:
+    # pa: Payee address (UPI ID)
+    # pn: Payee name
+    # am: Amount
+    # cu: Currency (INR)
+    # tn: Transaction note
+    # tr: Transaction reference ID (Crucial for some apps to track the payment)
+    
     payee_name_encoded = urllib.parse.quote(payee_name)
-    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note}"
+    transaction_note_encoded = urllib.parse.quote(transaction_note)
+    
+    # tr is often required by PhonePe and GPay to uniquely identify the intent
+    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}"
+    
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(upi_url)
     qr.make(fit=True)
