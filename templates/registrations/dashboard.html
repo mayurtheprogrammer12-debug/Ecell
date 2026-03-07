@@ -9,39 +9,39 @@
             <div class="space-y-4">
                 <h4 class="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400/40 text-left">Internal Node
                 </h4>
-                <h2 class="text-6xl font-display font-black text-white italic uppercase tracking-tighter">Dashboard</h2>
+                <h2 class="text-6xl font-display font-black text-foreground italic uppercase tracking-tighter">Dashboard</h2>
             </div>
             <a href="{% url 'logout' %}"
-                class="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white/50 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-red-500/10 hover:text-red-500 transition-all">Logout</a>
+                class="px-8 py-3 rounded-full bg-foreground/5 border border-foreground/10 text-foreground/50 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-red-500/10 hover:text-red-500 transition-all">Logout</a>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
             <!-- Profile Card -->
             <div class="lg:col-span-1 space-y-6 reveal-content">
-                <div class="premium-glass p-10 rounded-[3rem] border border-white/5 relative overflow-hidden group">
+                <div class="premium-glass p-10 rounded-[3rem] border border-foreground/5 relative overflow-hidden group">
                     <div
                         class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent">
                     </div>
                     <div class="flex flex-col items-center text-center space-y-6">
                         <div class="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400 to-violet-600 p-[2px]">
                             <div
-                                class="w-full h-full rounded-full bg-black flex items-center justify-center text-3xl font-display font-black text-white">
+                                class="w-full h-full rounded-full bg-background flex items-center justify-center text-3xl font-display font-black text-foreground">
                                 {{ registration.name | slice:":1" }}
                             </div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-display font-black text-white uppercase italic tracking-tighter">{{ registration.name }}</h3>
+                            <h3 class="text-xl font-display font-black text-foreground uppercase italic tracking-tighter">{{ registration.name }}</h3>
                             <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-[0.4em] opacity-60">{{ registration.registration_type }}</p>
                         </div>
-                        <div class="w-full pt-6 border-t border-white/5 space-y-4">
+                        <div class="w-full pt-6 border-t border-foreground/5 space-y-4">
                             <div class="flex justify-between items-center px-2">
-                                <p class="text-[10px] text-white/30 uppercase tracking-[0.2em]">ID</p>
-                                <p class="text-[10px] text-white/70 font-mono font-bold">{{ registration.reference_id }}
+                                <p class="text-[10px] text-foreground/30 uppercase tracking-[0.2em]">ID</p>
+                                <p class="text-[10px] text-foreground/70 font-mono font-bold">{{ registration.reference_id }}
                                 </p>
                             </div>
                             <div class="flex justify-between items-center px-2">
-                                <p class="text-[10px] text-white/30 uppercase tracking-[0.2em]">Status</p>
+                                <p class="text-[10px] text-foreground/30 uppercase tracking-[0.2em]">Status</p>
                                 <span class="px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest
                                     {% if registration.payment_status == 'VERIFIED' or registration.payment_status == 'FREE' %}
                                         bg-cyan-400/10 text-cyan-400 border border-cyan-400/20
@@ -62,26 +62,26 @@
             <div class="lg:col-span-2 space-y-12">
 
                 <!-- Registration Info -->
-                <div class="premium-glass p-12 rounded-[3.5rem] border border-white/5 reveal-content">
-                    <h4 class="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-10">Verification
+                <div class="premium-glass p-12 rounded-[3.5rem] border border-foreground/5 reveal-content">
+                    <h4 class="text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] mb-10">Verification
                         Matrix</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div class="space-y-2">
                             <p class="text-[9px] text-cyan-400/60 font-black uppercase tracking-widest">Email Node</p>
-                            <p class="text-white/80 font-medium">{{ registration.email }}</p>
+                            <p class="text-foreground/80 font-medium">{{ registration.email }}</p>
                         </div>
                         <div class="space-y-2">
                             <p class="text-[9px] text-cyan-400/60 font-black uppercase tracking-widest">Contact Sequence
                             </p>
-                            <p class="text-white/80 font-medium">{{ registration.phone }}</p>
+                            <p class="text-foreground/80 font-medium">{{ registration.phone }}</p>
                         </div>
                         <div class="space-y-2">
                             <p class="text-[9px] text-cyan-400/60 font-black uppercase tracking-widest">Institution</p>
-                            <p class="text-white/80 font-medium">{{ registration.college|default:"N/A" }}</p>
+                            <p class="text-foreground/80 font-medium">{{ registration.college|default:"N/A" }}</p>
                         </div>
                         <div class="space-y-2">
                             <p class="text-[9px] text-cyan-400/60 font-black uppercase tracking-widest">Location</p>
-                            <p class="text-white/80 font-medium">{{ registration.city|default:"N/A" }}</p>
+                            <p class="text-foreground/80 font-medium">{{ registration.city|default:"N/A" }}</p>
                         </div>
                     </div>
                 </div>
@@ -89,12 +89,12 @@
                 <!-- Event Progress -->
                 {% if registration.registration_type == 'PARTICIPANT' %}
                 <div class="space-y-8 reveal-content">
-                    <h4 class="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] ml-6">Event Progress</h4>
+                    <h4 class="text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-6">Event Progress</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <!-- Round 1 -->
                         <div id="round1"
-                            class="premium-glass p-10 rounded-[3rem] border {% if not registration.round1_completed %}border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.1)]{% else %}border-white/5{% endif %} relative group transition-all duration-500">
+                            class="premium-glass p-10 rounded-[3rem] border {% if not registration.round1_completed %}border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.1)]{% else %}border-foreground/5{% endif %} relative group transition-all duration-500">
                             {% if not registration.round1_completed %}
                             <div class="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-cyan-400 animate-pulse"></div>
                             {% endif %}
@@ -110,7 +110,7 @@
 
                                 {% if not registration.round1_completed %}
                                 <a href="{% url 'round1_submit' %}"
-                                    class="text-[8px] font-black uppercase tracking-widest text-black bg-cyan-400 px-4 py-2 rounded-full hover:scale-105 transition-all">Start
+                                    class="text-[8px] font-black uppercase tracking-widest text-background bg-cyan-400 px-4 py-2 rounded-full hover:scale-105 transition-all">Start
                                     Task</a>
                                 {% elif registration.selected_for_round2 %}
                                 <span
@@ -122,14 +122,14 @@
                                 {% endif %}
                             </div>
                             <h3
-                                class="text-xl font-display font-black text-white italic uppercase tracking-tighter mb-2">
+                                class="text-xl font-display font-black text-foreground italic uppercase tracking-tighter mb-2">
                                 Round 1</h3>
-                            <p class="text-[10px] text-white/30 uppercase tracking-widest leading-relaxed">Foundation
+                            <p class="text-[10px] text-foreground/30 uppercase tracking-widest leading-relaxed">Foundation
                                 Assessment & Idea submission phase.</p>
                         </div>
 
                         <!-- Round 2 -->
-                        <div id="round2" class="premium-glass p-10 rounded-[3rem] border border-white/5 relative group">
+                        <div id="round2" class="premium-glass p-10 rounded-[3rem] border border-foreground/5 relative group">
                             <div class="flex justify-between items-start mb-6">
                                 {% if registration.round2_unlocked %}
                                 <div
@@ -140,11 +140,11 @@
                                     </svg>
                                 </div>
                                 <a href="{% url 'round2' %}"
-                                    class="text-[8px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-4 py-2 rounded-full border border-cyan-400/20 hover:bg-cyan-400 hover:text-black transition-all">▶
+                                    class="text-[8px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-4 py-2 rounded-full border border-cyan-400/20 hover:bg-cyan-400 hover:text-background transition-all">▶
                                     Start Round</a>
                                 {% else %}
                                 <div
-                                    class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/20">
+                                    class="w-12 h-12 rounded-2xl bg-foreground/5 flex items-center justify-center text-foreground/20">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
@@ -152,19 +152,19 @@
                                     </svg>
                                 </div>
                                 <span
-                                    class="text-[8px] font-black uppercase tracking-widest text-white/30 bg-white/5 px-3 py-1 rounded-full border border-white/10">🔒
+                                    class="text-[8px] font-black uppercase tracking-widest text-foreground/30 bg-foreground/5 px-3 py-1 rounded-full border border-foreground/10">🔒
                                     Locked</span>
                                 {% endif %}
                             </div>
                             <h3
-                                class="text-xl font-display font-black text-white italic uppercase tracking-tighter mb-2">
+                                class="text-xl font-display font-black text-foreground italic uppercase tracking-tighter mb-2">
                                 Round 2</h3>
-                            <p class="text-[10px] text-white/30 uppercase tracking-widest leading-relaxed">Advanced
+                            <p class="text-[10px] text-foreground/30 uppercase tracking-widest leading-relaxed">Advanced
                                 Pitching & Technical validation sector.</p>
                         </div>
 
                         <!-- Round 3 -->
-                        <div id="round3" class="premium-glass p-10 rounded-[3rem] border border-white/5 relative group">
+                        <div id="round3" class="premium-glass p-10 rounded-[3rem] border border-foreground/5 relative group">
                             <div class="flex justify-between items-start mb-6">
                                 {% if registration.round3_unlocked %}
                                 <div
@@ -179,7 +179,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest text-violet-400 bg-violet-400/10 px-4 py-2 rounded-full border border-violet-400/20">Active</span>
                                 {% else %}
                                 <div
-                                    class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/20">
+                                    class="w-12 h-12 rounded-2xl bg-foreground/5 flex items-center justify-center text-foreground/20">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
@@ -187,14 +187,14 @@
                                     </svg>
                                 </div>
                                 <span
-                                    class="text-[8px] font-black uppercase tracking-widest text-white/30 bg-white/5 px-3 py-1 rounded-full border border-white/10">🔒
+                                    class="text-[8px] font-black uppercase tracking-widest text-foreground/30 bg-foreground/5 px-3 py-1 rounded-full border border-foreground/10">🔒
                                     Locked</span>
                                 {% endif %}
                             </div>
                             <h3
-                                class="text-xl font-display font-black text-white italic uppercase tracking-tighter mb-2">
+                                class="text-xl font-display font-black text-foreground italic uppercase tracking-tighter mb-2">
                                 Round 3</h3>
-                            <p class="text-[10px] text-white/30 uppercase tracking-widest leading-relaxed">Grand Finale
+                            <p class="text-[10px] text-foreground/30 uppercase tracking-widest leading-relaxed">Grand Finale
                                 & Investor Networking.</p>
                         </div>
 

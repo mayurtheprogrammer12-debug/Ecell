@@ -7,16 +7,16 @@
             <!-- Header -->
             <div class="space-y-4 text-center">
                 <h4 class="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400">Submission Node</h4>
-                <h2 class="text-5xl font-display font-black text-white italic uppercase tracking-tighter">Round 1
+                <h2 class="text-5xl font-display font-black text-foreground italic uppercase tracking-tighter">Round 1
                     Assessment</h2>
                 <p
-                    class="text-white/40 text-[10px] font-bold uppercase tracking-widest max-w-md mx-auto leading-relaxed">
+                    class="text-foreground/40 text-[10px] font-bold uppercase tracking-widest max-w-md mx-auto leading-relaxed">
                     Provide the architectural blueprint of your disruptive vision. All data is securely processed.
                 </p>
             </div>
 
             <!-- Form -->
-            <form method="POST" class="premium-glass p-12 rounded-[3.5rem] border border-white/5 space-y-10">
+            <form method="POST" class="premium-glass p-12 rounded-[3.5rem] border border-foreground/5 space-y-10">
                 {% csrf_token %}
 
                 {% if form.errors %}
@@ -29,15 +29,15 @@
                 <div class="space-y-8">
                     {% for field in form %}
                     <div class="space-y-3">
-                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">
+                        <label class="text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em] ml-2">
                             {{ field.label }}
                         </label>
                         {% if field.name == 'idea_agreement' %}
-                        <div class="flex items-start space-x-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="flex items-start space-x-4 p-4 rounded-2xl bg-foreground/5 border border-foreground/10">
                             <div class="pt-1">
                                 {{ field }}
                             </div>
-                            <span class="text-[11px] text-white/60 leading-relaxed uppercase font-medium tracking-wide">
+                            <span class="text-[11px] text-foreground/60 leading-relaxed uppercase font-medium tracking-wide">
                                 {{ field.label }}
                             </span>
                         </div>
@@ -45,7 +45,7 @@
                         {{ field }}
                         {% endif %}
                         {% if field.help_text %}
-                        <p class="text-[9px] text-white/20 uppercase tracking-widest ml-2">{{ field.help_text }}</p>
+                        <p class="text-[9px] text-foreground/20 uppercase tracking-widest ml-2">{{ field.help_text }}</p>
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -60,7 +60,7 @@
 
             <div class="text-center">
                 <a href="{% url 'dashboard' %}"
-                    class="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] hover:text-white transition-all">
+                    class="text-[10px] font-black text-foreground/20 uppercase tracking-[0.4em] hover:text-foreground transition-all">
                     Return to Navigation
                 </a>
             </div>

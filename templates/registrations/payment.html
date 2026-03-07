@@ -13,20 +13,20 @@
                 </div>
 
                 <div class="text-center mb-20 relative z-10">
-                    <h5 class="text-[12px] font-black uppercase tracking-[1em] text-white/20 mb-10">Asset Acquisition
+                    <h5 class="text-[12px] font-black uppercase tracking-[1em] text-foreground/20 mb-10">Asset Acquisition
                         Terminal</h5>
-                    <h2 class="text-5xl font-display font-black tracking-tighter uppercase italic mb-4 text-white">
+                    <h2 class="text-5xl font-display font-black tracking-tighter uppercase italic mb-4 text-foreground">
                         Security<br>Gateway</h2>
                     <div class="w-12 h-px bg-champagne/30 mx-auto my-10"></div>
-                    <p class="text-[12px] font-black uppercase tracking-[0.6em] text-white/40 italic">{{ registration.name }} // ID: {{ registration.id }}</p>
+                    <p class="text-[12px] font-black uppercase tracking-[0.6em] text-foreground/40 italic">{{ registration.name }} // ID: {{ registration.id }}</p>
                 </div>
 
                 <!-- Financial Engine -->
                 <div class="text-center mb-20 relative z-10 group">
-                    <p class="text-[12px] font-black uppercase tracking-[0.5em] text-white/20 mb-6">Total Entry Credits
+                    <p class="text-[12px] font-black uppercase tracking-[0.5em] text-foreground/20 mb-6">Total Entry Credits
                     </p>
                     <div
-                        class="text-8xl font-display font-black italic tracking-tighter text-white group-hover:text-champagne transition-colors duration-700">
+                        class="text-8xl font-display font-black italic tracking-tighter text-foreground group-hover:text-champagne transition-colors duration-700">
                         ₹{{ amount }}</div>
                     <div
                         class="mt-10 inline-block px-6 py-2 border border-champagne/20 rounded-sm text-[13px] font-black tracking-[0.4em] uppercase text-champagne/60 bg-champagne/5">
@@ -38,7 +38,7 @@
                     <!-- QR Protocol -->
                     <div class="flex flex-col items-center">
                         <div
-                            class="p-6 bg-white rounded-[2.5rem] shadow-[0_0_100px_rgba(197,163,104,0.15)] transition-all duration-1000 hover:rotate-1 group/qr">
+                            class="p-6 bg-foreground rounded-[2.5rem] shadow-[0_0_100px_rgba(197,163,104,0.15)] transition-all duration-1000 hover:rotate-1 group/qr">
                             <img src="data:image/png;base64,{{ qr_base64 }}" alt="UPI QR"
                                 class="w-56 h-56 opacity-95 grayscale group-hover/qr:grayscale-0 transition-all duration-1000">
                         </div>
@@ -48,13 +48,13 @@
                                 class="w-full premium-glass p-6 rounded-2xl flex items-center justify-between group hover:border-champagne/40 transition-all cursor-pointer">
                                 <div class="flex flex-col items-start ml-2">
                                     <span
-                                        class="text-[11px] font-black text-white/20 uppercase tracking-[0.5em] mb-2">Network
+                                        class="text-[11px] font-black text-foreground/20 uppercase tracking-[0.5em] mb-2">Network
                                         Identity</span>
                                     <span
-                                        class="text-base font-black tracking-tight text-white/70 group-hover:text-champagne transition-colors italic">{{ upi_id }}</span>
+                                        class="text-base font-black tracking-tight text-foreground/70 group-hover:text-champagne transition-colors italic">{{ upi_id }}</span>
                                 </div>
                                 <div
-                                    class="p-4 border border-white/5 rounded-xl group-hover:bg-champagne group-hover:text-white transition-all">
+                                    class="p-4 border border-foreground/5 rounded-xl group-hover:bg-champagne group-hover:text-foreground transition-all">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
@@ -73,10 +73,10 @@
                     </div>
 
                     <div class="relative py-10 flex items-center">
-                        <div class="flex-grow h-px bg-white/5"></div>
-                        <span class="px-10 text-[12px] font-black text-white/20 uppercase tracking-[0.6em]">Audit
+                        <div class="flex-grow h-px bg-foreground/5"></div>
+                        <span class="px-10 text-[12px] font-black text-foreground/20 uppercase tracking-[0.6em]">Audit
                             Protocol Required</span>
-                        <div class="flex-grow h-px bg-white/5"></div>
+                        <div class="flex-grow h-px bg-foreground/5"></div>
                     </div>
 
                     <!-- Submission Flow -->
@@ -87,22 +87,22 @@
 
                         <div class="space-y-6">
                             <label
-                                class="block text-[12px] font-black text-white/20 uppercase tracking-[0.5em] ml-2">UTR
+                                class="block text-[12px] font-black text-foreground/20 uppercase tracking-[0.5em] ml-2">UTR
                                 SEQUENCE / HASH</label>
                             <input type="text" name="transaction_id" required placeholder="DIGIT IDENTIFIER"
-                                class="w-full bg-transparent border-b border-white/10 text-white p-4 outline-none focus:border-champagne transition-all placeholder:text-white/5 text-[13px] tracking-[0.8em] font-black uppercase font-mono">
+                                class="w-full bg-transparent border-b border-foreground/10 text-foreground p-4 outline-none focus:border-champagne transition-all placeholder:text-foreground/5 text-[13px] tracking-[0.8em] font-black uppercase font-mono">
                         </div>
 
                         <div class="space-y-6">
                             <label
-                                class="block text-[12px] font-black text-white/20 uppercase tracking-[0.5em] ml-2">DIGITAL
+                                class="block text-[12px] font-black text-foreground/20 uppercase tracking-[0.5em] ml-2">DIGITAL
                                 RECEIPT</label>
                             <input type="file" name="screenshot" accept="image/*" required
-                                class="w-full text-white/20 p-6 border border-white/5 rounded-3xl cursor-pointer file:mr-8 file:py-2 file:px-8 file:rounded-sm file:border-0 file:text-[13px] file:font-black file:uppercase file:bg-white file:text-black hover:file:bg-champagne hover:file:text-white transition-all">
+                                class="w-full text-foreground/20 p-6 border border-foreground/5 rounded-3xl cursor-pointer file:mr-8 file:py-2 file:px-8 file:rounded-sm file:border-0 file:text-[13px] file:font-black file:uppercase file:bg-foreground file:text-background hover:file:bg-champagne hover:file:text-foreground transition-all">
                         </div>
 
                         <button type="submit"
-                            class="w-full py-6 border border-champagne/20 text-champagne/60 hover:text-white font-black text-[13px] uppercase tracking-[0.6em] rounded-3xl transition-all hover:bg-champagne/10 active:scale-95 shadow-inner">
+                            class="w-full py-6 border border-champagne/20 text-champagne/60 hover:text-foreground font-black text-[13px] uppercase tracking-[0.6em] rounded-3xl transition-all hover:bg-champagne/10 active:scale-95 shadow-inner">
                             Finalize Transaction
                         </button>
                     </form>

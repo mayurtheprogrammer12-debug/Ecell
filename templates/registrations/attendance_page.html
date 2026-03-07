@@ -5,7 +5,7 @@
     <div class="container mx-auto max-w-2xl">
         <div class="mb-12 space-y-4 reveal-content">
             <h4 class="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400/40">Attendance Vector</h4>
-            <h2 class="text-6xl font-display font-black text-white italic uppercase tracking-tighter">{{ session.name }}
+            <h2 class="text-6xl font-display font-black text-foreground italic uppercase tracking-tighter">{{ session.name }}
             </h2>
         </div>
 
@@ -15,16 +15,16 @@
             </div>
 
             <div class="space-y-10">
-                <div class="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-white/40">
-                        Current Time: <span class="text-white">{{ now|date:"H:i" }}</span>
+                <div class="inline-block px-4 py-2 bg-foreground/5 border border-foreground/10 rounded-full">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-foreground/40">
+                        Current Time: <span class="text-foreground">{{ now|date:"H:i" }}</span>
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <h3 class="text-2xl font-display font-black text-white uppercase italic tracking-tighter">Identity
+                    <h3 class="text-2xl font-display font-black text-foreground uppercase italic tracking-tighter">Identity
                         Verified</h3>
-                    <p class="text-white/60 leading-relaxed text-sm uppercase tracking-widest">
+                    <p class="text-foreground/60 leading-relaxed text-sm uppercase tracking-widest">
                         Validated node: <span class="text-cyan-400 font-bold">{{ registration.name }}</span>
                     </p>
                 </div>
@@ -32,7 +32,7 @@
                 {% if success %}
                 <div class="bg-cyan-400/10 border border-cyan-400/20 p-8 rounded-3xl">
                     <div class="flex justify-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-black">
+                        <div class="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-background">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                     d="M5 13l4 4L19 7"></path>
@@ -51,15 +51,15 @@
                     <p class="text-[12px] font-black text-violet-500 uppercase tracking-widest">{{ info }}</p>
                 </div>
                 {% elif attendance %}
-                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
-                    <p class="text-[12px] font-black text-white/40 uppercase tracking-widest">Attendance Status:
+                <div class="bg-foreground/5 border border-foreground/10 p-8 rounded-3xl">
+                    <p class="text-[12px] font-black text-foreground/40 uppercase tracking-widest">Attendance Status:
                         Recorded</p>
                 </div>
                 {% else %}
                 <form method="POST">
                     {% csrf_token %}
                     <button type="submit"
-                        class="w-full btn-premium py-6 text-base tracking-[0.2em] !bg-gradient-to-r from-cyan-400 to-violet-600 !text-white hover:scale-105 transition-transform duration-500">
+                        class="w-full btn-premium py-6 text-base tracking-[0.2em] !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground hover:scale-105 transition-transform duration-500">
                         Mark My Attendance
                     </button>
                 </form>
@@ -67,7 +67,7 @@
 
                 <div class="pt-8 text-center">
                     <a href="{% url 'dashboard' %}"
-                        class="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] hover:text-white transition-all">Go
+                        class="text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] hover:text-foreground transition-all">Go
                         to Hub</a>
                 </div>
             </div>

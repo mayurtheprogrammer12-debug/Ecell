@@ -14,6 +14,8 @@
                 extend: {
                     colors: {
                         midnight: '#050a15',
+                                                foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+                        background: 'rgb(var(--color-background) / <alpha-value>)',
                         onyx: '#020202',
                         platinum: '#f8fafc',
                         champagne: '#e2b87e',
@@ -52,16 +54,65 @@
             }
         }
     </script>
+        <script>
+        // Check local storage for theme
+        if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
+                :root {
+            --color-background: 248 250 252; /* slate-50 */
+            --color-foreground: 15 23 42; /* slate-900 */
+            
+            --mesh-color-1: rgba(6, 182, 212, 0.15);
+            --mesh-color-2: rgba(139, 92, 246, 0.15);
+            --mesh-bg-1: #e2e8f0;
+            --mesh-bg-2: #f8fafc;
+
+            --grid-line: rgba(0, 0, 0, 0.05);
+
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: rgba(0, 0, 0, 0.05);
+
+            --btn-bg: #000000;
+            --btn-text: #ffffff;
+            --gradient-start: #000000;
+        }
+
+        .dark {
+            --color-background: 2 2 2;
+            --color-foreground: 255 255 255;
+
+            --mesh-color-1: rgba(6, 182, 212, 0.08);
+            --mesh-color-2: rgba(139, 92, 246, 0.08);
+            --mesh-bg-1: #050a15;
+            --mesh-bg-2: #020202;
+
+            --grid-line: rgba(255, 255, 255, 0.02);
+
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: rgba(0, 0, 0, 0.8);
+
+            --btn-bg: #ffffff;
+            --btn-text: #000000;
+            --gradient-start: #ffffff;
+        }
+
         body {
-            background-color: #020202;
-            color: #ffffff;
+            background-color: rgb(var(--color-background));
+            color: rgb(var(--color-foreground));
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .bg-mesh {
@@ -69,9 +120,10 @@
             inset: 0;
             z-index: -2;
             background:
-                radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, #050a15 0%, #020202 100%);
+                radial-gradient(circle at 20% 30%, var(--mesh-color-1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, var(--mesh-color-2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, var(--mesh-bg-1) 0%, var(--mesh-bg-2) 100%);
+            transition: background 0.3s;
         }
 
         .grid-overlay {
@@ -79,26 +131,28 @@
             inset: 0;
             z-index: -1;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
             background-size: 60px 60px;
             mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 60%);
             -webkit-mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 60%);
+            transition: background-image 0.3s;
         }
 
         .premium-glass {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--glass-bg);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 var(--glass-shadow);
+            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
         }
 
         .btn-premium {
             position: relative;
             padding: 0.75rem 2rem;
-            background: #ffffff;
-            color: #000000;
+            background: var(--btn-bg);
+            color: var(--btn-text);
             font-weight: 800;
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -117,7 +171,7 @@
         }
 
         .text-gradient-cyan {
-            background: linear-gradient(to right, #ffffff, #06b6d4, #8b5cf6);
+            background: linear-gradient(to right, var(--gradient-start), #06b6d4, #8b5cf6);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -146,18 +200,18 @@
             <a href="{% url 'landing_page' %}" class="flex items-center space-x-3 group">
                 <div
                     class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600 flex items-center justify-center">
-                    <span class="font-display font-black text-sm text-white">E</span>
+                    <span class="font-display font-black text-sm text-foreground">E</span>
                 </div>
                 <span
-                    class="font-display font-black text-sm tracking-widest uppercase text-white hidden sm:block">Ennovate'X</span>
+                    class="font-display font-black text-sm tracking-widest uppercase text-foreground hidden sm:block">Ennovate'X</span>
             </a>
 
             <div class="flex items-center space-x-10">
                 <div class="hidden lg:flex items-center space-x-10">
                     <div class="relative flex items-center space-x-2 group/nav cursor-pointer py-4">
                         <span
-                            class="text-[11px] font-bold uppercase tracking-widest text-white/60 group-hover/nav:text-white transition">Explore</span>
-                        <svg class="w-2.5 h-2.5 text-white/40 group-hover/nav:text-white transition-transform duration-300 group-hover/nav:rotate-180"
+                            class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover/nav:text-foreground transition">Explore</span>
+                        <svg class="w-2.5 h-2.5 text-foreground/40 group-hover/nav:text-foreground transition-transform duration-300 group-hover/nav:rotate-180"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7">
                             </path>
@@ -165,34 +219,44 @@
 
                         <!-- Dropdown Menu -->
                         <div
-                            class="absolute top-full left-0 mt-2 w-56 rounded-2xl premium-glass border border-white/10 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-300 z-50 overflow-hidden shadow-2xl">
+                            class="absolute top-full left-0 mt-2 w-56 rounded-2xl premium-glass border border-foreground/10 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-300 z-50 overflow-hidden shadow-2xl">
                             <div class="p-2 flex flex-col space-y-1">
                                 <a href="{% url 'landing_page' %}#schedule"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white hover:bg-white/5 rounded-xl transition-colors">Event
+                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Event
                                     Schedule</a>
-                                <div class="h-px bg-white/5 my-1 w-full mx-auto"></div>
+                                <div class="h-px bg-foreground/5 my-1 w-full mx-auto"></div>
                                 <a href="{% url 'dashboard' %}#round1"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white hover:bg-white/5 rounded-xl transition-colors">Round
+                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
                                     1</a>
                                 <a href="{% url 'dashboard' %}#round2"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white hover:bg-white/5 rounded-xl transition-colors">Round
+                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
                                     2</a>
                                 <a href="{% url 'dashboard' %}#round3"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white hover:bg-white/5 rounded-xl transition-colors">Round
+                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
                                     3</a>
                             </div>
                         </div>
                     </div>
 
                 </div>
+                                <!-- Theme Toggle -->
+                <button id="themeToggle" class="relative w-10 h-10 rounded-full premium-glass flex items-center justify-center hover:bg-foreground/5 transition-all outline-none">
+                    <svg id="themeIconDark" class="w-5 h-5 text-foreground hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <svg id="themeIconLight" class="w-5 h-5 text-foreground block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </button>
+                
                 {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}"
-                    class="text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white transition">Dashboard</a>
+                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Dashboard</a>
                 <a href="{% url 'logout' %}"
                     class="text-[11px] font-bold uppercase tracking-widest text-red-500/60 hover:text-red-500 transition">Logout</a>
                 {% else %}
                 <a href="{% url 'login' %}"
-                    class="text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white transition">Login</a>
+                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Login</a>
                 <a href="{% url 'register_choice' %}" class="btn-premium px-8">Register</a>
                 {% endif %}
             </div>
@@ -203,15 +267,15 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-onyx border-t border-white/5 py-32 mt-40">
+    <footer class="bg-background border-t border-foreground/5 py-32 mt-40">
         <div class="container mx-auto px-12 max-w-7xl">
             <div class="grid lg:grid-cols-4 gap-20">
                 <div class="lg:col-span-2">
                     <h2
-                        class="font-display font-black text-4xl mb-10 tracking-tighter uppercase italic text-white flex items-center">
+                        class="font-display font-black text-4xl mb-10 tracking-tighter uppercase italic text-foreground flex items-center">
                         <span class="mr-6 w-12 h-[1px] bg-azure"></span> E-CELL PCCOE
                     </h2>
-                    <p class="text-white/30 text-sm leading-relaxed max-w-sm font-medium tracking-wide uppercase">
+                    <p class="text-foreground/30 text-sm leading-relaxed max-w-sm font-medium tracking-wide uppercase">
                         The definitive ecosystem for high-conviction creators and venture capital. Engineering the
                         future with absolute precision.
                     </p>
@@ -221,10 +285,10 @@
                         class="text-[12px] font-black uppercase tracking-[0.6em] text-azure mb-10 text-right md:text-left">
                         Navigation</h4>
                     <ul
-                        class="space-y-6 text-[12px] font-bold uppercase tracking-[0.4em] text-white/40 text-right md:text-left">
-                        <li><a href="#" class="hover:text-white transition">Technical Matrix</a></li>
-                        <li><a href="#" class="hover:text-white transition">Venture Sprints</a></li>
-                        <li><a href="#" class="hover:text-white transition">Network Status</a></li>
+                        class="space-y-6 text-[12px] font-bold uppercase tracking-[0.4em] text-foreground/40 text-right md:text-left">
+                        <li><a href="#" class="hover:text-foreground transition">Technical Matrix</a></li>
+                        <li><a href="#" class="hover:text-foreground transition">Venture Sprints</a></li>
+                        <li><a href="#" class="hover:text-foreground transition">Network Status</a></li>
                     </ul>
                 </div>
                 <div>
@@ -232,13 +296,13 @@
                         class="text-[12px] font-black uppercase tracking-[0.6em] text-azure mb-10 text-right md:text-left">
                         Coordinates</h4>
                     <p
-                        class="text-white/40 text-[12px] font-bold uppercase tracking-[0.4em] leading-loose text-right md:text-left">
+                        class="text-foreground/40 text-[12px] font-bold uppercase tracking-[0.4em] leading-loose text-right md:text-left">
                         Research Park v2<br>Maharashtra, IN<br>nexus@ecellpccoe.com
                     </p>
                 </div>
             </div>
             <div
-                class="pt-20 mt-20 border-t border-white/5 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.8em] text-white/10">
+                class="pt-20 mt-20 border-t border-foreground/5 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.8em] text-foreground/10">
                 <p>&copy; MMXXVI INNOVATION SUMMIT.</p>
                 <div class="flex space-x-12">
                     <span>Alpha Build 0.26</span>
@@ -259,6 +323,19 @@
                 grid.style.setProperty('--mouse-y', e.clientY + 'px');
             }
         });
+
+        const themeToggleBtn = document.getElementById('themeToggle');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            });
+        }
     </script>
 </body>
 
