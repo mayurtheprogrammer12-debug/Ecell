@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Display QR | Ennovate'X-26{% endblock %}
+{% block content %}
+<div class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-32 px-4 text-center">
+    <div class="container mx-auto max-w-4xl">
+        <div class="mb-12 space-y-4">
+            <h4 class="text-[14px] font-black uppercase tracking-[1em] text-cyan-400">Attendance Scan Point</h4>
+            <h2 class="text-7xl font-display font-black text-white italic uppercase tracking-tighter">{{ session.name }}
+            </h2>
+        </div>
+
+        <div
+            class="premium-glass p-16 md:p-24 rounded-[5rem] relative overflow-hidden flex flex-col items-center justify-center">
+            <div
+                class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent">
+            </div>
+
+            <div class="bg-white p-12 rounded-[3rem] shadow-[0_0_100px_rgba(255,255,255,0.1)] mb-12">
+                <img src="data:image/png;base64,{{ qr_base64 }}" class="w-full max-w-[400px] h-auto" />
+            </div>
+
+            <div class="space-y-6">
+                <p class="text-white font-black text-xl uppercase tracking-widest italic">Scan to Mark Presence</p>
+                <div class="px-8 py-4 bg-white/5 border border-white/10 rounded-2xl">
+                    <code class="text-cyan-400/60 text-sm break-all font-mono">{{ full_url }}</code>
+                </div>
+                <p class="text-white/20 text-[10px] font-black uppercase tracking-[0.5em]">Organized by E-Cell PCCOE</p>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <a href="/admin/registrations/attendancesession/"
+                class="text-[12px] font-black text-white/30 uppercase tracking-widest hover:text-white transition-all">Back
+                to Admin Panel</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        /* Optimize for screen display */
+        background: #000 !important;
+    }
+
+    nav {
+        display: none !important;
+        /* Hide nav for clean display mode */
+    }
+</style>
+{% endblock %}
