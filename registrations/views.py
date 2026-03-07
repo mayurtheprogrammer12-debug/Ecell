@@ -13,30 +13,21 @@ from .forms import ParticipantForm, ExhibitorForm
 from payments.models import PaymentRecord
 
 def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
-    # The 'gallery scan' error often happens because:
-    # 1. The URL encoding of the 'pn' (payee name) or 'tn' (note) is not aggressive enough
-    # 2. The 'mc' (merchant code) or 'mode' parameters are missing or incorrect
-    # 3. The 'tr' (transaction reference) is missing
+    # Simplest possible UPI link
+    # pa: Payee address
+    # pn: Payee name (Simple, no spaces/special chars)
+    # am: Amount (2 decimal places)
+    # cu: Currency
+    # tn: Note
     
-    # Aggressive double-encoding can help some apps correctly interpret the intent scheme
-    payee_name_encoded = urllib.parse.quote(payee_name)
+    payee_name_simple = "PCCOE" 
+    amount_formatted = "{:.2f}".format(float(amount))
     transaction_note_encoded = urllib.parse.quote(transaction_note)
     
-    # Base URI
-    # pa: Payee address
-    # pn: Payee name
-    # am: Amount
-    # cu: Currency
-    # tn: Transaction note
-    # tr: Transaction reference (Usually same as TN for personal accounts)
-    # tr is REQUIRED by PhonePe for intent to be treated as 'Secure'
-    # mc: 0000 is a generic code, but helps apps categorize the link
-    # mode: 02 indicates a secure intent mode
+    # We remove mc, mode, and tr to make it a 'simple' personal payment link
+    # which avoids triggering 'Business Intent' security checks in some apps
+    upi_url = f"upi://pay?pa={upi_id}&pn={payee_name_simple}&am={amount_formatted}&cu=INR&tn={transaction_note_encoded}"
     
-    base_params = f"pa={upi_id}&pn={payee_name_encoded}&am={amount}&cu=INR&tn={transaction_note_encoded}&tr={transaction_note}&mc=0000&mode=02"
-    upi_url = f"upi://pay?{base_params}"
-    
-    # Generate QR Code
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(upi_url)
     qr.make(fit=True)
@@ -116,17 +107,12 @@ def register_participant(request):
                 
                 qr_base64, upi_url = generate_upi_qr(upi_id, payee_name, amount, registration.reference_id)
                 
-                # Specific App Links
-                # Note: These are often just the upi:// link but targeted or with specific prefixes
                 context = {
                     'registration': registration,
                     'upi_id': upi_id,
                     'amount': amount,
                     'qr_base64': qr_base64,
                     'upi_url': upi_url,
-                    'paytm_url': upi_url.replace('upi://', 'paytmmp://'),
-                    'phonepe_url': upi_url.replace('upi://', 'phonepe://'),
-                    'gpay_url': upi_url, # GPay usually uses the standard upi:// scheme
                     'reference_id': registration.reference_id
                 }
                 return render(request, 'registrations/payment.html', context)
