@@ -13,25 +13,32 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#6366f1',
-                        secondary: '#f59e0b',
-                        dark: '#020205',
-                        surface: '#0a0a0f',
+                        brand: {
+                            cyan: '#06b6d4',
+                            violet: '#7c3aed',
+                            rose: '#e11d48',
+                            gold: '#fbbf24',
+                            obsidian: '#020204',
+                            surface: '#08080c',
+                        }
                     },
                     fontFamily: {
-                        sans: ['DM Sans', 'Outfit', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'Outfit', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
                     },
                     animation: {
-                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'blob': 'blob 7s infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 4s ease-in-out infinite',
                     },
                     keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0)' },
+                            '50%': { transform: 'translateY(-20px) rotate(2deg)' },
+                        },
+                        glow: {
+                            '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
+                            '50%': { opacity: 0.6, transform: 'scale(1.1)' },
                         }
                     }
                 }
@@ -39,23 +46,22 @@
         }
     </script>
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800;900&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --glass-bg: rgba(10, 10, 18, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.05);
+            --accent: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.2);
         }
 
         body {
-            background-color: #020205;
-            color: #e2e8f0;
+            background-color: #020204;
+            color: #ecf3f9;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Grainy Texture Overlay */
+        /* Luxury Grain Overlay */
         .grain {
             position: fixed;
             top: 0;
@@ -64,209 +70,218 @@
             height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Premium Glassmorphism */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: inset 0 1px 1px var(--glass-highlight);
+        /* Neo-Glassmorphism */
+        .neo-glass {
+            background: rgba(8, 8, 12, 0.7);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .glass-card:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-4px);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #020205;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #1e1b4b;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #312e81;
-        }
-
-        /* Typography */
-        h1,
-        h2,
-        h3 {
-            font-family: 'Outfit', sans-serif;
-        }
-
-        /* Cursor Glow */
-        #cursor-glow {
-            position: fixed;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transform: translate(-50%, -50%);
-            transition: opacity 1s ease;
-        }
-
-        .premium-btn {
+        /* Magnetic Glow Button */
+        .btn-premium {
             position: relative;
-            background: #6366f1;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
+            background: linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%);
+            padding: 0.8rem 2.2rem;
+            border-radius: 12px;
             font-weight: 800;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
+            color: white;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px -10px var(--accent-glow);
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
         }
 
-        .premium-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.6);
-            background: #4f46e5;
+        .btn-premium:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px -10px var(--accent-glow);
+            letter-spacing: 0.2em;
         }
 
-        .premium-btn::after {
+        .btn-premium::after {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            background: conic-gradient(from 0deg, transparent, white, transparent);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s;
+            animation: rotate 4s linear infinite;
+            z-index: -1;
         }
 
-        .premium-btn:hover::after {
-            opacity: 1;
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Spotlight Cursor */
+        #spotlight {
+            position: fixed;
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.06) 0%, rgba(124, 58, 237, 0.03) 30%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        /* Custom Selection */
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Grid Background Extension */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
         }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen selection:bg-indigo-500/40">
+<body class="flex flex-col min-h-screen">
     <div class="grain"></div>
-    <div id="cursor-glow"></div>
+    <div id="spotlight"></div>
+    <div class="bg-grid fixed inset-0 z-[-2]"></div>
 
-    <nav class="glass sticky top-0 z-[100]">
-        <div class="container mx-auto px-8 py-5 flex justify-between items-center">
-            <a href="{% url 'landing_page' %}" class="group flex items-center space-x-3">
-                <div
-                    class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20 group-hover:rotate-12 transition-transform">
-                    <span class="text-white font-black text-xl italic uppercase">E</span>
+    <nav class="neo-glass sticky top-0 z-[1000] border-b border-white/5 mx-4 mt-4 rounded-2xl">
+        <div class="container mx-auto px-8 py-4 flex justify-between items-center">
+            <a href="{% url 'landing_page' %}" class="group flex items-center space-x-4">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-brand-cyan blur-lg opacity-20 group-hover:opacity-40 transition">
+                    </div>
+                    <div
+                        class="w-11 h-11 bg-brand-obsidian border border-white/10 rounded-xl flex items-center justify-center group-hover:rotate-[360deg] transition-all duration-1000">
+                        <span class="text-brand-cyan font-black text-2xl">Σ</span>
+                    </div>
                 </div>
-                <div class="flex flex-col leading-tight">
-                    <span class="text-lg font-black tracking-tighter text-white uppercase italic">INNOVATION <span
-                            class="text-indigo-500">SUMMIT</span></span>
-                    <span class="text-[10px] text-gray-600 font-bold tracking-[0.4em] uppercase">PCCOE E-CELL</span>
+                <div class="flex flex-col leading-none">
+                    <span class="text-xl font-black tracking-tighter text-white uppercase italic">SUMMIT<span
+                            class="text-brand-cyan">26</span></span>
+                    <span class="text-[9px] text-gray-500 font-bold tracking-[0.5em] uppercase mt-1">Innovation
+                        Redefined</span>
                 </div>
             </a>
+
             <div class="hidden lg:flex items-center space-x-12">
-                <a href="{% url 'landing_page' %}"
-                    class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition">Home</a>
-                <a href="#"
-                    class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition">Events</a>
-                <a href="#"
-                    class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition">Speakers</a>
-                <a href="{% url 'register_choice' %}" class="premium-btn">
-                    Register
+                <nav class="flex items-center space-x-8">
+                    <a href="{% url 'landing_page' %}"
+                        class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-brand-cyan transition">Nexus</a>
+                    <a href="#"
+                        class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-brand-cyan transition">Arena</a>
+                    <a href="#"
+                        class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-brand-cyan transition">Mentors</a>
+                </nav>
+                <a href="{% url 'register_choice' %}" class="btn-premium">
+                    Access Portal
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow flex flex-col pt-0 relative overflow-hidden">
+    <main class="flex-grow relative">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-dark/80 border-t border-white/5 py-20">
+    <footer class="bg-brand-obsidian/80 border-t border-white/5 py-24 mt-20">
         <div class="container mx-auto px-8">
-            <div class="grid md:grid-cols-4 gap-16 mb-20">
-                <div class="md:col-span-2">
-                    <div class="flex items-center space-x-3 mb-8">
+            <div class="grid lg:grid-cols-5 gap-16">
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-10">
                         <div
-                            class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center">
-                            <span class="text-white font-black text-2xl italic">E</span>
+                            class="w-10 h-10 bg-brand-cyan/10 border border-brand-cyan/20 rounded-lg flex items-center justify-center">
+                            <span class="text-brand-cyan font-black">Σ</span>
                         </div>
                         <span class="text-2xl font-black text-white italic tracking-tighter uppercase">E-CELL <span
-                                class="text-indigo-500">PCCOE</span></span>
+                                class="text-brand-cyan">PCCOE</span></span>
                     </div>
-                    <p class="text-gray-500 text-sm max-w-sm leading-relaxed mb-8 font-medium">
-                        Accelerating innovation and nurturing the entrepreneurial mindset. Join the largest startup
-                        community at PCCOE.
+                    <p class="text-gray-500 text-sm leading-relaxed mb-10 font-medium max-w-sm">
+                        Engineering the future of innovation. The flagship summit designed to connect visionary creators
+                        with global capital.
                     </p>
-                    <div class="flex space-x-6">
-                        <a href="#" class="text-gray-600 hover:text-white transition-colors">Twitter</a>
-                        <a href="#" class="text-gray-600 hover:text-white transition-colors">LinkedIn</a>
-                        <a href="#" class="text-gray-600 hover:text-white transition-colors">Instagram</a>
+                    <div class="flex space-x-8">
+                        <a href="#" class="text-gray-600 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.23.148 5.005 1.954 5.153 5.153.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.197-1.923 4.978-5.153 5.153-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.197-.148-4.978-1.923-5.153-5.153-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.148-3.197 1.923-4.978 5.153-5.153 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.28.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.28-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
                 <div>
-                    <h4 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-8">Navigation</h4>
-                    <ul class="space-y-4 text-gray-500 text-xs font-bold uppercase tracking-widest">
-                        <li><a href="{% url 'landing_page' %}" class="hover:text-indigo-400 transition">Portal Home</a>
-                        </li>
-                        <li><a href="#" class="hover:text-indigo-400 transition">About E-Cell</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition">Sponsors</a></li>
+                    <h4 class="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10">Gateway</h4>
+                    <ul class="space-y-6 text-gray-500 text-[10px] font-bold uppercase tracking-widest">
+                        <li><a href="#" class="hover:text-brand-cyan transition">Dashboard</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition">Sponsorship</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition">Technical Hub</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-8">Location</h4>
-                    <p class="text-gray-500 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose">
-                        Research & Development Cell,<br>PCCOE Pune,<br>Maharashtra Pin-411044
+                    <h4 class="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10">Archives</h4>
+                    <ul class="space-y-6 text-gray-500 text-[10px] font-bold uppercase tracking-widest">
+                        <li><a href="#" class="hover:text-brand-cyan transition">Summit '25</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition">Impact Stories</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10">Coordinates</h4>
+                    <p class="text-gray-500 text-[10px] font-bold uppercase tracking-[0.3em] leading-loose">
+                        Research Park,<br>PCCOE Pune 411044<br>Inquiry: nexus@ecellpccoe.com
                     </p>
                 </div>
             </div>
-            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-[10px] font-bold text-gray-700 uppercase tracking-[0.3em]">&copy; 2026 PCCOE
-                    Entrepreneurship Cell. Registered Entity.</p>
-                <p class="text-[10px] font-bold text-indigo-500/50 uppercase tracking-[0.3em] mt-4 md:mt-0 italic">
-                    Innovation Beyond Limits</p>
+            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-[9px] font-black text-gray-700 uppercase tracking-[0.5em]">&copy; MMXXVI PCCOE E-CELL
+                    REGISTRY.</p>
+                <div class="mt-6 md:mt-0 flex items-center space-x-6">
+                    <span class="text-[9px] font-black text-brand-cyan/40 uppercase tracking-[0.4em] italic">Viper
+                        Protocol 2.0</span>
+                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        const glow = document.getElementById('cursor-glow');
+        const spotlight = document.getElementById('spotlight');
         window.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
+            spotlight.style.left = e.clientX + 'px';
+            spotlight.style.top = e.clientY + 'px';
         });
 
-        // Dynamic Glow Intensity
+        // Smooth interaction
         window.addEventListener('mousedown', () => {
-            glow.style.opacity = '1.5';
-            glow.style.width = '1200px';
-            glow.style.height = '1200px';
+            spotlight.style.width = '1200px';
+            spotlight.style.height = '1200px';
         });
         window.addEventListener('mouseup', () => {
-            glow.style.opacity = '1';
-            glow.style.width = '800px';
-            glow.style.height = '800px';
+            spotlight.style.width = '1000px';
+            spotlight.style.height = '1000px';
         });
     </script>
     {% block scripts %}{% endblock %}

@@ -1,57 +1,56 @@
 {% extends "base.html" %}
 
-{% block title %}Selection Portal | Innovation Summit{% endblock %}
+{% block title %}Selection | Summit Matrix{% endblock %}
 
 {% block content %}
 <div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
-    <div class="absolute top-[10%] left-[-5%] w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[100px] animate-blob">
-    </div>
-    <div class="absolute bottom-[10%] right-[-5%] w-[40%] h-[40%] bg-purple-600/10 rounded-full blur-[100px] animate-blob"
-        style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-grid opacity-10"></div>
 </div>
 
-<div class="min-h-[80vh] flex flex-col items-center justify-center py-20 px-4">
-    <div class="text-center mb-20 reveal">
-        <h1 class="text-5xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-none mb-6">
-            SELECT YOUR <span class="text-indigo-500">TRAJECTORY</span></h1>
-        <p
-            class="text-gray-500 text-xs font-black uppercase tracking-[0.4em] max-w-md mx-auto leading-relaxed underline decoration-indigo-500/50 underline-offset-8">
-            Define your role in the 2026 Innovation Summit.
-        </p>
+<div class="min-h-screen flex flex-col items-center justify-center py-24 px-4">
+    <div class="text-center mb-24 reveal">
+        <h4 class="text-brand-cyan font-black uppercase tracking-[0.6em] text-[10px] mb-8">Access Logic</h4>
+        <h1 class="text-6xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-[0.85] mb-8">
+            SELECT YOUR<br><span class="text-brand-cyan">TRAJECTORY</span>
+        </h1>
+        <div class="w-12 h-1 bg-brand-cyan mx-auto rounded-full"></div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-7xl px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-full max-w-7xl px-4">
         <!-- Student -->
         <a href="{% url 'register_participant' %}?role=student" class="group relative block role-card opacity-0">
-            <div class="glass-card h-full p-12 flex flex-col items-center text-center group-hover:scale-105">
+            <div
+                class="neo-glass h-full p-12 rounded-[3rem] flex flex-col items-center text-center transition-all duration-700 hover:scale-[1.05] hover:border-brand-cyan/40">
                 <div
-                    class="w-20 h-20 mb-10 rounded-3xl bg-indigo-600/10 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-700">
+                    class="w-24 h-24 mb-12 rounded-[2rem] bg-brand-cyan/5 flex items-center justify-center text-brand-cyan group-hover:bg-brand-cyan group-hover:text-white transition-all duration-700 shadow-2xl shadow-brand-cyan/0 group-hover:shadow-brand-cyan/40">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
                         </path>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-black text-white mb-4 uppercase italic tracking-tighter">Student</h3>
-                <p class="text-gray-500 text-[11px] font-bold uppercase tracking-widest mb-10 flex-grow leading-loose">
-                    Access competitions, technical modules, and industry mentor-led sprints.</p>
-                <div class="w-full h-px bg-white/5 group-hover:bg-indigo-500/30 transition-colors mb-10"></div>
-                <span
-                    class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-500 group-hover:translate-x-3 transition-transform flex items-center">
-                    Initialize Entry <svg class="w-4 h-4 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 class="text-3xl font-black text-white mb-6 uppercase italic tracking-tighter">Student</h3>
+                <p
+                    class="text-gray-500 text-[11px] font-bold uppercase tracking-[0.2em] mb-12 flex-grow leading-relaxed">
+                    Competitions, sprints, and direct mentoring from global CEOs.</p>
+                <div class="flex items-center space-x-3 text-brand-cyan">
+                    <span class="text-[10px] font-black uppercase tracking-[0.3em]">INITIATE ENTRY</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-3 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                     </svg>
-                </span>
+                </div>
             </div>
         </a>
 
         <!-- Visitor -->
         <a href="{% url 'register_participant' %}?role=visitor" class="group relative block role-card opacity-0"
             style="animation-delay: 0.2s;">
-            <div class="glass-card h-full p-12 flex flex-col items-center text-center group-hover:scale-105">
+            <div
+                class="neo-glass h-full p-12 rounded-[3rem] flex flex-col items-center text-center transition-all duration-700 hover:scale-[1.05] hover:border-brand-violet/40">
                 <div
-                    class="w-20 h-20 mb-10 rounded-3xl bg-blue-600/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all duration-700">
+                    class="w-24 h-24 mb-12 rounded-[2rem] bg-brand-violet/5 flex items-center justify-center text-brand-violet group-hover:bg-brand-violet group-hover:text-white transition-all duration-700 shadow-2xl shadow-brand-violet/0 group-hover:shadow-brand-violet/40">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -60,43 +59,46 @@
                         </path>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-black text-white mb-4 uppercase italic tracking-tighter">Visitor</h3>
-                <p class="text-gray-500 text-[11px] font-bold uppercase tracking-widest mb-10 flex-grow leading-loose">
-                    Network with top-tier talent and explore the innovation ecosystem.</p>
-                <div class="w-full h-px bg-white/5 group-hover:bg-blue-500/30 transition-colors mb-10"></div>
-                <span
-                    class="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 group-hover:translate-x-3 transition-transform flex items-center">
-                    Claim Token <svg class="w-4 h-4 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 class="text-3xl font-black text-white mb-6 uppercase italic tracking-tighter">Visitor</h3>
+                <p
+                    class="text-gray-500 text-[11px] font-bold uppercase tracking-[0.2em] mb-12 flex-grow leading-relaxed">
+                    Network with top-tier innovators and experience the expo.</p>
+                <div class="flex items-center space-x-3 text-brand-violet">
+                    <span class="text-[10px] font-black uppercase tracking-[0.3em]">CLAIM PASS</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-3 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                     </svg>
-                </span>
+                </div>
             </div>
         </a>
 
         <!-- Exhibitor -->
         <a href="{% url 'register_exhibitor' %}" class="group relative block role-card opacity-0"
             style="animation-delay: 0.4s;">
-            <div class="glass-card h-full p-12 flex flex-col items-center text-center group-hover:scale-105">
+            <div
+                class="neo-glass h-full p-12 rounded-[3rem] flex flex-col items-center text-center transition-all duration-700 hover:scale-[1.05] hover:border-brand-rose/40">
                 <div
-                    class="w-20 h-20 mb-10 rounded-3xl bg-purple-600/10 flex items-center justify-center text-purple-500 group-hover:bg-purple-600 group-hover:text-white transition-all duration-700">
+                    class="w-24 h-24 mb-12 rounded-[2rem] bg-brand-rose/5 flex items-center justify-center text-brand-rose group-hover:bg-brand-rose group-hover:text-white transition-all duration-700 shadow-2xl shadow-brand-rose/0 group-hover:shadow-brand-rose/40">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
                         </path>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-black text-white mb-4 uppercase italic tracking-tighter">Exhibitor</h3>
-                <p class="text-gray-500 text-[11px] font-bold uppercase tracking-widest mb-10 flex-grow leading-loose">
-                    Amplify your startup vision to investors and tech-leaders.</p>
-                <div class="w-full h-px bg-white/5 group-hover:bg-purple-500/30 transition-colors mb-10"></div>
-                <span
-                    class="text-[10px] font-black uppercase tracking-[0.3em] text-purple-500 group-hover:translate-x-3 transition-transform flex items-center">
-                    Apply Now <svg class="w-4 h-4 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 class="text-3xl font-black text-white mb-6 uppercase italic tracking-tighter">Exhibitor</h3>
+                <p
+                    class="text-gray-500 text-[11px] font-bold uppercase tracking-[0.2em] mb-12 flex-grow leading-relaxed">
+                    Showcase to investors and institutional partners.</p>
+                <div class="flex items-center space-x-3 text-brand-rose">
+                    <span class="text-[10px] font-black uppercase tracking-[0.3em]">SECURE SPACE</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-3 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                     </svg>
-                </span>
+                </div>
             </div>
         </a>
     </div>
@@ -106,7 +108,7 @@
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(60px);
         }
 
         to {
