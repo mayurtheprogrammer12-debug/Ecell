@@ -109,7 +109,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Registration settings
-BASE_PARTICIPANT_FEE = 300
+BASE_PARTICIPANT_FEE = 1
 PCCOE_DOMAIN = "@pccoepune.org"
 
 UNFOLD = {
