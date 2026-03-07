@@ -55,16 +55,14 @@
                     {% else %}
                     <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic mb-10 text-foreground">
                         Registry Alert</h2>
-                    <p class="text-champagne/60 text-[13px] font-black uppercase tracking-[0.8em] mb-20">{{
-                        registration.get_payment_status_display }}</p>
+                    <p class="text-champagne/60 text-[13px] font-black uppercase tracking-[0.8em] mb-20">{{ registration.get_payment_status_display }}</p>
                     {% endif %}
 
                     <div class="space-y-8 text-left mb-24 p-10 border border-foreground/5 rounded-[3rem] bg-foreground/[0.01]">
                         <div class="flex justify-between items-center group">
                             <span class="text-[12px] font-black text-foreground/10 uppercase tracking-[0.6em]">Registry
                                 Tier</span>
-                            <span class="text-[13px] font-black uppercase tracking-[0.4em] text-champagne">{{
-                                registration.get_registration_type_display }}</span>
+                            <span class="text-[13px] font-black uppercase tracking-[0.4em] text-champagne">{{ registration.get_registration_type_display }}</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-[12px] font-black text-foreground/10 uppercase tracking-[0.6em]">Network
@@ -76,8 +74,7 @@
                         <div class="pt-8 border-t border-foreground/5 flex justify-between items-center">
                             <span class="text-[12px] font-black text-foreground/10 uppercase tracking-[0.6em]">Trace
                                 Token</span>
-                            <span class="text-[13px] font-mono text-foreground/60 font-black">{{ registration.reference_id
-                                }}</span>
+                            <span class="text-[13px] font-mono text-foreground/60 font-black">{{ registration.reference_id }}</span>
                         </div>
                         {% endif %}
                     </div>
