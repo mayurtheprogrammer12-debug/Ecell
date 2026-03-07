@@ -6,7 +6,7 @@
 <div class="max-w-lg mx-auto w-full bg-white p-8 md:p-12 rounded-2xl shadow-xl mt-12 border border-gray-100 mb-12">
     <div class="text-center mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Complete Payment</h2>
-        <p class="text-gray-500 mt-2">You are almost there, {{ registration.name }}!</p>
+        <p class="text-gray-500 mt-2">Final step for {{ registration.name }}!</p>
     </div>
 
     <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200 shadow-inner">
@@ -16,9 +16,25 @@
             <img src="data:image/png;base64,{{ qr_base64 }}" alt="UPI QR Code"
                 class="w-48 h-48 border-2 border-primary rounded-lg shadow-sm">
 
-            <p class="text-gray-600 font-medium">UPI ID: <span class="font-bold text-gray-900">{{ upi_id }}</span></p>
-            <p class="text-gray-600 font-medium">Reference ID: <span class="font-bold text-gray-900">{{ reference_id
-                    }}</span></p>
+            <div class="w-full space-y-2 mt-4">
+                <div class="flex items-center justify-between text-sm bg-white p-3 rounded-lg border border-gray-200">
+                    <span class="text-gray-500 font-medium">UPI ID:</span>
+                    <span id="upi-id-text" class="font-bold text-gray-900">{{ upi_id }}</span>
+                    <button onclick="copyToClipboard('{{ upi_id }}')"
+                        class="text-primary hover:text-blue-800 font-bold ml-2 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+                            </path>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="flex items-center justify-between text-sm bg-white p-3 rounded-lg border border-gray-200">
+                    <span class="text-gray-500 font-medium">Ref ID:</span>
+                    <span class="font-bold text-gray-900">{{ reference_id }}</span>
+                </div>
+            </div>
         </div>
 
         <div
@@ -28,8 +44,26 @@
         </div>
     </div>
 
+    <!-- Alert for common issues -->
+    <div class="mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-xs text-blue-700 font-medium">
+                    If the QR or Button doesn't work, manually pay ₹{{ amount }} to the UPI ID above using any UPI app
+                    (GPay, PhonePe, Paytm).
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div class="mb-8">
-        <p class="text-center text-gray-600 mb-4 text-sm font-semibold uppercase tracking-wider">OR</p>
         <a href="{{ upi_url }}"
             class="w-full flex justify-center py-4 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-blue-600 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
             Pay via UPI App
@@ -39,9 +73,8 @@
     <hr class="my-8 border-gray-200">
 
     <div class="text-center mb-6">
-        <h3 class="text-xl font-bold text-gray-800">Payment Confirmation</h3>
-        <p class="text-gray-500 mt-2 text-sm">After making the payment, upload your payment screenshot to complete the
-            registration.</p>
+        <h3 class="text-xl font-bold text-gray-800">Submit Verification</h3>
+        <p class="text-gray-500 mt-2 text-sm">Upload proof after making the payment.</p>
     </div>
 
     <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -52,13 +85,14 @@
         <div>
             <label for="transaction_id" class="block text-sm font-semibold text-gray-700">UPI Transaction ID <span
                     class="text-red-500">*</span></label>
-            <input type="text" name="transaction_id" id="transaction_id" required placeholder="e.g. 403212345678"
+            <input type="text" name="transaction_id" id="transaction_id" required
+                placeholder="12 digit number (e.g. 403212...)"
                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
         </div>
 
         <!-- Screenshot Upload -->
         <div>
-            <label for="screenshot" class="block text-sm font-semibold text-gray-700">Upload Payment Screenshot <span
+            <label for="screenshot" class="block text-sm font-semibold text-gray-700">Payment Screenshot <span
                     class="text-red-500">*</span></label>
             <input type="file" name="screenshot" id="screenshot" accept="image/*" required
                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-gray-700 file:bg-gray-100 file:border-0 file:rounded-md file:px-4 file:py-2 file:mr-4 file:font-semibold file:text-primary hover:file:bg-gray-200 cursor-pointer">
@@ -66,8 +100,18 @@
 
         <button type="submit"
             class="w-full flex justify-center py-4 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300">
-            Confirm Payment
+            I Have Paid - Verify Me
         </button>
     </form>
 </div>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function () {
+            alert('UPI ID copied to clipboard!');
+        }, function (err) {
+            console.error('Could not copy text: ', err);
+        });
+    }
+</script>
 {% endblock %}
