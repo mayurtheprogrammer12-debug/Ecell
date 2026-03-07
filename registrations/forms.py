@@ -7,7 +7,7 @@ class ParticipantForm(forms.ModelForm):
 
     class Meta:
         model = UserRegistration
-        fields = ['name', 'email', 'phone', 'college']
+        fields = ['name', 'email', 'phone', 'college', 'referral_code']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
             'email': forms.EmailInput(attrs={'placeholder': 'nexus@example.com'}),
@@ -17,7 +17,12 @@ class ParticipantForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['referral_code'].widget.attrs.update({'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 bg-gray-50 text-black', 'placeholder': 'DISCOUNT20'})
+        self.fields['referral_code'].widget.attrs.update({'placeholder': 'DISCOUNT20'})
+        self.fields['name'].help_text = "Full legal name as per ID"
+        self.fields['email'].help_text = "Primary communication node"
+        self.fields['phone'].help_text = "Active contact sequence"
+        self.fields['college'].help_text = "Institutional affiliation"
+        self.fields['referral_code'].help_text = "Optional referral code for discount"
 
     def clean_referral_code(self):
         code = self.cleaned_data.get('referral_code')
@@ -49,6 +54,15 @@ class ExhibitorForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'placeholder': 'Technical Core', 'rows': 4}),
             'website': forms.URLInput(attrs={'placeholder': 'https://nexus.ia'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].help_text = "Venture Representative Name"
+        self.fields['email'].help_text = "Corporate communication node"
+        self.fields['phone'].help_text = "Active contact sequence"
+        self.fields['org_name'].help_text = "Venture or entity designation"
+        self.fields['description'].help_text = "Brief technical or business core"
+        self.fields['website'].help_text = "Digital archive or portfolio"
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
