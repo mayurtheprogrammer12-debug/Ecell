@@ -13,11 +13,12 @@
             theme: {
                 extend: {
                     colors: {
-                        onyx: '#030303',
-                        platinum: '#e5e5e5',
-                        champagne: '#c5a368',
-                        sapphire: '#0f172a',
-                        emerald: '#064e3b',
+                        midnight: '#050a15',
+                        onyx: '#020202',
+                        platinum: '#f8fafc',
+                        champagne: '#e2b87e',
+                        azure: '#3b82f6',
+                        emerald: '#10b981',
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -44,11 +45,33 @@
         rel="stylesheet">
     <style>
         body {
-            background-color: #030303;
+            background-color: #050a15;
             color: #ffffff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             font-family: 'Inter', sans-serif;
+        }
+
+        .bg-mesh {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(226, 184, 126, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(5, 10, 21, 1) 0%, #020202 100%);
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 50%);
+            -webkit-mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 50%);
         }
 
         .grain-overlay {
@@ -212,9 +235,15 @@
 
     <script>
         const spotlight = document.getElementById('spotlight');
+        const grid = document.getElementById('grid');
         window.addEventListener('mousemove', (e) => {
             spotlight.style.left = e.clientX + 'px';
             spotlight.style.top = e.clientY + 'px';
+
+            if (grid) {
+                grid.style.setProperty('--mouse-x', e.clientX + 'px');
+                grid.style.setProperty('--mouse-y', e.clientY + 'px');
+            }
         });
     </script>
 </body>
