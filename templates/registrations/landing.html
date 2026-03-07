@@ -42,159 +42,427 @@
                 <div class="flex-grow h-px bg-white/5"></div>
             </div>
 
-            <div class="premium-glass rounded-[2rem] overflow-hidden relative">
-                <!-- Background glow effect -->
-                <div
-                    class="absolute top-0 right-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none">
-                </div>
-                <div
-                    class="absolute bottom-0 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[80px] pointer-events-none">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+                <!-- Day 1 Card -->
+                <div class="premium-glass rounded-[2rem] overflow-hidden relative flex flex-col">
+                    <div
+                        class="absolute top-0 right-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[80px] pointer-events-none">
+                    </div>
+
+                    <div
+                        class="bg-white/[0.02] border-b border-white/5 px-8 py-6 relative z-10 flex justify-between items-center">
+                        <h3 class="text-2xl font-display font-black text-white tracking-widest uppercase">DAY 1</h3>
+                        <span
+                            class="px-4 py-1.5 rounded-full bg-cyan-900/30 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-widest">Main
+                            Event</span>
+                    </div>
+
+                    <div class="overflow-x-auto relative z-10 flex-grow">
+                        <table class="w-full text-left border-collapse min-w-[500px]">
+                            <thead>
+                                <tr class="border-b border-white/5 bg-white/[0.01]">
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-cyan-400 w-[25%]">
+                                        Time</th>
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-violet-400 w-[30%]">
+                                        Activity</th>
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-white/50 w-[45%]">
+                                        Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        8:00 AM – 9:30 AM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Registration & ID Verification</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Participant check-in, ID card distribution, attendance marking, document
+                                        verification</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        9:30 AM – 11:00 AM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Inauguration Ceremony</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Welcome address, rulebook briefing, judging framework explanation, event
+                                        expectations</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        11:30 AM – 1:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Individual Pitches Round (Batch 1)</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Strictly timed leadership pitches evaluated by judges</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        1:00 PM – 2:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
+                                        <span>Lunch Break</span>
+                                        <svg class="w-4 h-4 text-white/30" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Official break</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        2:00 PM – 4:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Individual Pitches Round (Batch 2)</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Remaining participants pitch ideas</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        4:00 PM – 5:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Result Preparation</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Judges finalize scoring and identify Top 20 Startup Leaders(Announcement of
+                                        selected leaders)</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        5:00 PM – 6:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Leader Showcase Pitch Round</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Selected Leaders will pitch their idea in front of all remaining participants to
+                                        get added in their team</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        6:30 PM Onwards</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Leader Networking Initiation</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Leaders & Participants may begin informal networking and skill requirement
+                                        communication</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        7:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
+                                        <span>Day 1 Closing</span>
+                                        <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+                                            </path>
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Official end of Day 1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div
-                    class="bg-white/[0.02] border-b border-white/5 px-8 py-6 relative z-10 flex justify-between items-center">
-                    <h3 class="text-2xl font-display font-black text-white tracking-widest uppercase">DAY 1</h3>
-                    <span
-                        class="px-4 py-1.5 rounded-full bg-cyan-900/30 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-widest">Main
-                        Event</span>
+                <!-- Day 2 Card -->
+                <div class="premium-glass rounded-[2rem] overflow-hidden relative flex flex-col">
+                    <div
+                        class="absolute top-0 right-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[80px] pointer-events-none">
+                    </div>
+
+                    <div
+                        class="bg-white/[0.02] border-b border-white/5 px-8 py-6 relative z-10 flex justify-between items-center">
+                        <h3 class="text-2xl font-display font-black text-white tracking-widest uppercase">DAY 2</h3>
+                        <span
+                            class="px-4 py-1.5 rounded-full bg-cyan-900/30 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-widest">Validation</span>
+                    </div>
+
+                    <div class="overflow-x-auto relative z-10 flex-grow">
+                        <table class="w-full text-left border-collapse min-w-[500px]">
+                            <thead>
+                                <tr class="border-b border-white/5 bg-white/[0.01]">
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-cyan-400 w-[25%]">
+                                        Time</th>
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-violet-400 w-[30%]">
+                                        Activity</th>
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-white/50 w-[45%]">
+                                        Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        8:00 AM – 9:00 AM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Attendance & Roll Call</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Mandatory attendance marking</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        9:00 AM – 12:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Structured Networking & Resume Analysis</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Leaders review resumes, interact with participants, shortlist members</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        12:00 PM – 1:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Official Team Lock-In</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Teams finalized and locked via portal; role allocation submission</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        1:00 PM – 2:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
+                                        <span>Lunch Break</span>
+                                        <svg class="w-4 h-4 text-white/30" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Official break</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        2:00 PM – 2:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Phase 2 Briefing</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Explanation of validation, PPT criteria, marking rubric, penalties</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        2:30 PM – 5:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Development & PPT Work</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Customer validation, prototype building, pitch deck preparation</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        5:30 PM – 6:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Mentor Session / Development Continuation</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Mentor office hours or continued team work</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        7:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
+                                        <span>Day 2 Closing</span>
+                                        <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+                                            </path>
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Official end of Day 2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto relative z-10">
-                    <table class="w-full text-left border-collapse min-w-[800px]">
-                        <thead>
-                            <tr class="border-b border-white/5 bg-white/[0.01]">
-                                <th
-                                    class="px-8 py-6 text-[12px] font-black uppercase tracking-[0.2em] text-cyan-400 w-[20%]">
-                                    Time</th>
-                                <th
-                                    class="px-8 py-6 text-[12px] font-black uppercase tracking-[0.2em] text-violet-400 w-[30%]">
-                                    Activity</th>
-                                <th
-                                    class="px-8 py-6 text-[12px] font-black uppercase tracking-[0.2em] text-white/50 w-[50%]">
-                                    Description</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5">
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    8:00 AM – 9:30 AM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    Registration & ID Verification</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Participant check-in, ID card distribution, attendance marking, document
-                                    verification</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    9:30 AM – 11:00 AM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    Inauguration Ceremony</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Welcome address, rulebook briefing, judging framework explanation, event
-                                    expectations</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    11:30 AM – 1:00 PM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    Individual Pitches Round (Batch 1)</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Strictly timed leadership pitches evaluated by judges</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    1:00 PM – 2:00 PM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
-                                    <span>Lunch Break</span>
-                                    <svg class="w-4 h-4 text-white/30" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Official break</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    2:00 PM – 4:00 PM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    Individual Pitches Round (Batch 2)</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Remaining participants pitch ideas</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    4:00 PM – 5:00 PM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    All Participants Networking hour & Result Preparation (Leader Announcement &
-                                    Confirmation)</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Judges finalize scoring and identify Top 20 Startup Leaders(Announcement of selected
-                                    leaders; confirmation of continuation required)</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    5:00 PM – 6:30 PM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    Leader Showcase Pitch Round</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Selected Leaders will pitch their idea in front of all remaining participants to get
-                                    added in their team</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    6:30 PM Onwards</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors">
-                                    Leader Networking Initiation</td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Leaders & Participants may begin informal networking and skill requirement
-                                    communication</td>
-                            </tr>
-                            <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
-                                <td
-                                    class="px-8 py-6 text-[13px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
-                                    7:00 PM</td>
-                                <td
-                                    class="px-8 py-6 text-[15px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
-                                    <span>Day 1 Closing</span>
-                                    <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                                        </path>
-                                    </svg>
-                                </td>
-                                <td
-                                    class="px-8 py-6 text-[13px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
-                                    Official end of Day 1</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Day 3 Card -->
+                <div
+                    class="premium-glass rounded-[2rem] overflow-hidden relative lg:col-span-2 lg:w-[70%] lg:mx-auto flex flex-col">
+                    <div
+                        class="absolute top-0 right-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[80px] pointer-events-none">
+                    </div>
+
+                    <div
+                        class="bg-white/[0.02] border-b border-white/5 px-8 py-6 relative z-10 flex justify-between items-center">
+                        <h3 class="text-2xl font-display font-black text-white tracking-widest uppercase">DAY 3</h3>
+                        <span
+                            class="px-4 py-1.5 rounded-full bg-cyan-900/30 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-widest">Final
+                            Pitches & Closing</span>
+                    </div>
+
+                    <div class="overflow-x-auto relative z-10 flex-grow">
+                        <table class="w-full text-left border-collapse min-w-[500px]">
+                            <thead>
+                                <tr class="border-b border-white/5 bg-white/[0.01]">
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-cyan-400 w-[25%]">
+                                        Time</th>
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-violet-400 w-[30%]">
+                                        Activity</th>
+                                    <th
+                                        class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-white/50 w-[45%]">
+                                        Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        8:00 AM – 10:00 AM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Attendance & Final PPT Submission</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Mandatory presence; final slide submission window</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        10:00 AM – 1:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Final Pitch Presentations (Session 1)</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Teams present before judges</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        1:00 PM – 2:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
+                                        <span>Lunch Break</span>
+                                        <svg class="w-4 h-4 text-white/30" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Official break</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        2:00 PM – 4:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Final Pitch Presentations (Session 2)</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Remaining teams present</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        4:00 PM – 4:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Result Declaration</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Judges finalize and announce winners</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        4:30 PM – 5:30 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors">
+                                        Validation & Prize Documentation</td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        ID verification, distribution form signing, award formalities</td>
+                                </tr>
+                                <tr class="group hover:bg-white/[0.03] transition-all duration-300 bg-white/[0.01]">
+                                    <td
+                                        class="px-6 py-5 text-[12px] font-mono font-medium text-white/70 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+                                        6:00 PM</td>
+                                    <td
+                                        class="px-6 py-5 text-[13px] font-bold text-white group-hover:text-cyan-100 transition-colors flex items-center space-x-3">
+                                        <span>Event Closure</span>
+                                        <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+                                            </path>
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="px-6 py-5 text-[11px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors">
+                                        Official end of ENNOVATE'X 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
