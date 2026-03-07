@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-default-key')
 
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*'] # In production, replace with your specific railway domain for better security.
+ALLOWED_HOSTS = ['*', 'ennovatex.up.railway.app'] # Add your actual domain here later (e.g. 'ennovatex.com')
 
 INSTALLED_APPS = [
     "unfold",
@@ -65,13 +65,23 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 import dj_database_url
 
-# Persistence Logic for Railway (using Volumes) 
-# Verified: This ensures SQLite and Media files survive redeploys.
-# If a volume is mounted at /data, we want to store DB and Media there.
-DATA_ROOT = Path(os.getenv('DATA_VOLUME_PATH', BASE_DIR))
+# Static and Media Roots for cPanel
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+MEDIA_URL = '/media/'
+# If a Railway volume is detected, use it. Otherwise, use a local data folder (cPanel)
+if os.path.exists('/data'):
+    DATA_ROOT = Path('/data')
+else:
+    # On cPanel, we'll use a 'data' folder in our app root
+    DATA_ROOT = BASE_DIR / 'data'
+    if not os.path.exists(DATA_ROOT):
+        os.makedirs(DATA_ROOT, exist_ok=True)
 
 # Database
-# Use dj-database-url to parse the DATABASE_URL environment variable from Railway
+# Use dj-database-url to parse the DATABASE_URL environment variable if it exists
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///' + str(DATA_ROOT / 'db.sqlite3'),
@@ -79,6 +89,8 @@ DATABASES = {
         conn_health_checks=True,
     )
 }
+
+MEDIA_ROOT = DATA_ROOT / 'media'
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -92,26 +104,20 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-
 # Static files storage using WhiteNoise for production
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# CSRF settings for production
+# CSRF settings for new domain
 CSRF_TRUSTED_ORIGINS = [
     "https://*.railway.app",
+    "https://*.up.railway.app",
+    "https://*.yournewdomain.com", # Placeholder: replace with your actual domain
 ]
 
 # Security settings for production
 SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True'
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
 CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
-
-# Media files storage (also persisted via volume if set)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = DATA_ROOT / 'media'
 
 # Registration settings
 BASE_PARTICIPANT_FEE = 1
