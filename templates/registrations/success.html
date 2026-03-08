@@ -3,27 +3,31 @@
 {% block title %}Confirmation | Ennovate'X-26{% endblock %}
 
 {% block content %}
-<div class="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-32 px-4 overflow-hidden">
-    <div class="container mx-auto max-w-3xl px-4">
+<div
+    class="relative min-h-screen flex flex-col items-center justify-center pt-28 sm:pt-48 pb-20 sm:pb-32 px-4 overflow-hidden">
+    <div class="container mx-auto max-w-xl px-2">
         <div class="reveal-content">
-            <div class="premium-glass p-16 md:p-24 rounded-[5rem] text-center relative overflow-hidden">
+            <div
+                class="premium-glass p-10 sm:p-14 rounded-[3rem] sm:rounded-[4rem] text-center relative overflow-hidden border border-cyan-400/10">
+                <!-- Cyan Glow Line -->
                 <div
-                    class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-champagne/40 to-transparent">
+                    class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent">
                 </div>
 
                 <div class="relative z-10">
-                    <div class="mb-20 flex justify-center">
+                    <div class="mb-10 sm:mb-14 flex justify-center">
                         <div
-                            class="w-32 h-32 rounded-full border border-champagne/20 flex items-center justify-center animate-pulse-slow bg-champagne/5">
+                            class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-cyan-400/20 flex items-center justify-center bg-cyan-400/5 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
                             {% if registration.payment_status == 'PENDING' %}
-                            <svg class="w-12 h-12 text-champagne" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400 animate-pulse" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             {% else %}
-                            <svg class="w-12 h-12 text-champagne font-black" fill="none" stroke="currentColor"
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                     d="M5 13l4 4L19 7"></path>
                             </svg>
                             {% endif %}
@@ -31,60 +35,56 @@
                     </div>
 
                     {% if registration.payment_status == 'PENDING' %}
-                    <h5 class="text-[13px] font-black uppercase tracking-[1em] text-foreground/20 mb-10">Submission Cataloged
-                    </h5>
                     <h2
-                        class="text-5xl font-display font-black tracking-tighter uppercase italic leading-tight mb-10 text-foreground">
-                        Registry<br>Synchronizing</h2>
+                        class="text-4xl sm:text-5xl font-display font-black tracking-tighter uppercase italic leading-tight mb-8 text-foreground text-gradient-cyan">
+                        Registered<br>Successfully</h2>
                     <p
-                        class="text-foreground/30 text-[14px] font-medium leading-relaxed max-w-md mx-auto mb-20 uppercase tracking-[0.2em]">
-                        Validated, <span class="font-black text-champagne italic">{{ registration.name }}</span>. Your
-                        identity is currently being inscribed into the MMXXVI summit registry.
+                        class="text-foreground/40 text-[12px] sm:text-[13px] font-black leading-relaxed max-w-sm mx-auto mb-14 uppercase tracking-[0.2em] italic">
+                        Your payment is under verification.<br>Kindly log in again to check the status of your
+                        registration.
                     </p>
                     {% elif registration.payment_status == 'FREE' or registration.payment_status == 'VERIFIED' %}
-                    <h5 class="text-[13px] font-black uppercase tracking-[1em] text-foreground/20 mb-10">Clearance
-                        Established</h5>
                     <h2
-                        class="text-6xl font-display font-black tracking-tighter uppercase italic leading-none mb-10 text-foreground">
-                        Nexus<br><span class="text-champagne">Activated</span></h2>
+                        class="text-5xl sm:text-6xl font-display font-black tracking-tighter uppercase italic leading-none mb-8 text-foreground text-gradient-cyan">
+                        Nexus<br>Activated</h2>
                     <p
-                        class="text-foreground/30 text-[14px] font-medium leading-relaxed max-w-sm mx-auto mb-20 uppercase tracking-[0.2em]">
-                        Sequence complete for <span class="font-black text-foreground italic">{{ registration.name }}</span>.
-                        You are now part of the 2026 legacy.
+                        class="text-foreground/40 text-[12px] sm:text-[13px] font-black leading-relaxed max-w-sm mx-auto mb-14 uppercase tracking-[0.2em] italic">
+                        Access granted for <span class="text-foreground font-black italic">{{ registration.name
+                            }}</span>.<br>Welcome to the Ennovate'X Registry.
                     </p>
                     {% else %}
-                    <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic mb-10 text-foreground">
+                    <h2 class="text-4xl font-display font-black tracking-tighter uppercase italic mb-8 text-foreground">
                         Registry Alert</h2>
-                    <p class="text-champagne/60 text-[13px] font-black uppercase tracking-[0.8em] mb-20">{{ registration.get_payment_status_display }}</p>
+                    <p class="text-cyan-400/60 text-[12px] font-black uppercase tracking-[0.5em] mb-14 italic">{{
+                        registration.get_payment_status_display }}</p>
                     {% endif %}
 
-                    <div class="space-y-8 text-left mb-24 p-10 border border-foreground/5 rounded-[3rem] bg-foreground/[0.01]">
-                        <div class="flex justify-between items-center group">
-                            <span class="text-[12px] font-black text-foreground/10 uppercase tracking-[0.6em]">Registry
-                                Tier</span>
-                            <span class="text-[13px] font-black uppercase tracking-[0.4em] text-champagne">{{ registration.get_registration_type_display }}</span>
+                    <!-- Detail Cards -->
+                    <div class="space-y-4 text-left mb-14">
+                        <div
+                            class="flex justify-between items-center p-5 rounded-2xl bg-foreground/[0.03] border border-foreground/5">
+                            <span
+                                class="text-[10px] font-black text-foreground/20 uppercase tracking-[0.4em]">TIER</span>
+                            <span class="text-[11px] font-black uppercase tracking-[0.2em] text-cyan-400">{{
+                                registration.get_registration_type_display }}</span>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-[12px] font-black text-foreground/10 uppercase tracking-[0.6em]">Network
-                                ID</span>
-                            <span class="text-[13px] font-black uppercase tracking-[0.4em] text-foreground/40 italic">{{ registration.email }}</span>
+                        <div
+                            class="flex justify-between items-center p-5 rounded-2xl bg-foreground/[0.03] border border-foreground/5 overflow-hidden">
+                            <span
+                                class="text-[10px] font-black text-foreground/20 uppercase tracking-[0.4em]">IDENT</span>
+                            <span
+                                class="text-[11px] font-black uppercase tracking-[0.1em] text-foreground/40 italic truncate ml-4">{{
+                                registration.email }}</span>
                         </div>
-                        {% if registration.reference_id %}
-                        <div class="pt-8 border-t border-foreground/5 flex justify-between items-center">
-                            <span class="text-[12px] font-black text-foreground/10 uppercase tracking-[0.6em]">Trace
-                                Token</span>
-                            <span class="text-[13px] font-mono text-foreground/60 font-black">{{ registration.reference_id }}</span>
-                        </div>
-                        {% endif %}
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex flex-col gap-4">
                         <a href="{% url 'dashboard' %}"
-                            class="btn-premium flex-1 text-center block !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground">
-                            Access Dashboard
+                            class="w-full py-6 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black text-[12px] uppercase tracking-[0.4em] rounded-2xl transition-all shadow-xl shadow-blue-600/20 active:scale-[0.98]">
+                            Proceed to Dashboard
                         </a>
                         <a href="{% url 'landing_page' %}"
-                            class="btn-premium flex-1 text-center block !bg-foreground/5 !border-foreground/10 !text-foreground/40">
+                            class="w-full py-5 border border-foreground/10 text-foreground/30 font-black text-[10px] uppercase tracking-[0.3em] rounded-2xl transition-all hover:bg-foreground/5">
                             Return to Hub
                         </a>
                     </div>
