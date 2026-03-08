@@ -142,7 +142,7 @@ EMAIL_TIMEOUT = 10
 
 
 # Registration settings
-BASE_PARTICIPANT_FEE = 1
+BASE_PARTICIPANT_FEE = 199
 PCCOE_DOMAIN = "@pccoepune.org"
 
 UNFOLD = {

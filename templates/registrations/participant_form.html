@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Acquisition | Ennovate'X-26{% endblock %}
 {% block content %}
-<div class="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-32 px-4 text-center">
-    <div class="container mx-auto max-w-2xl">
-        <div class="mb-12 space-y-4 reveal-content">
-            <h4 class="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400/40">Secure Identity</h4>
-            <h2 class="text-6xl font-display font-black text-foreground italic uppercase tracking-tighter">Registry</h2>
+<div
+    class="relative min-h-screen flex flex-col items-center justify-center pt-28 sm:pt-48 pb-20 sm:pb-32 px-4 text-center">
+    <div class="container mx-auto max-w-2xl w-full">
+        <div class="mb-8 sm:mb-12 space-y-3 sm:space-y-4 reveal-content">
+            <h4
+                class="text-[9px] sm:text-[11px] font-black uppercase tracking-[0.6em] sm:tracking-[0.8em] text-cyan-400/40">
+                Secure Identity</h4>
+            <h2 class="text-4xl sm:text-6xl font-display font-black text-foreground italic uppercase tracking-tighter">
+                Registry</h2>
         </div>
 
         <form method="POST"
-            class="space-y-10 text-left premium-glass p-16 md:p-24 rounded-[4rem] relative overflow-hidden group reveal-content">
+            class="space-y-8 sm:space-y-10 text-left premium-glass p-8 sm:p-16 md:p-24 rounded-[2.5rem] sm:rounded-[4rem] relative overflow-hidden group reveal-content">
             <div
                 class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent">
             </div>
@@ -21,7 +25,8 @@
             {% endif %}
             {% for field in form %}
             <div class="space-y-4">
-                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{ field.label }}</label>
+                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{
+                    field.label }}</label>
                 {{ field }}
                 {% if field.errors %}
                 <div class="text-red-400 text-xs mt-1 ml-2 font-bold">{{ field.errors }}</div>
@@ -32,7 +37,7 @@
             </div>
             {% endfor %}
             <button type="submit"
-                class="btn-premium w-full !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground !py-6 !text-[12px] !tracking-[0.4em] shadow-[0_20px_50px_rgba(59,130,246,0.2)]">Launch
+                class="btn-premium w-full !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground !py-5 sm:!py-6 !text-[11px] sm:!text-[12px] !tracking-[0.3em] sm:!tracking-[0.4em] shadow-[0_20px_50px_rgba(59,130,246,0.2)]">Launch
                 Entry</button>
         </form>
     </div>
