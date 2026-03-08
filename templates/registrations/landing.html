@@ -1446,9 +1446,9 @@
     </style>
 
     <script>
-        /* ─── Early Bird Popup – landing page only, shows once per browser session ─── */
-        (function () {
-            if (sessionStorage.getItem('eb_shown')) return; // already seen this session
+        /* ─── Early Bird Popup – landing page only, once per browser (localStorage) ─── */
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('ennovatex_eb')) return;
             var overlay = document.getElementById('eb-overlay');
             if (!overlay) return;
             setTimeout(function () {
@@ -1458,9 +1458,9 @@
             overlay.addEventListener('click', function (e) {
                 if (e.target === overlay) ebClose();
             });
-        })();
+        });
         function ebClose() {
-            sessionStorage.setItem('eb_shown', '1');
+            localStorage.setItem('ennovatex_eb', '1');
             var o = document.getElementById('eb-overlay');
             var m = document.getElementById('eb-modal');
             if (!o) return;
