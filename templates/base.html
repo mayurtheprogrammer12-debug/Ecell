@@ -189,97 +189,6 @@
             z-index: 1;
         }
 
-        /* 3D Background Orbs */
-        .bg-orb {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -3;
-            filter: blur(80px);
-            animation: orb-float 12s ease-in-out infinite;
-        }
-
-        .bg-orb-1 {
-            width: 600px;
-            height: 600px;
-            top: -150px;
-            left: -150px;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, transparent 70%);
-            animation-delay: 0s;
-        }
-
-        .bg-orb-2 {
-            width: 500px;
-            height: 500px;
-            bottom: 10%;
-            right: -100px;
-            background: radial-gradient(circle, rgba(96, 165, 250, 0.14) 0%, transparent 70%);
-            animation-delay: -4s;
-        }
-
-        .bg-orb-3 {
-            width: 350px;
-            height: 350px;
-            top: 50%;
-            left: 60%;
-            background: radial-gradient(circle, rgba(29, 78, 216, 0.12) 0%, transparent 70%);
-            animation-delay: -8s;
-        }
-
-        @keyframes orb-float {
-
-            0%,
-            100% {
-                transform: translateY(0px) scale(1);
-            }
-
-            33% {
-                transform: translateY(-40px) scale(1.04);
-            }
-
-            66% {
-                transform: translateY(20px) scale(0.97);
-            }
-        }
-
-        /* 3D Geometric Ring */
-        .bg-ring {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -3;
-            border: 1px solid rgba(96, 165, 250, 0.06);
-            animation: ring-spin 30s linear infinite;
-        }
-
-        .bg-ring-1 {
-            width: 700px;
-            height: 700px;
-            top: -200px;
-            right: -200px;
-            border-color: rgba(59, 130, 246, 0.07);
-            animation-direction: normal;
-        }
-
-        .bg-ring-2 {
-            width: 500px;
-            height: 500px;
-            bottom: -150px;
-            left: -100px;
-            border-color: rgba(96, 165, 250, 0.05);
-            animation-direction: reverse;
-            animation-duration: 40s;
-        }
-
-        @keyframes ring-spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
 
         .btn-premium {
             position: relative;
@@ -327,14 +236,6 @@
     <div class="bg-mesh"></div>
     <div class="grid-overlay" id="grid"></div>
     <div id="spotlight"></div>
-
-    <!-- 3D Background Orbs -->
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
-    <!-- 3D Spinning Rings -->
-    <div class="bg-ring bg-ring-1"></div>
-    <div class="bg-ring bg-ring-2"></div>
 
     <nav class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-5xl">
         <div class="premium-glass rounded-full px-8 py-4 flex items-center justify-between">

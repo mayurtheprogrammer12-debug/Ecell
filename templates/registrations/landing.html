@@ -4,29 +4,11 @@
 
 {% block content %}
 
-<!-- ─── Particle Canvas (full-page background layer) ─── -->
-<canvas id="particleCanvas" class="fixed inset-0 pointer-events-none" style="z-index:0;opacity:0.55;"></canvas>
-
 <div class="relative min-h-screen pt-40 pb-32 px-4 overflow-hidden" style="z-index:1;">
 
     <!-- ─── Hero Section ─── -->
     <div class="container mx-auto max-w-7xl text-center mb-32">
 
-        <!-- 3-D floating geometric object (pure CSS) -->
-        <div class="hero-3d-scene" aria-hidden="true">
-            <div class="crystal-wrap">
-                <div class="crystal">
-                    <div class="face f1"></div>
-                    <div class="face f2"></div>
-                    <div class="face f3"></div>
-                    <div class="face f4"></div>
-                    <div class="face f5"></div>
-                    <div class="face f6"></div>
-                    <div class="face f7"></div>
-                    <div class="face f8"></div>
-                </div>
-            </div>
-        </div>
 
         <!-- ─ Pill badge ─ -->
         <div class="reveal-content flex justify-center mb-8">
@@ -41,8 +23,8 @@
             <h2 class="hero-sub mb-4">PCCOE <span class="hero-sub-accent">Startup Fest</span> 2026</h2>
         </div>
 
-        <!-- ─ Main heading with 3-D tilt ─ -->
-        <div class="reveal-content tilt-card" id="heroTitle">
+        <!-- ─ Main heading ─ -->
+        <div class="reveal-content" id="heroTitle">
             <h1 class="hero-heading">
                 <span class="hero-word hero-word-main">ENNOVATE'</span><span class="hero-word hero-word-accent">X</span>
             </h1>
@@ -1142,114 +1124,30 @@
             }
         </style>
 
-        <script>
-            /* ─── Particle Canvas ─── */
-            (function () {
-                const canvas = document.getElementById('particleCanvas');
-                if (!canvas) return;
-                const ctx = canvas.getContext('2d');
-                let W, H, particles = [];
 
-                function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-                resize();
-                window.addEventListener('resize', resize);
-
-                const COUNT = 90;
-                for (let i = 0; i < COUNT; i++) {
-                    particles.push({
-                        x: Math.random() * 1920,
-                        y: Math.random() * 1080,
-                        r: Math.random() * 1.3 + 0.3,
-                        dx: (Math.random() - 0.5) * 0.3,
-                        dy: (Math.random() - 0.5) * 0.3,
-                        o: Math.random() * 0.6 + 0.2,
-                        phase: Math.random() * Math.PI * 2
-                    });
-                }
-
-                let t = 0;
-                function draw() {
-                    ctx.clearRect(0, 0, W, H);
-                    t += 0.012;
-                    for (let p of particles) {
-                        p.x += p.dx; p.y += p.dy;
-                        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-                        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-                        const alpha = p.o * (0.6 + 0.4 * Math.sin(t + p.phase));
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(96,165,250,${alpha})`;
-                        ctx.fill();
-                    }
-                    /* Draw faint connecting lines */
-                    ctx.strokeStyle = 'rgba(96,165,250,0.06)';
-                    ctx.lineWidth = 0.6;
-                    for (let i = 0; i < particles.length; i++) {
-                        for (let j = i + 1; j < particles.length; j++) {
-                            const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            if (dist < 120) {
-                                ctx.globalAlpha = (1 - dist / 120) * 0.4;
-                                ctx.beginPath();
-                                ctx.moveTo(particles[i].x, particles[i].y);
-                                ctx.lineTo(particles[j].x, particles[j].y);
-                                ctx.stroke();
-                            }
-                        }
-                    }
-                    ctx.globalAlpha = 1;
-                    requestAnimationFrame(draw);
-                }
-                draw();
-            })();
-
-            /* ─── 3-D Tilt on hero heading (mouse parallax) ─── */
-            (function () {
-                const card = document.getElementById('heroTitle');
-                if (!card) return;
-                document.addEventListener('mousemove', function (e) {
-                    const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-                    const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
-                    card.style.transform = `perspective(700px) rotateY(${dx * 8}deg) rotateX(${-dy * 5}deg)`;
-                });
-                document.addEventListener('mouseleave', function () {
-                    card.style.transform = 'perspective(700px) rotateY(0) rotateX(0)';
-                });
-            })();
-
-            /* ─── Animated counters ─── */
-            (function () {
-                const nums = document.querySelectorAll('.stat-num[data-target]');
-                if (!nums.length) return;
-                const io = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        if (!entry.isIntersecting) return;
-                        const el = entry.target;
-                        const target = +el.dataset.target;
-                        const prefix = el.dataset.prefix || '';
-                        const fmt = el.dataset.format;
-                        const dur = 1800;
-                        let start = null;
-                        function step(ts) {
-                            if (!start) start = ts;
-                            const p = Math.min((ts - start) / dur, 1);
-                            const val = Math.round(p * target);
-                            if (fmt === 'lakh') {
-                                el.textContent = prefix + (val >= 100000 ? '2L' : val >= 1000 ? Math.round(val / 1000) + 'K' : val);
-                            } else {
-                                el.textContent = prefix + val.toLocaleString();
-                            }
-                            if (p < 1) requestAnimationFrame(step);
-                            else {
-                                if (fmt === 'lakh') el.textContent = '₹2L';
-                                else el.textContent = prefix + target.toLocaleString();
-                            }
-                        }
-                        requestAnimationFrame(step);
-                        io.unobserve(el);
-                    });
-                }, { threshold: 0.3 });
-                nums.forEach(function (n) { io.observe(n); });
-            })();
-        </script>
-        {% endblock %}
+        /* ─── Animated counters ─── */
+        (function () {
+        const nums = document.querySelectorAll('.stat-num[data-target]');
+        if (!nums.length) return;
+        const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.target;
+        const prefix = el.dataset.prefix || '';
+        const fmt = el.dataset.format;
+        const dur = 1800;
+        let start = null;
+        function step(ts) {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / dur, 1);
+        const val = Math.round(p * target);
+        if (fmt === 'lakh') {
+        el.textContent = prefix + (val >= 100000 ? '2L' : val >= 1000 ? Math.round(val / 1000) + 'K' : val);
+        } else {
+        el.textContent = prefix + val.toLocaleString();
+        }
+        if (p < 1) requestAnimationFrame(step); else { if (fmt==='lakh' ) el.textContent='₹2L' ; else
+            el.textContent=prefix + target.toLocaleString(); } } requestAnimationFrame(step); io.unobserve(el); }); }, {
+            threshold: 0.3 }); nums.forEach(function (n) { io.observe(n); }); })(); </script>
+            {% endblock %}
