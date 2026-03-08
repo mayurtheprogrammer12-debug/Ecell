@@ -11,9 +11,15 @@ load_dotenv(BASE_DIR / '.env')
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-default-key')
 
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*', 'ennovatex.up.railway.app', 'ennovatex26.in', 'www.ennovatex26.in']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'ennovatex.up.railway.app',
+    'ennovatex26.in',
+    'www.ennovatex26.in',
+]
 
 INSTALLED_APPS = [
     "unfold",
@@ -113,12 +119,15 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.up.railway.app",
     "https://ennovatex26.in",
     "https://www.ennovatex26.in",
+    "http://ennovatex26.in",
+    "http://www.ennovatex26.in",
 ]
 
-# Security settings for production
+# Security settings — cPanel handles SSL/HTTPS at the server level via .htaccess
 SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True'
-SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
-CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True') == 'True'
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True') == 'True'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

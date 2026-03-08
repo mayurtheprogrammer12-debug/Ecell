@@ -1,0 +1,11 @@
+PassengerEnabled On
+PassengerPython /home/$(whoami)/virtualenv/public_html/3.11/bin/python3
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Serve static files directly
+RewriteCond %{REQUEST_URI} ^/static/
+RewriteRule ^static/(.*)$ staticfiles/$1 [L]
