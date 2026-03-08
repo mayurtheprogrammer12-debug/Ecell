@@ -8,37 +8,32 @@
     class="fixed inset-0 z-[10000] flex items-center justify-center p-6 bg-background/80 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-500">
     <div
         class="premium-glass p-10 rounded-[2.5rem] max-w-sm w-full text-center space-y-8 border border-cyan-400/30 shadow-[0_0_80px_rgba(59,130,246,0.3)]">
-        <div class="space-y-2">
-            <h3 class="text-2xl font-display font-black text-foreground uppercase italic tracking-tighter">Protocol</h3>
-            <div class="h-1 w-12 bg-cyan-400 mx-auto rounded-full"></div>
-        </div>
 
-        <div class="space-y-3 text-[10px] font-black uppercase tracking-[0.25em] text-foreground/80">
-            <div class="flex items-center gap-4 p-4 rounded-2xl bg-cyan-400/5 border border-cyan-400/10">
+        <div class="space-y-4 text-[13px] font-black uppercase tracking-[0.2em] text-foreground">
+            <div class="flex items-center gap-4 p-5 rounded-2xl bg-cyan-400/5 border border-cyan-400/10">
                 <span
-                    class="w-8 h-8 rounded-full bg-cyan-400/20 flex items-center justify-center text-cyan-400">01</span>
-                <span>Scan QR</span>
+                    class="w-12 h-12 rounded-full bg-cyan-400/20 flex items-center justify-center text-cyan-400 text-xl font-black flex-shrink-0">01</span>
+                <span class="text-[13px] sm:text-base font-black">Scan QR</span>
             </div>
-            <div class="flex items-center gap-4 p-4 rounded-2xl bg-violet-400/5 border border-violet-400/10">
+            <div class="flex items-center gap-4 p-5 rounded-2xl bg-violet-400/5 border border-violet-400/10">
                 <span
-                    class="w-8 h-8 rounded-full bg-violet-400/20 flex items-center justify-center text-violet-400">02</span>
-                <span>Upload Image</span>
+                    class="w-12 h-12 rounded-full bg-violet-400/20 flex items-center justify-center text-violet-400 text-xl font-black flex-shrink-0">02</span>
+                <span class="text-[13px] sm:text-base font-black">Upload Screenshot</span>
             </div>
-            <div class="flex items-center gap-4 p-4 rounded-2xl bg-cyan-400/5 border border-cyan-400/10">
+            <div class="flex items-center gap-4 p-5 rounded-2xl bg-cyan-400/5 border border-cyan-400/10">
                 <span
-                    class="w-8 h-8 rounded-full bg-cyan-400/20 flex items-center justify-center text-cyan-400">03</span>
-                <span>Verification</span>
+                    class="w-12 h-12 rounded-full bg-cyan-400/20 flex items-center justify-center text-cyan-400 text-xl font-black flex-shrink-0">03</span>
+                <span class="text-[13px] sm:text-base font-black">AI Payment Verification</span>
             </div>
-            <div class="flex items-center gap-4 p-4 rounded-2xl bg-green-400/5 border border-green-400/10">
+            <div class="flex items-center gap-4 p-5 rounded-2xl bg-green-400/5 border border-green-400/10">
                 <span
-                    class="w-8 h-8 rounded-full bg-green-400/20 flex items-center justify-center text-green-400">04</span>
-                <span>Success</span>
+                    class="w-12 h-12 rounded-full bg-green-400/20 flex items-center justify-center text-green-400 text-xl font-black flex-shrink-0">04</span>
+                <span class="text-[13px] sm:text-base font-black">Success</span>
             </div>
         </div>
 
         <button onclick="closeFlowModal()"
-            class="w-full py-5 bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-black uppercase tracking-[0.3em] rounded-2xl text-[10px] shadow-lg shadow-blue-500/30 active:scale-95 transition-transform">Initialize
-            Capture</button>
+            class="w-full py-5 bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-black uppercase tracking-[0.4em] rounded-2xl text-[12px] shadow-lg shadow-blue-500/30 active:scale-95 transition-transform">Pay</button>
     </div>
 </div>
 
@@ -56,17 +51,21 @@
                         class="text-4xl sm:text-5xl font-display font-black tracking-tighter uppercase italic text-foreground">
                         Payment<br>Gateway</h2>
                     <div class="w-8 h-1 bg-cyan-400/40 mx-auto mt-4 mb-6 rounded-full"></div>
-                    <p class="text-[10px] font-black uppercase tracking-[0.4em] text-foreground/40 italic">Registry //
+                    <p class="text-[10px] font-black uppercase tracking-[0.4em] text-foreground/40 italic">Student //
                         {{ registration.name }}</p>
                 </div>
 
                 <!-- Price Engine -->
-                <div class="text-center mb-10 relative z-10">
+                <div class="text-center mb-8 relative z-10">
                     <p class="text-[9px] font-black uppercase tracking-[0.4em] text-foreground/30 mb-2">Special Price
                     </p>
                     <div
                         class="text-6xl sm:text-7xl font-display font-black italic tracking-tighter text-foreground text-gradient-cyan">
                         ₹{{ amount }}</div>
+                    <div
+                        class="mt-4 inline-block px-4 py-1.5 border border-cyan-400/20 rounded-sm text-[10px] font-black tracking-[0.3em] uppercase text-cyan-400/60 bg-cyan-400/5">
+                        TRACE: {{ reference_id }}
+                    </div>
                 </div>
 
                 <div class="space-y-8 relative z-10">
@@ -84,8 +83,7 @@
                             <button onclick="copyToClipboard('{{ upi_id }}')"
                                 class="w-full bg-foreground/[0.03] border border-foreground/10 p-4 rounded-2xl flex items-center justify-between group hover:border-cyan-400/40 transition-all cursor-pointer">
                                 <span
-                                    class="text-[10px] font-black tracking-widest text-foreground/50 uppercase ml-2 truncate">{{
-                                    upi_id }}</span>
+                                    class="text-[10px] font-black tracking-widest text-foreground/50 uppercase ml-2 truncate">{{upi_id}}</span>
                                 <div
                                     class="p-2.5 rounded-lg bg-foreground/5 text-foreground/40 group-hover:text-cyan-400 transition-colors">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,7 +97,7 @@
 
                         <!-- Compact Submission Form -->
                         <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data"
-                            class="w-full space-y-8">
+                            class="w-full space-y-5">
                             {% csrf_token %}
                             <input type="hidden" name="reg_id" value="{{ registration.id }}">
 
@@ -111,7 +109,7 @@
                                     class="w-full bg-foreground/[0.02] border border-foreground/10 rounded-2xl text-foreground p-5 shadow-inner outline-none focus:border-cyan-400/50 transition-all placeholder:text-foreground/5 text-[12px] tracking-[0.4em] font-black uppercase font-mono">
                             </div>
 
-                            <div class="space-y-4">
+                            <div class="space-y-3">
                                 <label
                                     class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.3em] ml-2">Verification
                                     Receipt</label>
