@@ -66,7 +66,17 @@ def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
     return qr_base64, upi_url
 
 def create_auth_user(email, password, registration):
-    user = User.objects.create_user(username=email, email=email, password=password)
+    # Check if a user with this email/username already exists
+    user = User.objects.filter(username=email).first()
+    
+    if not user:
+        # Create new user if they don't exist
+        user = User.objects.create_user(username=email, email=email, password=password)
+    else:
+        # If user exists, update their password to the newly provided one
+        user.set_password(password)
+        user.save()
+        
     registration.user = user
     registration.save()
     return user
