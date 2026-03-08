@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" class="dark">
 
@@ -310,6 +311,31 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* ─── Navbar Logos (white bg removal via mix-blend-mode) ─── */
+        .nav-logo {
+            mix-blend-mode: screen;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.92;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .nav-logo-wide {
+            mix-blend-mode: screen;
+            max-width: 80px;
+            opacity: 0.88;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-logo-wide:hover {
+            opacity: 1;
+        }
+
         #spotlight {
             position: fixed;
             width: 1200px;
@@ -338,13 +364,19 @@
 
     <nav class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-5xl">
         <div class="premium-glass rounded-full px-8 py-4 flex items-center justify-between">
-            <a href="{% url 'landing_page' %}" class="flex items-center space-x-3 group">
-                <div
-                    class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600 flex items-center justify-center">
-                    <span class="font-display font-black text-sm text-foreground">E</span>
-                </div>
+            <a href="{% url 'landing_page' %}" class="flex items-center gap-2 group">
+                <!-- PCCOE Logo -->
+                <img src="{% static 'img/pccoe_logo.jpg' %}" alt="PCCOE"
+                    class="nav-logo h-9 w-9 rounded-full object-cover" title="PCCOE">
+                <!-- IEN Logo -->
+                <img src="{% static 'img/ien_logo.jpg' %}" alt="IEN PCCOE"
+                    class="nav-logo h-9 w-9 rounded-full object-cover" title="IEN PCCOE">
+                <!-- Divider -->
+                <div class="h-6 w-px bg-foreground/10 mx-1"></div>
+                <!-- Brand name -->
                 <span
-                    class="font-display font-black text-sm tracking-widest uppercase text-foreground hidden sm:block">Ennovate'X</span>
+                    class="font-display font-black text-sm tracking-widest uppercase text-foreground hidden sm:block">Ennovate'<span
+                        class="text-gradient-cyan">X</span></span>
             </a>
 
             <div class="flex items-center space-x-10">
@@ -392,6 +424,15 @@
                     class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Login</a>
                 <a href="{% url 'register_choice' %}" class="btn-premium px-8">Register</a>
                 {% endif %}
+                <!-- Divider -->
+                <div class="h-6 w-px bg-foreground/10 hidden lg:block"></div>
+                <!-- CIIL Logo -->
+                <img src="{% static 'img/ciil_logo.jpg' %}" alt="CIIL"
+                    class="nav-logo-wide h-8 object-contain hidden lg:block"
+                    title="Centre for Innovation, Incubation and Linkages Forum">
+                <!-- IIC Logo -->
+                <img src="{% static 'img/iic_logo.jpg' %}" alt="IIC"
+                    class="nav-logo-wide h-8 object-contain hidden lg:block" title="Institution's Innovation Council">
             </div>
         </div>
     </nav>
