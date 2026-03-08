@@ -1611,6 +1611,9 @@
             var overlay = document.getElementById('eb-overlay');
             if (!overlay) return;
             setTimeout(function () {
+                overlay.style.display = 'flex';
+                // Trigger reflow for transition
+                overlay.offsetHeight;
                 overlay.style.opacity = '1';
                 document.getElementById('eb-modal').style.transform = 'translateY(0)';
             }, 1200);
@@ -1640,7 +1643,7 @@
     <!-- ─── Early Bird Popup (landing page only) ─── -->
     <div id="eb-overlay" style="
         position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);
-        z-index:9999;display:flex;align-items:center;justify-content:center;
+        z-index:9999;display:none;align-items:center;justify-content:center;
         opacity:0;transition:opacity .4s ease;
     ">
         <div id="eb-modal" style="
