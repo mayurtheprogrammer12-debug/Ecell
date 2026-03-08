@@ -50,10 +50,10 @@ def send_registration_emails(sender, instance, created, **kwargs):
             html_message = render_to_string('emails/registration_success.html', context)
             plain_message = strip_tags(html_message)
             
-            # Use Background Thread!
-            threading.Thread(target=send_email_in_background, args=(
+            # Send synchronously to prevent serverless environments from terminating the background thread
+            send_email_in_background(
                 subject, plain_message, settings.EMAIL_HOST_USER, instance.email, html_message, instance.pk, 'registration'
-            )).start()
+            )
         except Exception as e:
             logger.error(f"Failed to initialize registration email thread: {str(e)}")
 
@@ -69,10 +69,10 @@ def send_registration_emails(sender, instance, created, **kwargs):
             html_message = render_to_string('emails/round2_selection.html', context)
             plain_message = strip_tags(html_message)
             
-            # Use Background Thread!
-            threading.Thread(target=send_email_in_background, args=(
+            # Send synchronously to prevent serverless environments from terminating the background thread
+            send_email_in_background(
                 subject, plain_message, settings.EMAIL_HOST_USER, instance.email, html_message, instance.pk, 'round2'
-            )).start()
+            )
         except Exception as e:
             logger.error(f"Failed to initialize Round 2 email thread: {str(e)}")
 
