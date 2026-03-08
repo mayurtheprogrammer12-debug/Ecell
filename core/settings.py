@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-default-key')
 
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*', 'ennovatex.up.railway.app'] # Add your actual domain here later (e.g. 'ennovatex.com')
+ALLOWED_HOSTS = ['*', 'ennovatex.up.railway.app', 'ennovatex26.in', 'www.ennovatex26.in']
 
 INSTALLED_APPS = [
     "unfold",
@@ -111,7 +111,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CSRF_TRUSTED_ORIGINS = [
     "https://*.railway.app",
     "https://*.up.railway.app",
-    "https://*.yournewdomain.com", # Placeholder: replace with your actual domain
+    "https://ennovatex26.in",
+    "https://www.ennovatex26.in",
 ]
 
 # Security settings for production
