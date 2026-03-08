@@ -244,13 +244,15 @@
         <!-- Pill bar -->
         <div class="premium-glass rounded-full px-5 sm:px-8 py-3 sm:py-4 flex items-center justify-between">
             <!-- Brand -->
-            <a href="{% url 'landing_page' %}" class="flex items-center space-x-2 sm:space-x-3 group">
+            <a href="{% url 'landing_page' %}" class="flex items-center gap-2 min-w-0 shrink group">
                 <div
                     class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600 flex items-center justify-center flex-shrink-0">
                     <span class="font-display font-black text-xs sm:text-sm text-foreground">E</span>
                 </div>
                 <span
-                    class="font-display font-black text-xs sm:text-sm tracking-widest uppercase text-foreground">Ennovate'X</span>
+                    class="font-display font-black text-[10px] sm:text-sm tracking-wider sm:tracking-widest uppercase text-foreground truncate">
+                    Ennovate'X
+                </span>
             </a>
 
             <!-- Desktop links (lg+) -->
@@ -305,13 +307,13 @@
 
                 <!-- Hamburger button (mobile/tablet) -->
                 <button id="mob-btn" aria-label="Toggle menu" onclick="toggleMobMenu()"
-                    class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl border border-foreground/10 bg-foreground/5 gap-[5px] hover:bg-foreground/10 transition">
+                    class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl border border-foreground/10 bg-foreground/5 gap-[5px] hover:bg-foreground/10 transition flex-shrink-0">
                     <span id="mob-line-1"
-                        class="block w-4.5 h-[2px] bg-foreground/70 rounded-full transition-all duration-300 origin-center"></span>
+                        style="display:block;width:18px;height:2px;border-radius:999px;background:rgba(var(--color-foreground)/0.7);transition:transform .3s,opacity .3s;transform-origin:center;"></span>
                     <span id="mob-line-2"
-                        class="block w-4.5 h-[2px] bg-foreground/70 rounded-full transition-all duration-300"></span>
+                        style="display:block;width:18px;height:2px;border-radius:999px;background:rgba(var(--color-foreground)/0.7);transition:transform .3s,opacity .3s;"></span>
                     <span id="mob-line-3"
-                        class="block w-4.5 h-[2px] bg-foreground/70 rounded-full transition-all duration-300 origin-center"></span>
+                        style="display:block;width:18px;height:2px;border-radius:999px;background:rgba(var(--color-foreground)/0.7);transition:transform .3s,opacity .3s;transform-origin:center;"></span>
                 </button>
             </div>
         </div>
@@ -403,29 +405,34 @@
     <script>
         function toggleMobMenu() {
             var menu = document.getElementById('mob-menu');
-            var btn = document.getElementById('mob-btn');
             var open = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '';
-            if (open) {
-                menu.style.maxHeight = '0';
-                menu.style.opacity = '0';
-                btn.classList.remove('mob-open');
-            } else {
-                menu.style.maxHeight = menu.scrollHeight + 'px';
-                menu.style.opacity = '1';
-                btn.classList.add('mob-open');
-            }
+            if (open) { _mobClose(); } else { _mobOpen(); }
         }
-        function closeMobMenu() {
+        function _mobOpen() {
             var menu = document.getElementById('mob-menu');
-            var btn = document.getElementById('mob-btn');
+            menu.style.maxHeight = menu.scrollHeight + 'px';
+            menu.style.opacity = '1';
+            // Animate to X
+            document.getElementById('mob-line-1').style.transform = 'translateY(7px) rotate(45deg)';
+            document.getElementById('mob-line-2').style.opacity = '0';
+            document.getElementById('mob-line-2').style.transform = 'scaleX(0)';
+            document.getElementById('mob-line-3').style.transform = 'translateY(-7px) rotate(-45deg)';
+        }
+        function _mobClose() {
+            var menu = document.getElementById('mob-menu');
             menu.style.maxHeight = '0';
             menu.style.opacity = '0';
-            btn.classList.remove('mob-open');
+            // Reset to ☰
+            document.getElementById('mob-line-1').style.transform = '';
+            document.getElementById('mob-line-2').style.opacity = '1';
+            document.getElementById('mob-line-2').style.transform = '';
+            document.getElementById('mob-line-3').style.transform = '';
         }
+        function closeMobMenu() { _mobClose(); }
         // Close on outside click
         document.addEventListener('click', function (e) {
             var nav = document.getElementById('main-nav');
-            if (nav && !nav.contains(e.target)) closeMobMenu();
+            if (nav && !nav.contains(e.target)) _mobClose();
         });
     </script>
 
