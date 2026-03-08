@@ -248,22 +248,7 @@
                     </div>
 
                 </div>
-                <!-- Theme Toggle -->
-                <button id="themeToggle"
-                    class="relative w-10 h-10 rounded-full premium-glass flex items-center justify-center hover:bg-foreground/5 transition-all outline-none">
-                    <svg id="themeIconDark" class="w-5 h-5 text-foreground hidden dark:block" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
-                        </path>
-                    </svg>
-                    <svg id="themeIconLight" class="w-5 h-5 text-foreground block dark:hidden" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                        </path>
-                    </svg>
-                </button>
+
 
                 {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}"
@@ -292,8 +277,8 @@
                         <span class="mr-6 w-12 h-[1px] bg-azure"></span> E-CELL PCCOE
                     </h2>
                     <p class="text-foreground/30 text-sm leading-relaxed max-w-sm font-medium tracking-wide uppercase">
-                        The definitive ecosystem for high-conviction creators and venture capital. Engineering the
-                        future with absolute precision.
+                        Empowering the next generation of student entrepreneurs and innovators at PCCOE. Fostering a
+                        culture of innovation and leadership.
                     </p>
                 </div>
                 <div>
@@ -302,9 +287,10 @@
                         Navigation</h4>
                     <ul
                         class="space-y-6 text-[12px] font-bold uppercase tracking-[0.4em] text-foreground/40 text-right md:text-left">
-                        <li><a href="#" class="hover:text-foreground transition">Technical Matrix</a></li>
-                        <li><a href="#" class="hover:text-foreground transition">Venture Sprints</a></li>
-                        <li><a href="#" class="hover:text-foreground transition">Network Status</a></li>
+                        <li><a href="{% url 'landing_page' %}" class="hover:text-foreground transition">Home</a></li>
+                        <li><a href="{% url 'dashboard' %}" class="hover:text-foreground transition">Dashboard</a></li>
+                        <li><a href="mailto:ecell@pccoepune.org" class="hover:text-foreground transition">Contact Us</a>
+                        </li>
                     </ul>
                 </div>
                 <div>
@@ -313,15 +299,15 @@
                         Coordinates</h4>
                     <p
                         class="text-foreground/40 text-[12px] font-bold uppercase tracking-[0.4em] leading-loose text-right md:text-left">
-                        Research Park v2<br>Maharashtra, IN<br>nexus@ecellpccoe.com
+                        PCCOE Campus, Sector 26, Pradhikaran, Nigdi<br>Pune, Maharashtra 411044<br>ecell@pccoepune.org
                     </p>
                 </div>
             </div>
             <div
                 class="pt-20 mt-20 border-t border-foreground/5 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.8em] text-foreground/10">
-                <p>&copy; MMXXVI INNOVATION SUMMIT.</p>
+                <p>&copy; 2026 E-CELL PCCOE. ALL RIGHTS RESERVED.</p>
                 <div class="flex space-x-12">
-                    <span>Alpha Build 0.26</span>
+                    <span>PCCOE STARTUP FEST</span>
                 </div>
             </div>
         </div>
@@ -340,18 +326,7 @@
             }
         });
 
-        const themeToggleBtn = document.getElementById('themeToggle');
-        if (themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', () => {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.theme = 'light';
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.theme = 'dark';
-                }
-            });
-        }
+
     </script>
 </body>
 
