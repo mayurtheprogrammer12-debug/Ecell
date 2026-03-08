@@ -1124,30 +1124,37 @@
             }
         </style>
 
-
-        /* ─── Animated counters ─── */
-        (function () {
-        const nums = document.querySelectorAll('.stat-num[data-target]');
-        if (!nums.length) return;
-        const io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = +el.dataset.target;
-        const prefix = el.dataset.prefix || '';
-        const fmt = el.dataset.format;
-        const dur = 1800;
-        let start = null;
-        function step(ts) {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / dur, 1);
-        const val = Math.round(p * target);
-        if (fmt === 'lakh') {
-        el.textContent = prefix + (val >= 100000 ? '2L' : val >= 1000 ? Math.round(val / 1000) + 'K' : val);
-        } else {
-        el.textContent = prefix + val.toLocaleString();
-        }
-        if (p < 1) requestAnimationFrame(step); else { if (fmt==='lakh' ) el.textContent='₹2L' ; else
-            el.textContent=prefix + target.toLocaleString(); } } requestAnimationFrame(step); io.unobserve(el); }); }, {
-            threshold: 0.3 }); nums.forEach(function (n) { io.observe(n); }); })(); </script>
-            {% endblock %}
+        <script>
+            /* ─── Animated counters ─── */
+            (function () {
+                const nums = document.querySelectorAll('.stat-num[data-target]');
+                if (!nums.length) return;
+                const io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        const el = entry.target;
+                        const target = +el.dataset.target;
+                        const prefix = el.dataset.prefix || '';
+                        const fmt = el.dataset.format;
+                        const dur = 1800;
+                        let start = null;
+                        function step(ts) {
+                            if (!start) start = ts;
+                            const p = Math.min((ts - start) / dur, 1);
+                            const val = Math.round(p * target);
+                            if (fmt === 'lakh') {
+                                el.textContent = prefix + (val >= 100000 ? '2L' : val >= 1000 ? Math.round(val / 1000) + 'K' : val);
+                            } else {
+                                el.textContent = prefix + val.toLocaleString();
+                            }
+                            if (p < 1) requestAnimationFrame(step); else {
+                                if (fmt === 'lakh') el.textContent = '₹2L'; else
+                                    el.textContent = prefix + target.toLocaleString();
+                            }
+                        } requestAnimationFrame(step); io.unobserve(el);
+                    });
+                }, {
+                    threshold: 0.3
+                }); nums.forEach(function (n) { io.observe(n); });
+            })(); </script>
+        {% endblock %}
