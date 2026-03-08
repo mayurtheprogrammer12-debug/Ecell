@@ -13,21 +13,21 @@
             theme: {
                 extend: {
                     colors: {
-                        midnight: '#050a15',
+                        midnight: '#0b0f19',
                         foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
                         background: 'rgb(var(--color-background) / <alpha-value>)',
                         onyx: '#020202',
                         platinum: '#f8fafc',
                         champagne: '#e2b87e',
-                        azure: '#3b82f6',
+                        azure: '#2563eb',
                         cyan: {
-                            400: '#22d3ee',
-                            500: '#06b6d4',
-                            glow: '#00D2FF',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            glow: '#60a5fa',
                         },
                         violet: {
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
                         }
                     },
                     fontFamily: {
@@ -72,8 +72,10 @@
             --color-foreground: 15 23 42;
             /* slate-900 */
 
-            --mesh-color-1: rgba(6, 182, 212, 0.15);
-            --mesh-color-2: rgba(139, 92, 246, 0.15);
+            --mesh-color-1: rgba(37, 99, 235, 0.15);
+            /* blue-600 */
+            --mesh-color-2: rgba(96, 165, 250, 0.15);
+            /* blue-400 */
             --mesh-bg-1: #e2e8f0;
             --mesh-bg-2: #f8fafc;
 
@@ -84,29 +86,33 @@
             /* slate-400 */
             --glass-shadow: rgba(15, 23, 42, 0.15);
 
-            --btn-bg: #000000;
+            --btn-bg: #2563eb;
             --btn-text: #ffffff;
-            --gradient-start: #000000;
+            --gradient-start: #1d4ed8;
         }
 
         .dark {
-            --color-background: 2 2 2;
+            --color-background: 11 15 25;
+            /* #0b0f19 */
             --color-foreground: 255 255 255;
 
-            --mesh-color-1: rgba(6, 182, 212, 0.08);
-            --mesh-color-2: rgba(139, 92, 246, 0.08);
-            --mesh-bg-1: #050a15;
-            --mesh-bg-2: #020202;
+            --mesh-color-1: rgba(37, 99, 235, 0.08);
+            /* blue-600 */
+            --mesh-color-2: rgba(29, 78, 216, 0.08);
+            /* blue-700 */
+            --mesh-bg-1: #0b0f19;
+            --mesh-bg-2: #05080c;
 
             --grid-line: rgba(255, 255, 255, 0.02);
 
-            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: rgba(0, 0, 0, 0.8);
+            --glass-shadow: rgba(0, 0, 0, 0.5);
 
-            --btn-bg: #ffffff;
-            --btn-text: #000000;
-            --gradient-start: #ffffff;
+            --btn-bg: #2563eb;
+            /* blue-600 */
+            --btn-text: #ffffff;
+            --gradient-start: #60a5fa;
         }
 
         body {
@@ -174,7 +180,7 @@
         }
 
         .text-gradient-cyan {
-            background: linear-gradient(to right, var(--gradient-start), #06b6d4, #8b5cf6);
+            background: linear-gradient(to right, var(--gradient-start), #3b82f6, #93c5fd);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -184,7 +190,7 @@
             position: fixed;
             width: 1200px;
             height: 1200px;
-            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;

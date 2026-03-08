@@ -23,7 +23,8 @@
             {% endif %}
             {% for field in form %}
             <div class="space-y-4">
-                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{ field.label}}</label>
+                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{
+                    field.label}}</label>
                 {{ field }}
                 {% if field.errors %}
                 <div class="text-red-400 text-xs mt-1 ml-2 font-bold">{{ field.errors }}</div>
@@ -34,7 +35,7 @@
             </div>
             {% endfor %}
             <button type="submit"
-                class="btn-premium w-full !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground !py-6 !text-[12px] !tracking-[0.4em] shadow-[0_20px_50px_rgba(6,182,212,0.2)]">Request
+                class="btn-premium w-full !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground !py-6 !text-[12px] !tracking-[0.4em] shadow-[0_20px_50px_rgba(59,130,246,0.2)]">Request
                 Access</button>
         </form>
     </div>
@@ -63,9 +64,9 @@
     input:focus,
     textarea:focus,
     select:focus {
-        border-color: #06b6d4;
-        background: rgba(6, 182, 212, 0.03);
-        box-shadow: 0 0 30px rgba(6, 182, 212, 0.1);
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.03);
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
     }
 </style>
 {% endblock %}

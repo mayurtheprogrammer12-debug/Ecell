@@ -21,7 +21,7 @@
         class="relative w-full max-w-md p-1.5 bg-foreground/[0.03] border border-foreground/10 rounded-full mb-20 reveal-content">
         <!-- Sliding Background Glow -->
         <div id="role-selector-bg"
-            class="absolute top-1.5 bottom-1.5 left-1.5 w-[32.5%] bg-gradient-to-r from-cyan-400 to-violet-600 rounded-full transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+            class="absolute top-1.5 bottom-1.5 left-1.5 w-[32.5%] bg-gradient-to-r from-cyan-400 to-violet-600 rounded-full transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_0_20px_rgba(59,130,246,0.3)]">
         </div>
 
         <div class="relative flex z-10 text-center">
@@ -59,7 +59,8 @@
 
                     <div class="space-y-4">
                         <h3 id="role-title"
-                            class="text-4xl font-display font-black italic uppercase text-foreground tracking-tight">Student
+                            class="text-4xl font-display font-black italic uppercase text-foreground tracking-tight">
+                            Student
                         </h3>
                         <p id="role-desc"
                             class="text-foreground/40 text-sm font-medium uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto">
@@ -73,7 +74,7 @@
                     </div>
 
                     <a id="role-link" href="{% url 'register_participant' %}?role=student"
-                        class="btn-premium w-full !py-6 !text-[12px] !tracking-[0.4em] !bg-cyan-400 !text-background shadow-[0_20px_50px_rgba(6,182,212,0.2)] transition-all duration-700">Initialize
+                        class="btn-premium w-full !py-6 !text-[12px] !tracking-[0.4em] !bg-cyan-400 !text-background shadow-[0_20px_50px_rgba(59,130,246,0.2)] transition-all duration-700">Initialize
                         Entry</a>
                 </div>
             </div>
@@ -133,20 +134,20 @@
         student: {
             title: "Student",
             desc: "Submit your credentials for high-stakes innovation sprints and pit your vision against global creators.",
-            color: "#06b6d4", // cyan-400
-            glow: "rgba(6,182,212,0.1)",
+            color: "#3b82f6", // blue-500
+            glow: "rgba(59,130,246,0.1)",
             link: "{% url 'register_participant' %}?role=student",
             svg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>',
-            shadow: "0_20px_50px_rgba(6,182,212,0.2)"
+            shadow: "0_20px_50px_rgba(59,130,246,0.2)"
         },
         visitor: {
             title: "Visitor",
             desc: "Network with institutional giants and experience the frontier of technical achievement across all zones.",
-            color: "#8b5cf6", // violet-600
-            glow: "rgba(139,92,246,0.1)",
+            color: "#1d4ed8", // blue-700
+            glow: "rgba(29,78,216,0.1)",
             link: "{% url 'register_participant' %}?role=visitor",
             svg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>',
-            shadow: "0_20px_50px_rgba(139,92,246,0.2)"
+            shadow: "0_20px_50px_rgba(29,78,216,0.2)"
         },
         exhibitor: {
             title: "Exhibitor",
