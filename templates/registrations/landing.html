@@ -4,10 +4,10 @@
 
 {% block content %}
 
-<div class="relative min-h-screen pt-40 pb-32 px-4 overflow-hidden" style="z-index:1;">
+<div class="relative min-h-screen pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-32 px-4 overflow-hidden" style="z-index:1;">
 
     <!-- ─── Hero Section ─── -->
-    <div class="container mx-auto max-w-7xl text-center mb-32">
+    <div class="container mx-auto max-w-7xl text-center mb-20 sm:mb-32 px-4">
 
 
         <!-- ─ Pill badge ─ -->
@@ -76,7 +76,7 @@
     </div>
 
     <!-- ─── Prizes Section ─── -->
-    <div id="prizes" class="container mx-auto max-w-7xl mb-40">
+    <div id="prizes" class="container mx-auto max-w-7xl mb-24 sm:mb-40 px-4">
         <div>
             <div class="flex items-center space-x-6 mb-12">
                 <div class="w-1.5 h-10 bg-gradient-to-b from-yellow-400 to-orange-500 rounded-full"></div>
@@ -89,7 +89,7 @@
                     class="text-gradient-cyan font-black">₹2,00,000</span></p>
 
             <!-- First row: 5 prizes -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-3 sm:mb-4">
 
                 <!-- 1st Prize -->
                 <div class="prize-card prize-card-gold">
@@ -155,7 +155,7 @@
             </div><!-- /row 1 -->
 
             <!-- Second row: remaining prizes -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
 
                 <!-- Best Exhibitor -->
                 <div class="prize-card prize-card-base">
@@ -201,7 +201,7 @@
     </div><!-- /Prizes -->
 
     <!-- ─── Resources Section ─── -->
-    <div id="resources" class="container mx-auto max-w-7xl mb-40">
+    <div id="resources" class="container mx-auto max-w-7xl mb-24 sm:mb-40 px-4">
         <div>
             <div class="flex items-center space-x-6 mb-12">
                 <div class="w-1.5 h-10 bg-gradient-to-b from-violet-400 to-blue-600 rounded-full"></div>
@@ -227,7 +227,7 @@
     </div><!-- /Resources -->
 
     <!-- Event Schedule Section -->
-    <div id="schedule" class="container mx-auto max-w-7xl mb-40">
+    <div id="schedule" class="container mx-auto max-w-7xl mb-24 sm:mb-40 px-4">
         <div class="reveal-content">
             <div class="flex items-center space-x-6 mb-12">
                 <div class="w-1.5 h-10 bg-gradient-to-b from-cyan-400 to-violet-600 rounded-full"></div>
@@ -673,6 +673,150 @@
         </div>
     </div>
 
+
+    <style>
+        /* ═══════════════════════════════════════════════
+           MOBILE-FIRST RESPONSIVE OVERRIDES
+        ═══════════════════════════════════════════════ */
+
+        /* ─ Global: tighten padding on mobile ─ */
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            .mb-40 {
+                margin-bottom: 5rem !important;
+            }
+
+            .mb-12 {
+                margin-bottom: 2rem !important;
+            }
+
+            .pt-\[160px\],
+            .pt-\[180px\] {
+                padding-top: 100px !important;
+            }
+        }
+
+        /* ─ Hero heading ─ */
+        @media (max-width: 480px) {
+            .hero-heading {
+                font-size: clamp(3rem, 18vw, 4.5rem) !important;
+            }
+
+            .hero-sub {
+                font-size: clamp(1rem, 6vw, 1.6rem) !important;
+            }
+
+            .hero-date-chip {
+                padding: 10px 16px;
+            }
+
+            .hero-date-days {
+                font-size: 13px;
+            }
+        }
+
+        /* ─ Prize cards: 1 col on very small, 2 col on 480+ ─ */
+        @media (max-width: 400px) {
+
+            .grid-cols-2,
+            [class*="grid-cols-2"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* ─ Prize card amount font size ─ */
+        @media (max-width: 480px) {
+            .prize-card-amount {
+                font-size: 18px !important;
+            }
+
+            .prize-card {
+                padding: 16px 12px !important;
+            }
+        }
+
+        /* ─ Event schedule tables: full-width scroll ─ */
+        @media (max-width: 768px) {
+            .overflow-x-auto table {
+                min-width: 420px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overflow-x-auto table {
+                min-width: 340px;
+            }
+
+            .overflow-x-auto td,
+            .overflow-x-auto th {
+                padding: 10px 12px !important;
+                font-size: 11px !important;
+            }
+        }
+
+        /* ─ Resource cards: stack on mobile ─ */
+        @media (max-width: 640px) {
+            .resource-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 20px;
+            }
+
+            .resource-card-arrow {
+                display: none;
+            }
+        }
+
+        /* ─ Contact cards ─ */
+        @media (max-width: 640px) {
+            #contact .premium-glass {
+                padding: 1.5rem !important;
+            }
+        }
+
+        /* ─ Footer grid ─ */
+        @media (max-width: 768px) {
+            footer .grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            footer .lg\\:col-span-2 {
+                grid-column: span 1 !important;
+            }
+
+            footer .pt-20 {
+                padding-top: 2rem !important;
+            }
+
+            footer .mt-20 {
+                margin-top: 2rem !important;
+            }
+
+            footer .flex.justify-between {
+                flex-direction: column;
+                gap: 8px;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* ─ Section headers: smaller on mobile ─ */
+        @media (max-width: 480px) {
+            .text-4xl.font-display {
+                font-size: 1.6rem !important;
+            }
+        }
+
+        /* ─ Hero section top padding for smaller nav ─ */
+        .hero-section {
+            padding-top: clamp(7rem, 18vw, 10rem);
+        }
+    </style>
 
     <style>
         /* ─── Reveal animation ─── */

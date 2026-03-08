@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>{% block title %}Ennovate'X-26 | IEN Cell PCCOE{% endblock %}</title>
     <!-- Favicon: blue E -->
     <link rel="icon"
@@ -240,75 +240,194 @@
     <div class="grid-overlay" id="grid"></div>
     <div id="spotlight"></div>
 
-    <nav class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-5xl">
-        <div class="premium-glass rounded-full px-8 py-4 flex items-center justify-between">
-            <a href="{% url 'landing_page' %}" class="flex items-center space-x-3 group">
+    <nav class="fixed top-5 left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-5xl" id="main-nav">
+        <!-- Pill bar -->
+        <div class="premium-glass rounded-full px-5 sm:px-8 py-3 sm:py-4 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="{% url 'landing_page' %}" class="flex items-center space-x-2 sm:space-x-3 group">
                 <div
-                    class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600 flex items-center justify-center">
-                    <span class="font-display font-black text-sm text-foreground">E</span>
+                    class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600 flex items-center justify-center flex-shrink-0">
+                    <span class="font-display font-black text-xs sm:text-sm text-foreground">E</span>
                 </div>
                 <span
-                    class="font-display font-black text-sm tracking-widest uppercase text-foreground hidden sm:block">Ennovate'X</span>
+                    class="font-display font-black text-xs sm:text-sm tracking-widest uppercase text-foreground">Ennovate'X</span>
             </a>
 
-            <div class="flex items-center space-x-6">
-                <div class="hidden lg:flex items-center space-x-6">
-                    <!-- Prizes -->
-                    <a href="{% url 'landing_page' %}#prizes"
-                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-yellow-400 transition">
-                        Prizes
-                    </a>
-                    <!-- Explore dropdown -->
-                    <div class="relative flex items-center space-x-2 group/nav cursor-pointer py-4">
-                        <span
-                            class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover/nav:text-foreground transition">Explore</span>
-                        <svg class="w-2.5 h-2.5 text-foreground/40 group-hover/nav:text-foreground transition-transform duration-300 group-hover/nav:rotate-180"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-
-                        <!-- Dropdown Menu -->
-                        <div
-                            class="absolute top-full left-0 mt-2 w-56 rounded-2xl premium-glass border border-foreground/10 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-300 z-50 overflow-hidden shadow-2xl">
-                            <div class="p-2 flex flex-col space-y-1">
-                                <a href="{% url 'landing_page' %}#schedule"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Event
-                                    Schedule</a>
-                                <div class="h-px bg-foreground/5 my-1 w-full mx-auto"></div>
-                                <a href="{% url 'dashboard' %}#round1"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
-                                    1</a>
-                                <a href="{% url 'dashboard' %}#round2"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
-                                    2</a>
-                                <a href="{% url 'dashboard' %}#round3"
-                                    class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
-                                    3</a>
-                            </div>
+            <!-- Desktop links (lg+) -->
+            <div class="hidden lg:flex items-center space-x-6">
+                <a href="{% url 'landing_page' %}#prizes"
+                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-yellow-400 transition">Prizes</a>
+                <div class="relative flex items-center space-x-2 group/nav cursor-pointer py-4">
+                    <span
+                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover/nav:text-foreground transition">Explore</span>
+                    <svg class="w-2.5 h-2.5 text-foreground/40 group-hover/nav:text-foreground transition-transform duration-300 group-hover/nav:rotate-180"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                    <div
+                        class="absolute top-full left-0 mt-2 w-56 rounded-2xl premium-glass border border-foreground/10 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-300 z-50 overflow-hidden shadow-2xl">
+                        <div class="p-2 flex flex-col space-y-1">
+                            <a href="{% url 'landing_page' %}#schedule"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Event
+                                Schedule</a>
+                            <div class="h-px bg-foreground/5 my-1"></div>
+                            <a href="{% url 'dashboard' %}#round1"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
+                                1</a>
+                            <a href="{% url 'dashboard' %}#round2"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
+                                2</a>
+                            <a href="{% url 'dashboard' %}#round3"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
+                                3</a>
                         </div>
                     </div>
-                    <!-- Resources -->
-                    <a href="{% url 'landing_page' %}#resources"
-                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-violet-400 transition">
-                        Resources
-                    </a>
+                </div>
+                <a href="{% url 'landing_page' %}#resources"
+                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-violet-400 transition">Resources</a>
+            </div>
+
+            <!-- Right: desktop auth + hamburger -->
+            <div class="flex items-center gap-3">
+                <!-- Desktop auth -->
+                <div class="hidden lg:flex items-center gap-4">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}"
+                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Dashboard</a>
+                    <a href="{% url 'logout' %}"
+                        class="text-[11px] font-bold uppercase tracking-widest text-red-500/60 hover:text-red-500 transition">Logout</a>
+                    {% else %}
+                    <a href="{% url 'login' %}"
+                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Login</a>
+                    <a href="{% url 'register_choice' %}" class="btn-premium px-6 py-2 text-[11px]">Register</a>
+                    {% endif %}
                 </div>
 
+                <!-- Hamburger button (mobile/tablet) -->
+                <button id="mob-btn" aria-label="Toggle menu" onclick="toggleMobMenu()"
+                    class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl border border-foreground/10 bg-foreground/5 gap-[5px] hover:bg-foreground/10 transition">
+                    <span id="mob-line-1"
+                        class="block w-4.5 h-[2px] bg-foreground/70 rounded-full transition-all duration-300 origin-center"></span>
+                    <span id="mob-line-2"
+                        class="block w-4.5 h-[2px] bg-foreground/70 rounded-full transition-all duration-300"></span>
+                    <span id="mob-line-3"
+                        class="block w-4.5 h-[2px] bg-foreground/70 rounded-full transition-all duration-300 origin-center"></span>
+                </button>
+            </div>
+        </div>
 
+        <!-- Mobile dropdown menu -->
+        <div id="mob-menu" class="lg:hidden overflow-hidden transition-all duration-300 ease-in-out"
+            style="max-height:0;opacity:0;">
+            <div class="premium-glass rounded-2xl mt-2 px-4 py-5 flex flex-col gap-1 border border-foreground/8">
+                <a href="{% url 'landing_page' %}#prizes" onclick="closeMobMenu()" class="mob-link">🏆 Prizes</a>
+                <div class="mob-divider"></div>
+                <p class="mob-section-label">Explore</p>
+                <a href="{% url 'landing_page' %}#schedule" onclick="closeMobMenu()" class="mob-link mob-link-sub">Event
+                    Schedule</a>
+                <a href="{% url 'dashboard' %}#round1" onclick="closeMobMenu()" class="mob-link mob-link-sub">Round
+                    1</a>
+                <a href="{% url 'dashboard' %}#round2" onclick="closeMobMenu()" class="mob-link mob-link-sub">Round
+                    2</a>
+                <a href="{% url 'dashboard' %}#round3" onclick="closeMobMenu()" class="mob-link mob-link-sub">Round
+                    3</a>
+                <div class="mob-divider"></div>
+                <a href="{% url 'landing_page' %}#resources" onclick="closeMobMenu()" class="mob-link">📋 Resources</a>
+                <div class="mob-divider"></div>
                 {% if user.is_authenticated %}
-                <a href="{% url 'dashboard' %}"
-                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Dashboard</a>
-                <a href="{% url 'logout' %}"
-                    class="text-[11px] font-bold uppercase tracking-widest text-red-500/60 hover:text-red-500 transition">Logout</a>
+                <a href="{% url 'dashboard' %}" class="mob-link">Dashboard</a>
+                <a href="{% url 'logout' %}" class="mob-link" style="color:rgba(248,113,113,0.8);">Logout</a>
                 {% else %}
-                <a href="{% url 'login' %}"
-                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Login</a>
-                <a href="{% url 'register_choice' %}" class="btn-premium px-8">Register</a>
+                <a href="{% url 'login' %}" class="mob-link">Login</a>
+                <a href="{% url 'register_choice' %}" onclick="closeMobMenu()"
+                    class="btn-premium block text-center mt-2 py-3 rounded-xl text-[12px]">Register Free</a>
                 {% endif %}
             </div>
         </div>
     </nav>
+
+    <style>
+        .mob-link {
+            display: block;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(var(--color-foreground)/.65);
+            transition: background .18s, color .18s;
+            text-decoration: none;
+        }
+
+        .mob-link:hover,
+        .mob-link:active {
+            background: rgba(255, 255, 255, .05);
+            color: rgb(var(--color-foreground));
+        }
+
+        .mob-link-sub {
+            padding-left: 26px;
+            font-size: 11px;
+            color: rgba(var(--color-foreground)/.45);
+        }
+
+        .mob-section-label {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: rgba(var(--color-foreground)/.25);
+            padding: 4px 14px 0;
+        }
+
+        .mob-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, .05);
+            margin: 4px 0;
+        }
+
+        .mob-open #mob-line-1 {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .mob-open #mob-line-2 {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .mob-open #mob-line-3 {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+    </style>
+    <script>
+        function toggleMobMenu() {
+            var menu = document.getElementById('mob-menu');
+            var btn = document.getElementById('mob-btn');
+            var open = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '';
+            if (open) {
+                menu.style.maxHeight = '0';
+                menu.style.opacity = '0';
+                btn.classList.remove('mob-open');
+            } else {
+                menu.style.maxHeight = menu.scrollHeight + 'px';
+                menu.style.opacity = '1';
+                btn.classList.add('mob-open');
+            }
+        }
+        function closeMobMenu() {
+            var menu = document.getElementById('mob-menu');
+            var btn = document.getElementById('mob-btn');
+            menu.style.maxHeight = '0';
+            menu.style.opacity = '0';
+            btn.classList.remove('mob-open');
+        }
+        // Close on outside click
+        document.addEventListener('click', function (e) {
+            var nav = document.getElementById('main-nav');
+            if (nav && !nav.contains(e.target)) closeMobMenu();
+        });
+    </script>
 
     <main>
         {% block content %}{% endblock %}
