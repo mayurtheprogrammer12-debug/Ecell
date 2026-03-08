@@ -5,7 +5,8 @@
     <div class="container mx-auto max-w-2xl">
         <div class="mb-12 space-y-4 reveal-content">
             <h4 class="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400/40">Venture Allocation</h4>
-            <h2 class="text-6xl font-display font-black text-foreground italic uppercase tracking-tighter leading-tight">
+            <h2
+                class="text-6xl font-display font-black text-foreground italic uppercase tracking-tighter leading-tight">
                 Exhibitor Hub</h2>
         </div>
 
@@ -15,10 +16,19 @@
                 class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent">
             </div>
             {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="bg-red-500/10 border border-red-500/50 text-red-500 p-4 rounded-2xl mb-6">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
             {% for field in form %}
             <div class="space-y-4">
-                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{ field.label}}</label>
+                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{
+                    field.label}}</label>
                 {{ field }}
+                {% if field.errors %}
+                <div class="text-red-400 text-xs mt-1 ml-2 font-bold">{{ field.errors }}</div>
+                {% endif %}
                 {% if field.help_text %}
                 <p class="text-[10px] text-cyan-400/60 font-bold italic tracking-wider ml-2">{{ field.help_text }}</p>
                 {% endif %}
