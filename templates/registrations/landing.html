@@ -700,14 +700,29 @@
             }
         }
 
-        /* ─ Hero heading ─ */
-        @media (max-width: 480px) {
+        /* ─ Hero heading: pure vw so it never exceeds screen ─ */
+        @media (max-width: 640px) {
             .hero-heading {
-                font-size: clamp(3rem, 18vw, 4.5rem) !important;
+                /* 12vw at 390px = 46.8px → "ENNOVATE'X" fits in ~287px < 358px avail */
+                font-size: min(12vw, 3.2rem) !important;
+                letter-spacing: -0.02em !important;
+                display: block !important;
+                /* not inline-block – prevents hbox overflow */
+                max-width: 100% !important;
+                overflow: hidden;
+            }
+
+            #heroTitle {
+                overflow: hidden;
+                max-width: 100%;
+            }
+
+            .hero-heading-glow {
+                font-size: min(12vw, 3.2rem) !important;
             }
 
             .hero-sub {
-                font-size: clamp(1rem, 6vw, 1.6rem) !important;
+                font-size: clamp(0.9rem, 5vw, 1.4rem) !important;
             }
 
             .hero-date-chip {
@@ -715,7 +730,7 @@
             }
 
             .hero-date-days {
-                font-size: 13px;
+                font-size: 12px;
             }
         }
 
