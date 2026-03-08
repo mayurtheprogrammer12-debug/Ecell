@@ -26,8 +26,8 @@
             {% endif %}
             {% for field in form %}
             <div class="space-y-4">
-                <label class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{
-                    field.label}}</label>
+                <label
+                    class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{field.label}}</label>
                 {{ field }}
                 {% if field.errors %}
                 <div class="text-red-400 text-xs mt-1 ml-2 font-bold">{{ field.errors }}</div>
