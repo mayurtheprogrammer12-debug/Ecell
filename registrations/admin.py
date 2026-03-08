@@ -77,7 +77,10 @@ def export_as_csv(modeladmin, request, queryset):
 export_as_csv.short_description = "🚀 Export Selected to Excel (CSV)"
 
 def mark_round2_qualified(modeladmin, request, queryset):
-    queryset.update(selected_for_round2=True, round2_unlocked=True)
+    for obj in queryset:
+        obj.selected_for_round2 = True
+        obj.round2_unlocked = True
+        obj.save()
 mark_round2_qualified.short_description = "✅ Qualify for Round 2"
 
 def verify_payments_bulk(modeladmin, request, queryset):
@@ -107,7 +110,7 @@ mark_round3_qualified.short_description = "🏆 Qualify for Round 3"
 class UserRegistrationAdmin(ModelAdmin):
     list_display = (
         'name', 'email', 'phone', 'college', 'registration_type', 
-        'payment_status', 'final_price', 'round1_completed', 
+        'payment_status', 'registration_email_sent', 'round2_email_sent', 'round1_completed', 
         'selected_for_round2', 'selected_for_round3', 'created_at'
     )
     
@@ -138,7 +141,7 @@ class UserRegistrationAdmin(ModelAdmin):
             )
         }),
         ('METADATA', {
-            'fields': ('created_at',),
+            'fields': ('registration_email_sent', 'round2_email_sent', 'created_at',),
             'classes': ('collapse',),
         }),
     )

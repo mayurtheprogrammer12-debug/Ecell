@@ -119,6 +119,16 @@ SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True'
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
 CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('mayur.kharat25@pccoepune.org')
+EMAIL_HOST_PASSWORD = os.getenv('kejx cull awbl iudy')
+
+
+
 # Registration settings
 BASE_PARTICIPANT_FEE = 1
 PCCOE_DOMAIN = "@pccoepune.org"

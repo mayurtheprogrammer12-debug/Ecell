@@ -107,6 +107,11 @@ class UserRegistration(models.Model):
     round3_unlocked = models.BooleanField(default=False)
     round3_completed = models.BooleanField(default=False)
 
+    # Email Tracking
+    registration_email_sent = models.BooleanField(default=False)
+    round2_email_sent = models.BooleanField(default=False)
+
+
 class FreeEntryWhitelist(models.Model):
     WHITELIST_TYPES = (
         ('DOMAIN', 'Email Domain (e.g., gmail.com)'),
