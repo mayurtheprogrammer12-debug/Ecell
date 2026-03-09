@@ -147,7 +147,7 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = 'Prince <prince@ennovatex26.in>'
+DEFAULT_FROM_EMAIL = 'EnnovateX <prince@ennovatex26.in>'
 EMAIL_TIMEOUT = 10
 
 
