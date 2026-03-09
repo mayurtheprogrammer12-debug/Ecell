@@ -97,6 +97,9 @@ DATABASES = {
 }
 
 MEDIA_ROOT = DATA_ROOT / 'media'
+# Ensure media root exists
+if not os.path.exists(MEDIA_ROOT):
+    os.makedirs(MEDIA_ROOT, exist_ok=True)
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},

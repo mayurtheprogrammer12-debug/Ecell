@@ -6,10 +6,9 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Serve static files directly
-RewriteCond %{REQUEST_URI} ^/static/
-RewriteRule ^static/(.*)$ staticfiles/$1 [L]
+# Serve static and media files from disk if they exist, bypass Passenger
+RewriteCond %{REQUEST_URI} ^/static/(.*)$
+RewriteRule ^static/(.*)$ staticfiles/$1 [L,NC]
 
-# Serve media files directly (Screenshots)
-RewriteCond %{REQUEST_URI} ^/media/
-RewriteRule ^media/(.*)$ data/media/$1 [L]
+RewriteCond %{REQUEST_URI} ^/media/(.*)$
+RewriteRule ^media/(.*)$ data/media/$1 [L,NC]
