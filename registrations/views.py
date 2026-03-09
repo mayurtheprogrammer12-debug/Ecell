@@ -15,6 +15,9 @@ from django.contrib.auth.decorators import login_required
 from .models import UserRegistration, AttendanceSession, AttendanceRecord
 from .forms import ParticipantForm, ExhibitorForm, Round1SubmissionForm
 from payments.models import PaymentRecord
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+from .signals import send_email_in_background
 
 @login_required(login_url='login')
 def round1_submit(request):
@@ -121,6 +124,24 @@ def register_participant(request):
                 # Create User Account
                 create_auth_user(registration.email, form.cleaned_data['password'], registration)
                 
+                # Send Confirmation Email for FREE registration
+                try:
+                    dashboard_url = "https://ennovatex26.in/dashboard/"
+                    subject = "Registration Successful – PCCOE Entrepreneurship Event"
+                    context = {
+                        'participant_name': registration.name,
+                        'dashboard_url': dashboard_url,
+                        'logo_url': "https://ennovatex26.in/static/images/logo.png"
+                    }
+                    html_message = render_to_string('emails/registration_success.html', context)
+                    plain_message = strip_tags(html_message)
+                    send_email_in_background(
+                        subject, plain_message, 'prince@ennovatex26.in', registration.email, html_message, registration.pk, 'registration'
+                    )
+                except Exception as e:
+                    import logging
+                    logging.getLogger(__name__).error(f"Failed to send free registration email: {str(e)}")
+
                 return redirect('registration_success', reg_id=registration.id)
             else:
                 discount_amount = 0
@@ -203,6 +224,24 @@ def register_exhibitor(request):
             # Create User Account
             create_auth_user(registration.email, form.cleaned_data['password'], registration)
             
+            # Send Confirmation Email for FREE EXHIBITOR
+            try:
+                dashboard_url = "https://ennovatex26.in/dashboard/"
+                subject = "Registration Successful – PCCOE Entrepreneurship Event"
+                context = {
+                    'participant_name': registration.name,
+                    'dashboard_url': dashboard_url,
+                    'logo_url': "https://ennovatex26.in/static/images/logo.png"
+                }
+                html_message = render_to_string('emails/registration_success.html', context)
+                plain_message = strip_tags(html_message)
+                send_email_in_background(
+                    subject, plain_message, 'prince@ennovatex26.in', registration.email, html_message, registration.pk, 'registration'
+                )
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).error(f"Failed to send exhibitor registration email: {str(e)}")
+
             return redirect('registration_success', reg_id=registration.id)
     else:
         form = ExhibitorForm()
@@ -230,6 +269,25 @@ def payment_verify(request):
             
         registration.payment_status = 'PENDING'
         registration.save()
+
+        # Send Confirmation Email AFTER payment success redirect (where transaction_id is provided)
+        if not registration.registration_email_sent:
+            try:
+                dashboard_url = "https://ennovatex26.in/dashboard/"
+                subject = "Registration Successful – PCCOE Entrepreneurship Event"
+                context = {
+                    'participant_name': registration.name,
+                    'dashboard_url': dashboard_url,
+                    'logo_url': "https://ennovatex26.in/static/images/logo.png"
+                }
+                html_message = render_to_string('emails/registration_success.html', context)
+                plain_message = strip_tags(html_message)
+                send_email_in_background(
+                    subject, plain_message, 'prince@ennovatex26.in', registration.email, html_message, registration.pk, 'registration'
+                )
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).error(f"Failed to send payment-success registration email: {str(e)}")
             
         return redirect('registration_success', reg_id=registration.id)
 

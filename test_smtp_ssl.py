@@ -17,7 +17,16 @@ try:
     print("Logging in...")
     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     
-    print("Success on port 465!")
+    print("Success on port 465! Now sending test email...")
+    
+    from email.mime.text import MIMEText
+    msg = MIMEText("This is a live test email from the ECell Website.")
+    msg['Subject'] = 'Live SMTP Test Successful'
+    msg['From'] = EMAIL_HOST_USER
+    msg['To'] = EMAIL_HOST_USER
+    
+    server.send_message(msg)
+    print(f"Test email sent to {EMAIL_HOST_USER}!")
     server.quit()
 except Exception as e:
     import traceback
