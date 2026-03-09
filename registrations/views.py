@@ -171,24 +171,28 @@ def register_participant(request):
 
                 registration.payment_status = 'PENDING'
                 registration.reference_id = f"ECELL-REG-{uuid.uuid4().hex[:8].upper()}"
-                registration.save()
                 
-                # Create User Account
-                create_auth_user(registration.email, form.cleaned_data['password'], registration)
+                # IMPORTANT: Data is NOT stored in DB yet. 
+                # We store it in session until payment_verify is called with a transaction ID.
+                pending_data = {
+                    'name': registration.name,
+                    'gender': registration.gender,
+                    'age': registration.age,
+                    'phone': registration.phone,
+                    'email': registration.email,
+                    'city': registration.city,
+                    'college': registration.college,
+                    'registration_type': registration.registration_type,
+                    'base_price': str(registration.base_price),
+                    'discount_amount': str(registration.discount_amount),
+                    'final_price': str(registration.final_price),
+                    'referral_code_id': referral_code_obj.id if referral_code_obj else None,
+                    'password': form.cleaned_data['password'], # Store password to create User later
+                    'reference_id': registration.reference_id,
+                }
+                request.session['pending_registration'] = pending_data
                 
-                # Save Attempt
-                PaymentRecord.objects.create(
-                    registration=registration,
-                    reference_id=registration.reference_id,
-                    amount=registration.final_price,
-                    payment_status='pending'
-                )
-
-                if referral_code_obj:
-                    referral_code_obj.current_usage += 1
-                    referral_code_obj.save()
-                
-                # Render payment template
+                # Prepare context for payment page
                 upi_id = "princevallecha@upi"
                 payee_name = "PCCOE ECell"
                 amount = int(registration.final_price)
@@ -196,7 +200,7 @@ def register_participant(request):
                 qr_base64, upi_url = generate_upi_qr(upi_id, payee_name, amount, registration.reference_id)
                 
                 context = {
-                    'registration': registration,
+                    'registration': registration, # Instance without ID
                     'upi_id': upi_id,
                     'amount': amount,
                     'qr_base64': qr_base64,
@@ -247,30 +251,73 @@ def register_exhibitor(request):
         form = ExhibitorForm()
     return render(request, 'registrations/exhibitor_form.html', {'form': form})
 
-# Not CSRF exempt because it should be submitted via a normal Django form with csrf token!
 def payment_verify(request):
     if request.method == 'POST':
-        reg_id = request.POST.get('reg_id')
         transaction_id = request.POST.get('transaction_id')
         screenshot = request.FILES.get('screenshot')
         
-        if not reg_id:
-            return HttpResponseBadRequest('Invalid registration id')
+        # Retrieve data from session
+        pending_data = request.session.get('pending_registration')
+        if not pending_data:
+            # Fallback for older sessions or issues - check if user already exists
+            # but ideally we want to force re-registration if no data exists.
+            return render(request, 'registrations/participant_form.html', {
+                'error': 'Session expired. Please register again before payment.',
+                'role': 'PARTICIPANT'
+            })
 
-        registration = get_object_or_404(UserRegistration, id=reg_id)
-        
-        record = PaymentRecord.objects.filter(registration=registration, reference_id=registration.reference_id).first()
-        if record:
-            record.transaction_id = transaction_id
-            if screenshot:
-                record.screenshot = screenshot
-            record.payment_status = 'pending'
+        # Check if email already registered (to avoid duplicates)
+        if UserRegistration.objects.filter(email=pending_data['email']).exists():
+             registration = UserRegistration.objects.get(email=pending_data['email'])
+        else:
+            # Create the actual registration record now!
+            registration = UserRegistration(
+                name=pending_data['name'],
+                gender=pending_data['gender'],
+                age=pending_data['age'],
+                phone=pending_data['phone'],
+                email=pending_data['email'],
+                city=pending_data['city'],
+                college=pending_data['college'],
+                registration_type=pending_data['registration_type'],
+                base_price=pending_data['base_price'],
+                discount_amount=pending_data['discount_amount'],
+                final_price=pending_data['final_price'],
+                reference_id=pending_data['reference_id'],
+                payment_status='PENDING'
+            )
+            if pending_data.get('referral_code_id'):
+                registration.referral_code_used_id = pending_data['referral_code_id']
+            registration.save()
+            
+            # Create User Account
+            create_auth_user(registration.email, pending_data['password'], registration)
+
+            # Update Referral Usage
+            if registration.referral_code_used:
+                registration.referral_code_used.current_usage += 1
+                registration.referral_code_used.save()
+
+        # Create Payment Record
+        record = PaymentRecord.objects.create(
+            registration=registration,
+            reference_id=registration.reference_id,
+            amount=registration.final_price,
+            transaction_id=transaction_id or 'NOT_PROVIDED',
+            payment_status='pending'
+        )
+        if screenshot:
+            record.screenshot = screenshot
             record.save()
             
         registration.payment_status = 'PENDING'
         registration.save()
 
-        # Send Confirmation Email AFTER payment success redirect (where transaction_id is provided)
+        # Clear session
+        if 'pending_registration' in request.session:
+            del request.session['pending_registration']
+
+        # Send Confirmation Email AFTER payment success redirect
         if not registration.registration_email_sent:
             try:
                 dashboard_url = "https://ennovatex26.in/dashboard/"
