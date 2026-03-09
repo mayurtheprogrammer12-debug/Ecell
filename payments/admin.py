@@ -1,6 +1,7 @@
 import csv
 from django.contrib import admin
 from django.http import HttpResponse
+from django.utils.html import format_html
 from unfold.admin import ModelAdmin
 from .models import PaymentRecord
 
@@ -40,10 +41,12 @@ class PaymentRecordAdmin(ModelAdmin):
     search_fields = ('registration__name', 'registration__email', 'transaction_id', 'reference_id')
     actions = [export_payments_as_csv]
     
-    from django.utils.html import format_html
     def screenshot_preview(self, obj):
         if obj.screenshot:
-             return format_html('<a href="{}" target="_blank"><img src="{}" style="max-height: 50px; border-radius: 5px;"/></a>', obj.screenshot.url, obj.screenshot.url)
+             try:
+                 return format_html('<a href="{}" target="_blank"><img src="{}" style="max-height: 50px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); shadow: 0 4px 6px rgba(0,0,0,0.1);"/></a>', obj.screenshot.url, obj.screenshot.url)
+             except Exception:
+                 return "Error Loading Image"
         return "No Screenshot"
     screenshot_preview.short_description = "Receipt Preview"
     
