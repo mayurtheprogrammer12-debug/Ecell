@@ -39,24 +39,39 @@ def send_registration_emails(sender, instance, created, **kwargs):
     dashboard_url = "https://ennovatex.up.railway.app/dashboard/"
 
     # 1. Registration Confirmation
-    if created and not instance.registration_email_sent:
-        try:
-            subject = "Registration Successful – PCCOE Entrepreneurship Event"
-            context = {
-                'participant_name': instance.name,
-                'dashboard_url': dashboard_url,
-                'logo_url': "https://ennovatex.up.railway.app/static/images/logo.png"
-            }
-            html_message = render_to_string('emails/registration_success.html', context)
-            plain_message = strip_tags(html_message)
-            
-            # Send synchronously to prevent serverless environments from terminating the background thread
-            # --- EMAIL DISABLED (commented out) ---
-            # send_email_in_background(
-            #     subject, plain_message, settings.EMAIL_HOST_USER, instance.email, html_message, instance.pk, 'registration'
-            # )
-        except Exception as e:
-            logger.error(f"Failed to initialize registration email thread: {str(e)}")
+    # We only send this if it's new AND (either FREE or PENDING payment verification after redirection from payment page)
+    # The condition `not instance.registration_email_sent` prevents duplicate emails.
+    if not instance.registration_email_sent:
+        # Check if the registration is complete (either FREE or success redirect has happened setting it to PENDING)
+        # Note: In register_participant, it's set to PENDING before payment, but here we want to ensure it's "valid" 
+        # to send. If a user closes the payment page without submitting, it might still stay PENDING.
+        # However, the user requested "after the payment page is redirect to payment success".
+        # This usually happens in payment_verify view which keeps status as PENDING but updates transaction_id.
+        
+        should_send = False
+        if instance.payment_status == 'FREE':
+            should_send = True
+        elif instance.payment_status == 'PENDING' and instance.payment_attempts.filter(transaction_id__isnull=False).exists():
+            # This means they at least provided a transaction ID on the success/verify page
+            should_send = True
+
+        if should_send:
+            try:
+                subject = "Registration Successful – PCCOE Entrepreneurship Event"
+                context = {
+                    'participant_name': instance.name,
+                    'dashboard_url': dashboard_url,
+                    'logo_url': "https://ennovatex.up.railway.app/static/images/logo.png"
+                }
+                html_message = render_to_string('emails/registration_success.html', context)
+                plain_message = strip_tags(html_message)
+                
+                # Send synchronously to prevent serverless environments from terminating the background thread
+                send_email_in_background(
+                    subject, plain_message, 'prince@ennovatex26.in', instance.email, html_message, instance.pk, 'registration'
+                )
+            except Exception as e:
+                logger.error(f"Failed to initialize registration email thread: {str(e)}")
 
     # 2. Round 2 Selection
     if instance.selected_for_round2 and not instance.round2_email_sent:
@@ -71,10 +86,9 @@ def send_registration_emails(sender, instance, created, **kwargs):
             plain_message = strip_tags(html_message)
             
             # Send synchronously to prevent serverless environments from terminating the background thread
-            # --- EMAIL DISABLED (commented out) ---
-            # send_email_in_background(
-            #     subject, plain_message, settings.EMAIL_HOST_USER, instance.email, html_message, instance.pk, 'round2'
-            # )
+            send_email_in_background(
+                subject, plain_message, 'prince@ennovatex26.in', instance.email, html_message, instance.pk, 'round2'
+            )
         except Exception as e:
             logger.error(f"Failed to initialize Round 2 email thread: {str(e)}")
 
