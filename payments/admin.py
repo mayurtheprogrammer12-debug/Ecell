@@ -12,9 +12,19 @@ def export_payments_as_csv(modeladmin, request, queryset):
     response['Content-Disposition'] = f'attachment; filename={meta}_export.csv'
     writer = csv.writer(response)
 
-    writer.writerow(field_names)
+    # Custom header to include the Screenshot URL column name
+    writer.writerow(field_names + ['screenshot_url'])
+    
     for obj in queryset:
-        writer.writerow([getattr(obj, field) for field in field_names])
+        row = [getattr(obj, field) for field in field_names]
+        
+        # Add the full URL for the screenshot if it exists
+        screenshot_url = ""
+        if obj.screenshot:
+            screenshot_url = request.build_absolute_uri(obj.screenshot.url)
+        
+        row.append(screenshot_url)
+        writer.writerow(row)
 
     return response
 
@@ -24,11 +34,18 @@ export_payments_as_csv.short_description = "🚀 Export Selected to Excel (CSV)"
 class PaymentRecordAdmin(ModelAdmin):
     list_display = (
         'participant_name', 'amount', 'payment_status', 
-        'transaction_id', 'reference_id', 'created_at'
+        'transaction_id', 'screenshot_preview', 'created_at'
     )
     list_filter = ('payment_status', 'created_at')
     search_fields = ('registration__name', 'registration__email', 'transaction_id', 'reference_id')
     actions = [export_payments_as_csv]
+    
+    from django.utils.html import format_html
+    def screenshot_preview(self, obj):
+        if obj.screenshot:
+             return format_html('<a href="{}" target="_blank"><img src="{}" style="max-height: 50px; border-radius: 5px;"/></a>', obj.screenshot.url, obj.screenshot.url)
+        return "No Screenshot"
+    screenshot_preview.short_description = "Receipt Preview"
     
     def participant_name(self, obj):
         return obj.registration.name
