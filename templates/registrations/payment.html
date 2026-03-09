@@ -99,14 +99,7 @@
                         <form action="{% url 'payment_verify' %}" method="POST" enctype="multipart/form-data"
                             class="w-full space-y-5">
                             {% csrf_token %}
-                            <div class="space-y-3">
-                                <label
-                                    class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.3em] ml-2">Transaction
-                                    ID</label>
-                                <input type="text" name="transaction_id" required
-                                    placeholder="Enter UPI Ref No. / Transaction ID"
-                                    class="w-full p-5 bg-foreground/[0.02] border border-foreground/10 rounded-2xl text-[12px] font-black tracking-widest text-foreground focus:border-cyan-400/40 transition-all outline-none">
-                            </div>
+                            {# Transaction ID removed as requested #}
 
 
                             <div class="space-y-3">

@@ -253,7 +253,6 @@ def register_exhibitor(request):
 
 def payment_verify(request):
     if request.method == 'POST':
-        transaction_id = request.POST.get('transaction_id')
         screenshot = request.FILES.get('screenshot')
         
         # Retrieve data from session
@@ -303,7 +302,6 @@ def payment_verify(request):
             registration=registration,
             reference_id=registration.reference_id,
             amount=registration.final_price,
-            transaction_id=transaction_id or 'NOT_PROVIDED',
             payment_status='pending'
         )
         if screenshot:
