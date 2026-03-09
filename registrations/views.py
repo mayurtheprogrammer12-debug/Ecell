@@ -136,7 +136,7 @@ def register_participant(request):
                     html_message = render_to_string('emails/registration_success.html', context)
                     plain_message = strip_tags(html_message)
                     send_email_in_background(
-                        subject, plain_message, 'prince@ennovatex26.in', registration.email, html_message, registration.pk, 'registration'
+                        subject, plain_message, 'EnnovateX <prince@ennovatex26.in>', registration.email, html_message, registration.pk, 'registration'
                     )
                 except Exception as e:
                     import logging
@@ -236,7 +236,7 @@ def register_exhibitor(request):
                 html_message = render_to_string('emails/registration_success.html', context)
                 plain_message = strip_tags(html_message)
                 send_email_in_background(
-                    subject, plain_message, 'prince@ennovatex26.in', registration.email, html_message, registration.pk, 'registration'
+                    subject, plain_message, 'EnnovateX <prince@ennovatex26.in>', registration.email, html_message, registration.pk, 'registration'
                 )
             except Exception as e:
                 import logging
@@ -283,7 +283,7 @@ def payment_verify(request):
                 html_message = render_to_string('emails/registration_success.html', context)
                 plain_message = strip_tags(html_message)
                 send_email_in_background(
-                    subject, plain_message, 'prince@ennovatex26.in', registration.email, html_message, registration.pk, 'registration'
+                    subject, plain_message, 'EnnovateX <prince@ennovatex26.in>', registration.email, html_message, registration.pk, 'registration'
                 )
             except Exception as e:
                 import logging

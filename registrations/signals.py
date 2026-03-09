@@ -57,7 +57,7 @@ def send_registration_emails(sender, instance, created, **kwargs):
             
             # Send synchronously to prevent serverless environments from terminating the background thread
             send_email_in_background(
-                subject, plain_message, 'prince@ennovatex26.in', instance.email, html_message, instance.pk, 'round2'
+                subject, plain_message, 'EnnovateX <prince@ennovatex26.in>', instance.email, html_message, instance.pk, 'round2'
             )
         except Exception as e:
             logger.error(f"Failed to initialize Round 2 email thread: {str(e)}")
