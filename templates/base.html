@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>{% block title %}Ennovate'X-26 | IEN Cell PCCOE{% endblock %}</title>
+    <!-- Favicon: blue E -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><text x='50%25' y='50%25' font-size='20' font-family='Arial Black,sans-serif' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='central'>E</text></svg>">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        midnight: '#0b0f19',
+                        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+                        background: 'rgb(var(--color-background) / <alpha-value>)',
+                        onyx: '#020202',
+                        platinum: '#f8fafc',
+                        champagne: '#e2b87e',
+                        azure: '#2563eb',
+                        cyan: {
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            glow: '#60a5fa',
+                        },
+                        violet: {
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { opacity: '0.5' },
+                            '50%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Always enforce dark mode
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --color-background: 248 250 252;
+            /* slate-50 */
+            --color-foreground: 15 23 42;
+            /* slate-900 */
+
+            --mesh-color-1: rgba(37, 99, 235, 0.15);
+            /* blue-600 */
+            --mesh-color-2: rgba(96, 165, 250, 0.15);
+            /* blue-400 */
+            --mesh-bg-1: #e2e8f0;
+            --mesh-bg-2: #f8fafc;
+
+            --grid-line: rgba(0, 0, 0, 0.05);
+
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(148, 163, 184, 0.2);
+            /* slate-400 */
+            --glass-shadow: rgba(15, 23, 42, 0.15);
+
+            --btn-bg: #2563eb;
+            --btn-text: #ffffff;
+            --gradient-start: #1d4ed8;
+        }
+
+        .dark {
+            --color-background: 0 0 0;
+            /* #000000 — pure premium black */
+            --color-foreground: 240 245 255;
+            /* slightly off-white for softer contrast */
+
+            --surface-secondary: rgba(255, 255, 255, 0.04);
+            /* subtle lighter panel bg */
+            --surface-border: rgba(255, 255, 255, 0.06);
+
+            --mesh-color-1: rgba(37, 99, 235, 0.08);
+            /* very subtle blue tint */
+            --mesh-color-2: rgba(96, 165, 250, 0.05);
+            /* whisper blue accent */
+            --mesh-bg-1: #050507;
+            --mesh-bg-2: #000000;
+
+            --grid-line: rgba(255, 255, 255, 0.025);
+
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: rgba(0, 0, 0, 0.6);
+
+            --btn-bg: #2563eb;
+            /* blue-600 */
+            --btn-text: #ffffff;
+            --gradient-start: #60a5fa;
+        }
+
+        body {
+            background-color: rgb(var(--color-background));
+            color: rgb(var(--color-foreground));
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .bg-mesh {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 20% 30%, var(--mesh-color-1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, var(--mesh-color-2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, var(--mesh-bg-1) 0%, var(--mesh-bg-2) 100%);
+            transition: background 0.3s;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 60%);
+            -webkit-mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 60%);
+            transition: background-image 0.3s;
+        }
+
+        .premium-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 var(--glass-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 0 1px rgba(37, 99, 235, 0.08);
+            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+        }
+
+        .premium-glass:hover {
+            border-color: rgba(96, 165, 250, 0.18);
+            box-shadow: 0 8px 40px 0 var(--glass-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(96, 165, 250, 0.12),
+                0 0 24px rgba(37, 99, 235, 0.08);
+        }
+
+        /* Premium colored border accent for cards */
+        .card-glow {
+            position: relative;
+        }
+
+        .card-glow::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.35), rgba(37, 99, 235, 0.1) 40%, rgba(96, 165, 250, 0.05) 70%, rgba(59, 130, 246, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+
+        .btn-premium {
+            position: relative;
+            padding: 0.75rem 2rem;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 9999px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-premium:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.6), 0 0 60px rgba(96, 165, 250, 0.2);
+        }
+
+        .text-gradient-cyan {
+            background: linear-gradient(to right, var(--gradient-start), #3b82f6, #93c5fd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #spotlight {
+            position: fixed;
+            width: 1200px;
+            height: 1200px;
+            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-mesh"></div>
+    <div class="grid-overlay" id="grid"></div>
+    <div id="spotlight"></div>
+
+    <nav class="fixed top-5 left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-5xl" id="main-nav">
+        <!-- Pill bar -->
+        <div class="premium-glass rounded-full px-5 sm:px-8 py-3 sm:py-4 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="{% url 'landing_page' %}" class="flex items-center gap-2 min-w-0 shrink group">
+                <div
+                    class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600 flex items-center justify-center flex-shrink-0">
+                    <span class="font-display font-black text-xs sm:text-sm text-foreground">E</span>
+                </div>
+                <span
+                    class="font-display font-black text-[10px] sm:text-sm tracking-wider sm:tracking-widest uppercase text-foreground truncate">
+                    Ennovate'X
+                </span>
+            </a>
+
+            <!-- Desktop links (lg+) -->
+            <div class="hidden lg:flex items-center space-x-6">
+                <a href="{% url 'landing_page' %}#prizes"
+                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-yellow-400 transition">Prizes</a>
+                <div class="relative flex items-center space-x-2 group/nav cursor-pointer py-4">
+                    <span
+                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover/nav:text-foreground transition">Explore</span>
+                    <svg class="w-2.5 h-2.5 text-foreground/40 group-hover/nav:text-foreground transition-transform duration-300 group-hover/nav:rotate-180"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                    <div
+                        class="absolute top-full left-0 mt-2 w-56 rounded-2xl premium-glass border border-foreground/10 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-300 z-50 overflow-hidden shadow-2xl">
+                        <div class="p-2 flex flex-col space-y-1">
+                            <a href="{% url 'landing_page' %}#schedule"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Event
+                                Schedule</a>
+                            <div class="h-px bg-foreground/5 my-1"></div>
+                            <a href="{% url 'dashboard' %}#round1"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
+                                1</a>
+                            <a href="{% url 'dashboard' %}#round2"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
+                                2</a>
+                            <a href="{% url 'dashboard' %}#round3"
+                                class="px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors">Round
+                                3</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'landing_page' %}#resources"
+                    class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-violet-400 transition">Resources</a>
+            </div>
+
+            <!-- Right: desktop auth + hamburger -->
+            <div class="flex items-center gap-3">
+                <!-- Desktop auth -->
+                <div class="hidden lg:flex items-center gap-4">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}"
+                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Dashboard</a>
+                    <a href="{% url 'logout' %}"
+                        class="text-[11px] font-bold uppercase tracking-widest text-red-500/60 hover:text-red-500 transition">Logout</a>
+                    {% else %}
+                    <a href="{% url 'login' %}"
+                        class="text-[11px] font-bold uppercase tracking-widest text-foreground/60 hover:text-foreground transition">Login</a>
+                    <a href="{% url 'register_choice' %}" class="btn-premium px-6 py-2 text-[11px]">Register</a>
+                    {% endif %}
+                </div>
+
+                <!-- Hamburger button (mobile/tablet) -->
+                <button id="mob-btn" aria-label="Toggle menu" onclick="toggleMobMenu()"
+                    class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl border border-foreground/10 bg-foreground/5 gap-[5px] hover:bg-foreground/10 transition flex-shrink-0">
+                    <span id="mob-line-1"
+                        style="display:block;width:18px;height:2px;border-radius:999px;background:rgba(var(--color-foreground)/0.7);transition:transform .3s,opacity .3s;transform-origin:center;"></span>
+                    <span id="mob-line-2"
+                        style="display:block;width:18px;height:2px;border-radius:999px;background:rgba(var(--color-foreground)/0.7);transition:transform .3s,opacity .3s;"></span>
+                    <span id="mob-line-3"
+                        style="display:block;width:18px;height:2px;border-radius:999px;background:rgba(var(--color-foreground)/0.7);transition:transform .3s,opacity .3s;transform-origin:center;"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile dropdown menu -->
+        <div id="mob-menu" class="lg:hidden overflow-hidden transition-all duration-300 ease-in-out"
+            style="max-height:0;opacity:0;">
+            <div class="premium-glass rounded-2xl mt-2 px-4 py-5 flex flex-col gap-1 border border-foreground/8">
+                <a href="{% url 'landing_page' %}#prizes" onclick="closeMobMenu()" class="mob-link">🏆 Prizes</a>
+                <div class="mob-divider"></div>
+                <p class="mob-section-label">Explore</p>
+                <a href="{% url 'landing_page' %}#schedule" onclick="closeMobMenu()" class="mob-link mob-link-sub">Event
+                    Schedule</a>
+                <a href="{% url 'dashboard' %}#round1" onclick="closeMobMenu()" class="mob-link mob-link-sub">Round
+                    1</a>
+                <a href="{% url 'dashboard' %}#round2" onclick="closeMobMenu()" class="mob-link mob-link-sub">Round
+                    2</a>
+                <a href="{% url 'dashboard' %}#round3" onclick="closeMobMenu()" class="mob-link mob-link-sub">Round
+                    3</a>
+                <div class="mob-divider"></div>
+                <a href="{% url 'landing_page' %}#resources" onclick="closeMobMenu()" class="mob-link">📋 Resources</a>
+                <div class="mob-divider"></div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="mob-link">Dashboard</a>
+                <a href="{% url 'logout' %}" class="mob-link" style="color:rgba(248,113,113,0.8);">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="mob-link">Login</a>
+                <a href="{% url 'register_choice' %}" onclick="closeMobMenu()"
+                    class="btn-premium block text-center mt-2 py-3 rounded-xl text-[12px]">Get Started &rarr;</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <style>
+        .mob-link {
+            display: block;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(var(--color-foreground)/.65);
+            transition: background .18s, color .18s;
+            text-decoration: none;
+        }
+
+        .mob-link:hover,
+        .mob-link:active {
+            background: rgba(255, 255, 255, .05);
+            color: rgb(var(--color-foreground));
+        }
+
+        .mob-link-sub {
+            padding-left: 26px;
+            font-size: 11px;
+            color: rgba(var(--color-foreground)/.45);
+        }
+
+        .mob-section-label {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: rgba(var(--color-foreground)/.25);
+            padding: 4px 14px 0;
+        }
+
+        .mob-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, .05);
+            margin: 4px 0;
+        }
+
+        .mob-open #mob-line-1 {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .mob-open #mob-line-2 {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .mob-open #mob-line-3 {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+    </style>
+    <script>
+        function toggleMobMenu() {
+            var menu = document.getElementById('mob-menu');
+            var open = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '';
+            if (open) { _mobClose(); } else { _mobOpen(); }
+        }
+        function _mobOpen() {
+            var menu = document.getElementById('mob-menu');
+            menu.style.maxHeight = menu.scrollHeight + 'px';
+            menu.style.opacity = '1';
+            // Animate to X
+            document.getElementById('mob-line-1').style.transform = 'translateY(7px) rotate(45deg)';
+            document.getElementById('mob-line-2').style.opacity = '0';
+            document.getElementById('mob-line-2').style.transform = 'scaleX(0)';
+            document.getElementById('mob-line-3').style.transform = 'translateY(-7px) rotate(-45deg)';
+        }
+        function _mobClose() {
+            var menu = document.getElementById('mob-menu');
+            menu.style.maxHeight = '0';
+            menu.style.opacity = '0';
+            // Reset to ☰
+            document.getElementById('mob-line-1').style.transform = '';
+            document.getElementById('mob-line-2').style.opacity = '1';
+            document.getElementById('mob-line-2').style.transform = '';
+            document.getElementById('mob-line-3').style.transform = '';
+        }
+        function closeMobMenu() { _mobClose(); }
+        // Close on outside click
+        document.addEventListener('click', function (e) {
+            var nav = document.getElementById('main-nav');
+            if (nav && !nav.contains(e.target)) _mobClose();
+        });
+    </script>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Connect With Us Pre-Footer -->
+    <section class="container mx-auto px-4 max-w-4xl mt-12 mb-20 relative z-10 w-full" id="contact">
+        <div class="text-center mb-12 space-y-6">
+            <span
+                class="px-6 py-2 rounded-full border border-foreground/10 bg-foreground/5 text-[11px] font-bold tracking-widest text-foreground/80 inline-block transition hover:bg-foreground/10">
+                Connect with Us
+            </span>
+            <h2 class="text-4xl md:text-5xl font-display font-black tracking-tight text-foreground">
+                Feel Free to Reach Out
+            </h2>
+            <p class="text-foreground/60 text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-medium">
+                Our team is dedicated to providing you with the support and guidance you need. Whether you have
+                questions about our services, feedback to share, or are looking for collaboration opportunities, we're
+                here to help.
+            </p>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Student SPOC Card -->
+            <div
+                class="premium-glass p-8 md:p-10 rounded-[2rem] flex flex-col md:flex-row gap-8 items-start md:items-center group hover:bg-foreground/[0.04] transition-all duration-300 border border-foreground/10 shadow-lg">
+                <div class="shrink-0 order-2 md:order-1">
+                    <div
+                        class="px-4 py-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 text-[10px] font-black text-cyan-400 uppercase tracking-widest">
+                        Student SPOC
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-2 order-1 md:order-2">
+                    <h3 class="text-2xl font-display font-bold text-foreground">Prince Vallecha</h3>
+                    <a href="tel:+919325181380"
+                        class="text-lg font-bold text-foreground/80 hover:text-cyan-400 transition-colors">
+                        +91 93251 81380
+                    </a>
+                    <p class="text-sm font-medium text-foreground/50 italic leading-relaxed">
+                        For any queries related to registrations and competitions
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 1 -->
+            <div
+                class="premium-glass p-8 md:p-10 rounded-[2rem] flex flex-col md:flex-row justify-between items-start md:items-center group hover:bg-foreground/[0.04] transition-all duration-300 border border-foreground/10 shadow-lg">
+                <div class="flex flex-col space-y-2">
+                    <h3 class="text-2xl font-display font-bold text-foreground">Ritik Lipate</h3>
+                    <a href="mailto:Ritik.lipate23@pccoepune.org"
+                        class="text-sm font-medium text-foreground/70 hover:text-blue-400 transition-colors">Ritik.lipate23@pccoepune.org</a>
+                    <a href="tel:+919284383901"
+                        class="text-sm font-medium text-foreground/50 hover:text-blue-400 transition-colors">+91 92843
+                        83901</a>
+                </div>
+                <div class="mt-4 md:mt-0 text-sm md:text-base font-medium italic text-foreground/80">
+                    Student President IEN
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+                class="premium-glass p-8 md:p-10 rounded-[2rem] flex flex-col md:flex-row justify-between items-start md:items-center group hover:bg-foreground/[0.04] transition-all duration-300 border border-foreground/10 shadow-lg">
+                <div class="flex flex-col space-y-2">
+                    <h3 class="text-2xl font-display font-bold text-foreground">Ishani Soundankar</h3>
+                    <a href="mailto:Ishani.soundankar23@pccoepune.org"
+                        class="text-sm font-medium text-foreground/70 hover:text-blue-400 transition-colors">Ishani.soundankar23@pccoepune.org</a>
+                    <a href="tel:+919423430985"
+                        class="text-sm font-medium text-foreground/50 hover:text-blue-400 transition-colors">+91 94234
+                        30985</a>
+                </div>
+                <div class="mt-4 md:mt-0 text-sm md:text-base font-medium italic text-foreground/80">
+                    Student Vice President IEN
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-background border-t border-foreground/5 py-32 mt-40">
+        <div class="container mx-auto px-12 max-w-7xl">
+            <div class="grid lg:grid-cols-4 gap-20">
+                <div class="lg:col-span-2">
+                    <h2
+                        class="font-display font-black text-4xl mb-10 tracking-tighter uppercase italic text-foreground flex items-center">
+                        <span class="mr-6 w-12 h-[1px] bg-azure"></span> IEN CELL PCCOE
+                    </h2>
+                    <p class="text-foreground/30 text-sm leading-relaxed max-w-sm font-medium tracking-wide uppercase">
+                        Empowering the next generation of student entrepreneurs and innovators at PCCOE. Fostering a
+                        culture of innovation and leadership.
+                    </p>
+                </div>
+                <div>
+                    <h4
+                        class="text-[12px] font-black uppercase tracking-[0.6em] text-azure mb-10 text-right md:text-left">
+                        Navigation</h4>
+                    <ul
+                        class="space-y-6 text-[12px] font-bold uppercase tracking-[0.4em] text-foreground/40 text-right md:text-left">
+                        <li><a href="{% url 'landing_page' %}" class="hover:text-foreground transition">Home</a></li>
+                        <li><a href="{% url 'dashboard' %}" class="hover:text-foreground transition">Dashboard</a></li>
+                        <li><a href="mailto:ecell@pccoepune.org" class="hover:text-foreground transition">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4
+                        class="text-[12px] font-black uppercase tracking-[0.6em] text-azure mb-10 text-right md:text-left">
+                        Coordinates</h4>
+                    <p
+                        class="text-foreground/40 text-[12px] font-bold uppercase tracking-[0.4em] leading-loose text-right md:text-left">
+                        PCCOE Campus, Sector 26, Pradhikaran, Nigdi<br>Pune, Maharashtra 411044<br>ecell@pccoepune.org
+                    </p>
+                </div>
+            </div>
+            <div
+                class="pt-20 mt-20 border-t border-foreground/5 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.8em] text-foreground/10">
+                <p>&copy; 2026 IEN CELL PCCOE. ALL RIGHTS RESERVED.</p>
+                <div class="flex space-x-12">
+                    <span>PCCOE STARTUP FEST</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script>
+        /* Throttled spotlight + grid tracker (rAF, ~60fps max) */
+        const spotlight = document.getElementById('spotlight');
+        const grid = document.getElementById('grid');
+        let _mx = 0, _my = 0, _rafPending = false;
+        window.addEventListener('mousemove', (e) => {
+            _mx = e.clientX; _my = e.clientY;
+            if (_rafPending) return;
+            _rafPending = true;
+            requestAnimationFrame(() => {
+                if (spotlight) { spotlight.style.left = _mx + 'px'; spotlight.style.top = _my + 'px'; }
+                if (grid) {
+                    grid.style.setProperty('--mouse-x', _mx + 'px');
+                    grid.style.setProperty('--mouse-y', _my + 'px');
+                }
+                _rafPending = false;
+            });
+        });
+
+        /* ─── SECURITY: Disable Right Click & Dev Tools ─── */
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) return false; // F12
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
+        };
+    </script>
+
+
+    </script>
+</body>
+
+</html>

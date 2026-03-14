@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Acquisition | Ennovate'X-26{% endblock %}
+{% block content %}
+<div
+    class="relative min-h-screen flex flex-col items-center justify-center pt-28 sm:pt-48 pb-20 sm:pb-32 px-4 text-center">
+    <div class="container mx-auto max-w-2xl w-full">
+        <div class="mb-8 sm:mb-12 space-y-3 sm:space-y-4 reveal-content">
+            <h4
+                class="text-[9px] sm:text-[11px] font-black uppercase tracking-[0.6em] sm:tracking-[0.8em] text-cyan-400/40">
+                Venture Allocation</h4>
+            <h2
+                class="text-4xl sm:text-6xl font-display font-black text-foreground italic uppercase tracking-tighter leading-tight">
+                Exhibitor Hub</h2>
+        </div>
+
+        <form method="POST"
+            class="space-y-8 sm:space-y-10 text-left premium-glass p-8 sm:p-16 md:p-24 rounded-[2.5rem] sm:rounded-[4rem] relative overflow-hidden group reveal-content">
+            <div
+                class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent">
+            </div>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="bg-red-500/10 border border-red-500/50 text-red-500 p-4 rounded-2xl mb-6">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+            {% for field in form %}
+            <div class="space-y-4">
+                <label
+                    class="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-2">{{field.label}}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="text-red-400 text-xs mt-1 ml-2 font-bold">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <p class="text-[10px] text-cyan-400/60 font-bold italic tracking-wider ml-2">{{ field.help_text }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit"
+                class="btn-premium w-full !bg-gradient-to-r from-cyan-400 to-violet-600 !text-foreground !py-5 sm:!py-6 !text-[11px] sm:!text-[12px] !tracking-[0.3em] sm:!tracking-[0.4em] shadow-[0_20px_50px_rgba(59,130,246,0.2)]">Request
+                Access</button>
+        </form>
+    </div>
+</div>
+<style>
+    input,
+    textarea,
+    select {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 1.5rem;
+        padding: 1.25rem 1.5rem;
+        color: #fff;
+        outline: none;
+        transition: 0.4s;
+        font-size: 0.9rem;
+        appearance: none;
+    }
+
+    select option {
+        background: #000;
+        color: #fff;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.03);
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
+    }
+</style>
+{% endblock %}
