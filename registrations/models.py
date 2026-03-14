@@ -256,7 +256,7 @@ class RoundTimingSettings(models.Model):
         now = timezone.now()
         if not self.team_formation_start or now < self.team_formation_start:
             return "LOCKED"
-        if now > self.team_formation_end:
+        if self.team_formation_end and now > self.team_formation_end:
             return "CLOSED"
         return "OPEN"
 
@@ -265,6 +265,6 @@ class RoundTimingSettings(models.Model):
         now = timezone.now()
         if not self.ppt_submission_start or now < self.ppt_submission_start:
             return "LOCKED"
-        if now > self.ppt_submission_end:
+        if self.ppt_submission_end and now > self.ppt_submission_end:
             return "CLOSED"
         return "OPEN"
