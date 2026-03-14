@@ -111,6 +111,15 @@ class UserRegistration(models.Model):
     registration_email_sent = models.BooleanField(default=False)
     round2_email_sent = models.BooleanField(default=False)
 
+    @property
+    def in_team(self):
+        return hasattr(self, 'team_membership') or self.created_teams.exists()
+    
+    def get_team(self):
+        if hasattr(self, 'team_membership'):
+            return self.team_membership.team
+        return self.created_teams.first()
+
 
 class FreeEntryWhitelist(models.Model):
     WHITELIST_TYPES = (
@@ -159,3 +168,103 @@ class AttendanceRecord(models.Model):
 
     def __str__(self):
         return f"{self.participant.name} - {self.session.name}: {self.status}"
+
+class Team(models.Model):
+    STATUS_CHOICES = (
+        ('DRAFT', 'Draft'),
+        ('CONFIRMED', 'Confirmed'),
+    )
+
+    team_name = models.CharField(max_length=255)
+    team_id = models.CharField(max_length=20, unique=True, editable=False, null=True, blank=True)
+    creator = models.ForeignKey(UserRegistration, on_delete=models.CASCADE, related_name='created_teams')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='DRAFT')
+    selected_for_round3 = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.team_id:
+            from django.db.models import Max
+            max_id = Team.objects.aggregate(Max('id'))['id__max'] or 0
+            new_id = max_id + 1
+            self.team_id = f"T-{new_id:02d}"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.team_name} (Created by: {self.creator.name})"
+
+    class Meta:
+        verbose_name = "Team"
+        verbose_name_plural = "Teams"
+
+class TeamMember(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='members')
+    participant = models.OneToOneField(UserRegistration, on_delete=models.CASCADE, related_name='team_membership')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.participant.name} in {self.team.team_name}"
+
+    class Meta:
+        verbose_name = "Team Member"
+        verbose_name_plural = "Team Members"
+
+class RoundNotification(models.Model):
+    NOTIFICATION_TYPES = (
+        ('ROUND2_SELECTED', 'Round 2 Shortlisted'),
+        ('ROUND2_NOT_SELECTED', 'Round 2 Not Shortlisted'),
+        ('ROUND3_SELECTED', 'Round 3 Shortlisted'),
+    )
+    participant = models.ForeignKey(UserRegistration, on_delete=models.CASCADE, related_name='notifications')
+    notification_type = models.CharField(max_length=50, choices=NOTIFICATION_TYPES)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification for {self.participant.name}: {self.notification_type}"
+
+class Round3Submission(models.Model):
+    team = models.OneToOneField(Team, on_delete=models.CASCADE, related_name='round3_submission')
+    uploaded_by = models.ForeignKey(UserRegistration, on_delete=models.SET_NULL, null=True)
+    ppt_file = models.FileField(upload_to='round3_submissions/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"PPT for Team {self.team.team_id}"
+
+class RoundTimingSettings(models.Model):
+    team_formation_start = models.DateTimeField(null=True, blank=True)
+    team_formation_end = models.DateTimeField(null=True, blank=True)
+    ppt_submission_start = models.DateTimeField(null=True, blank=True)
+    ppt_submission_end = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Round Timing Setting"
+        verbose_name_plural = "Round Timing Settings"
+
+    def __str__(self):
+        return "Global Round Timing Settings"
+
+    @classmethod
+    def get_settings(cls):
+        return cls.objects.first() or cls.objects.create()
+
+    def get_team_formation_status(self):
+        from django.utils import timezone
+        now = timezone.now()
+        if not self.team_formation_start or now < self.team_formation_start:
+            return "LOCKED"
+        if now > self.team_formation_end:
+            return "CLOSED"
+        return "OPEN"
+
+    def get_ppt_submission_status(self):
+        from django.utils import timezone
+        now = timezone.now()
+        if not self.ppt_submission_start or now < self.ppt_submission_start:
+            return "LOCKED"
+        if now > self.ppt_submission_end:
+            return "CLOSED"
+        return "OPEN"

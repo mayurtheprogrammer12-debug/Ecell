@@ -48,7 +48,12 @@ def round2_view(request):
     if not registration or not registration.selected_for_round2:
         return redirect('dashboard')
     
-    return render(request, 'registrations/round2.html', {'registration': registration})
+    team = Team.objects.filter(creator=registration).first()
+    context = {
+        'registration': registration,
+        'team': team,
+    }
+    return render(request, 'registrations/round2.html', context)
 
 def generate_upi_qr(upi_id, payee_name, amount, transaction_note):
     # Simplest possible UPI link
@@ -91,6 +96,132 @@ def create_auth_user(email, password, registration):
     registration.user = user
     registration.save()
     return user
+
+from .models import Team, TeamMember
+from django.db.models import Q
+
+@login_required(login_url='login')
+def search_team_members(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration or not registration.selected_for_round2:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    query = request.GET.get('q', '')
+    if len(query) < 3:
+        return JsonResponse({'results': []})
+
+    # Rule: Not shortlisted for Round 2 AND not already in any team
+    eligible_participants = UserRegistration.objects.filter(
+        registration_type='PARTICIPANT',
+        selected_for_round2=False,
+        team_membership__isnull=True
+    ).filter(
+        Q(name__icontains=query) | Q(email__icontains=query) | Q(phone__icontains=query)
+    )[:10]
+
+    results = []
+    for p in eligible_participants:
+        results.append({
+            'id': p.id,
+            'name': p.name,
+            'email': p.email,
+            'college': p.college
+        })
+
+    return JsonResponse({'results': results})
+
+@login_required(login_url='login')
+def manage_team(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration or not registration.selected_for_round2:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    from .models import RoundTimingSettings
+    if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
+        return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
+
+    if request.method == 'POST':
+        team_name = request.POST.get('team_name')
+        if not team_name:
+            return JsonResponse({'error': 'Team name is required'}, status=400)
+
+        team, created = Team.objects.get_or_create(
+            creator=registration,
+            defaults={'team_name': team_name}
+        )
+        if not created and team.status == 'CONFIRMED':
+            return JsonResponse({'error': 'Confirmed teams cannot be edited'}, status=400)
+        
+        team.team_name = team_name
+        team.save()
+        return JsonResponse({'success': True, 'team_id': team.id})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required(login_url='login')
+def add_team_member(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration or not registration.selected_for_round2:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    from .models import RoundTimingSettings
+    if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
+        return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
+
+    team = get_object_or_404(Team, creator=registration)
+    if team.status == 'CONFIRMED':
+        return JsonResponse({'error': 'Confirmed teams cannot be edited'}, status=400)
+
+    if team.members.count() >= 5: # 5 members + 1 creator = 6 total
+        return JsonResponse({'error': 'Maximum team size of 6 reached (including you)'}, status=400)
+
+    participant_id = request.POST.get('participant_id')
+    participant = get_object_or_404(UserRegistration, id=participant_id)
+
+    if participant.selected_for_round2:
+        return JsonResponse({'error': 'Only non-shortlisted participants can be added to teams'}, status=400)
+
+    if TeamMember.objects.filter(participant=participant).exists():
+        return JsonResponse({'error': 'Participant is already in a team'}, status=400)
+
+    TeamMember.objects.create(team=team, participant=participant)
+    return JsonResponse({'success': True})
+
+@login_required(login_url='login')
+def remove_team_member(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration or not registration.selected_for_round2:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    from .models import RoundTimingSettings
+    if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
+        return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
+
+    team = get_object_or_404(Team, creator=registration)
+    if team.status == 'CONFIRMED':
+        return JsonResponse({'error': 'Confirmed teams cannot be edited'}, status=400)
+
+    participant_id = request.POST.get('participant_id')
+    TeamMember.objects.filter(team=team, participant_id=participant_id).delete()
+    return JsonResponse({'success': True})
+
+@login_required(login_url='login')
+def confirm_team(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration or not registration.selected_for_round2:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    from .models import RoundTimingSettings
+    if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
+        return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
+
+    team = get_object_or_404(Team, creator=registration)
+    if team.status == 'CONFIRMED':
+        return JsonResponse({'error': 'Team is already confirmed'}, status=400)
+
+    team.status = 'CONFIRMED'
+    team.save()
+    return JsonResponse({'success': True})
 
 def landing_page(request):
     return render(request, 'registrations/landing.html')
@@ -371,10 +502,39 @@ def user_logout(request):
 def dashboard(request):
     registration = getattr(request.user, 'registration', None)
     if not registration:
-        return redirect('register_choice') # Or handle case where user is admin with no registration
+        return redirect('register_choice')
+    
+    # Notifications Logic
+    from .models import RoundNotification, Round3Submission
+    notifications = RoundNotification.objects.filter(participant=registration).order_by('-created_at')
+    
+    # Team Visibility Logic
+    team = None
+    if registration.selected_for_round2:
+        team = Team.objects.filter(creator=registration).first()
+    
+    if not team:
+        membership = TeamMember.objects.filter(participant=registration, team__status='CONFIRMED').first()
+        if membership:
+            team = membership.team
+            
+    # Round 3 Submission Status
+    ppt_submitted = False
+    if team and team.selected_for_round3:
+        ppt_submitted = Round3Submission.objects.filter(team=team).exists()
+    
+    # Timing Logic
+    from .models import RoundTimingSettings
+    timing = RoundTimingSettings.get_settings()
     
     context = {
         'registration': registration,
+        'team': team,
+        'notifications': notifications,
+        'ppt_submitted': ppt_submitted,
+        'timing': timing,
+        'formation_status': timing.get_team_formation_status(),
+        'ppt_status': timing.get_ppt_submission_status(),
     }
     return render(request, 'registrations/dashboard.html', context)
 
@@ -452,3 +612,37 @@ def show_session_qr(request, session_id):
         'qr_base64': qr_base64,
         'full_url': full_url
     })
+
+@login_required(login_url='login')
+def upload_round3_ppt(request):
+    registration = getattr(request.user, 'registration', None)
+    if not registration:
+        return JsonResponse({'status': 'error', 'message': 'Registration not found'}, status=404)
+        
+    from .models import RoundTimingSettings
+    if RoundTimingSettings.get_settings().get_ppt_submission_status() != 'OPEN':
+        return JsonResponse({'status': 'error', 'message': 'PPT submission window is closed'}, status=403)
+    team = registration.get_team()
+    if not team or not team.selected_for_round3:
+        return JsonResponse({'status': 'error', 'message': 'Team not shortlisted for Round 3'}, status=403)
+        
+    if team.status != 'CONFIRMED':
+        return JsonResponse({'status': 'error', 'message': 'Team must be confirmed before submission'}, status=403)
+
+    if request.method == 'POST' and request.FILES.get('ppt_file'):
+        from .models import Round3Submission
+        ppt_file = request.FILES['ppt_file']
+        
+        # Validate extension
+        ext = ppt_file.name.split('.')[-1].lower()
+        if ext not in ['ppt', 'pptx']:
+            return JsonResponse({'status': 'error', 'message': 'Only PPT/PPTX files allowed'}, status=400)
+            
+        submission, created = Round3Submission.objects.update_or_create(
+            team=team,
+            defaults={'uploaded_by': registration, 'ppt_file': ppt_file}
+        )
+        
+        return JsonResponse({'status': 'success', 'message': 'PPT submitted successfully'})
+        
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
