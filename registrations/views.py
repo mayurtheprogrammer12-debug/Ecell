@@ -12,7 +12,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import UserRegistration, AttendanceSession, AttendanceRecord
+from .models import (
+    UserRegistration, AttendanceSession, AttendanceRecord,
+    Team, TeamMember, RoundNotification, Round3Submission, RoundTimingSettings
+)
 from .forms import ParticipantForm, ExhibitorForm, Round1SubmissionForm
 from payments.models import PaymentRecord
 from django.utils.html import strip_tags
@@ -97,7 +100,6 @@ def create_auth_user(email, password, registration):
     registration.save()
     return user
 
-from .models import Team, TeamMember
 from django.db.models import Q
 
 @login_required(login_url='login')
@@ -136,7 +138,7 @@ def manage_team(request):
     if not registration or not registration.selected_for_round2:
         return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-    from .models import RoundTimingSettings
+    pass # Removed local import
     if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
         return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
 
@@ -164,7 +166,7 @@ def add_team_member(request):
     if not registration or not registration.selected_for_round2:
         return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-    from .models import RoundTimingSettings
+    pass # Removed local import
     if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
         return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
 
@@ -193,7 +195,7 @@ def remove_team_member(request):
     if not registration or not registration.selected_for_round2:
         return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-    from .models import RoundTimingSettings
+    pass # Removed local import
     if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
         return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
 
@@ -211,7 +213,7 @@ def confirm_team(request):
     if not registration or not registration.selected_for_round2:
         return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-    from .models import RoundTimingSettings
+    pass # Removed local import
     if RoundTimingSettings.get_settings().get_team_formation_status() != 'OPEN':
         return JsonResponse({'status': 'error', 'message': 'Team formation window is closed'}, status=403)
 
@@ -505,7 +507,6 @@ def dashboard(request):
         return redirect('register_choice')
     
     # Notifications Logic
-    from .models import RoundNotification, Round3Submission
     notifications = RoundNotification.objects.filter(participant=registration).order_by('-created_at')
     
     # Team Visibility Logic
@@ -524,7 +525,6 @@ def dashboard(request):
         ppt_submitted = Round3Submission.objects.filter(team=team).exists()
     
     # Timing Logic
-    from .models import RoundTimingSettings
     timing = RoundTimingSettings.get_settings()
     
     context = {
@@ -619,7 +619,7 @@ def upload_round3_ppt(request):
     if not registration:
         return JsonResponse({'status': 'error', 'message': 'Registration not found'}, status=404)
         
-    from .models import RoundTimingSettings
+    pass # Removed local import
     if RoundTimingSettings.get_settings().get_ppt_submission_status() != 'OPEN':
         return JsonResponse({'status': 'error', 'message': 'PPT submission window is closed'}, status=403)
     team = registration.get_team()
@@ -630,7 +630,7 @@ def upload_round3_ppt(request):
         return JsonResponse({'status': 'error', 'message': 'Team must be confirmed before submission'}, status=403)
 
     if request.method == 'POST' and request.FILES.get('ppt_file'):
-        from .models import Round3Submission
+        pass # Removed local import
         ppt_file = request.FILES['ppt_file']
         
         # Validate extension
