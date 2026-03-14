@@ -16,27 +16,6 @@
                 class="px-8 py-3 rounded-full bg-foreground/5 border border-foreground/10 text-foreground/50 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-red-500/10 hover:text-red-500 transition-all">Logout</a>
         </div>
 
-        <!-- Notifications -->
-        {% if notifications %}
-        <div class="space-y-4 reveal-content">
-            {% for notification in notifications %}
-            <div class="premium-glass p-6 rounded-3xl border border-cyan-400/20 flex items-center justify-between gap-6 hover:border-cyan-400/40 transition-all">
-                <div class="flex items-center gap-6">
-                    <div class="w-10 h-10 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-[11px] text-foreground font-black uppercase italic tracking-tight">{{ notification.message }}</p>
-                        <p class="text-[8px] text-foreground/30 font-black uppercase tracking-widest">{{ notification.created_at|timesince }} ago</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
             <!-- Profile Card -->
@@ -113,159 +92,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- My Team Section -->
-                {% if team %}
-                <div class="space-y-8 reveal-content">
-                    <div class="flex flex-col md:flex-row justify-between items-center px-6 gap-4">
-                        <div class="flex flex-col">
-                            <h4 class="text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em]">My Team Unit ({{ team.team_id }})</h4>
-                            {% if formation_status == 'LOCKED' %}
-                            <p class="text-[8px] text-yellow-400/60 font-black uppercase tracking-widest mt-1">Opens: {{ timing.team_formation_start|date:"d M H:i" }}</p>
-                            {% elif formation_status == 'CLOSED' %}
-                            <p class="text-[8px] text-red-500/60 font-black uppercase tracking-widest mt-1">Window Closed</p>
-                            {% endif %}
-                        </div>
-                        <div class="flex items-center gap-4">
-                            {% if formation_status == 'LOCKED' %}
-                            <span class="px-4 py-2 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[8px] font-black text-yellow-400 uppercase tracking-widest">Locked – Not Yet Open</span>
-                            {% elif formation_status == 'CLOSED' %}
-                            <span class="px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-[8px] font-black text-red-500 uppercase tracking-widest">Closed – Team Formation Ended</span>
-                            {% elif formation_status == 'OPEN' %}
-                            <span class="px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-[8px] font-black text-green-500 uppercase tracking-widest">Open – Team Formation Active</span>
-                            {% if registration.selected_for_round2 and team.status != 'CONFIRMED' %}
-                            <a href="{% url 'round2' %}" class="text-[9px] font-black uppercase tracking-widest text-cyan-400 hover:text-cyan-300 transition-colors">Manage Formation</a>
-                            {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="premium-glass p-12 rounded-[3.5rem] border border-foreground/5 relative overflow-hidden group">
-                        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent"></div>
-                        <div class="space-y-8">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                                <div>
-                                    <h3 class="text-3xl font-display font-black text-foreground uppercase italic tracking-tighter">{{ team.team_name }}</h3>
-                                    <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-[0.4em] opacity-60">Status: {{ team.status }}</p>
-                                </div>
-                                <div class="px-6 py-3 bg-foreground/5 border border-foreground/10 rounded-2xl">
-                                    <p class="text-[10px] text-foreground/30 uppercase tracking-widest mb-1">Unit Leader</p>
-                                    <p class="text-foreground font-display font-black uppercase italic tracking-tight">{{ team.creator.name }}</p>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <!-- Leader -->
-                                <div class="flex items-center gap-4 p-4 bg-cyan-400/5 border border-cyan-400/20 rounded-2xl">
-                                    <div class="w-8 h-8 rounded-lg bg-cyan-400/10 flex items-center justify-center text-cyan-400 font-display font-black text-xs">L</div>
-                                    <div>
-                                        <p class="text-[11px] text-foreground font-black uppercase italic tracking-tight">{{ team.creator.name }}</p>
-                                        <p class="text-[8px] text-cyan-400/60 font-black uppercase tracking-widest">Creator</p>
-                                    </div>
-                                </div>
-                                <!-- Members -->
-                                {% for member in team.members.all %}
-                                <div class="flex items-center gap-4 p-4 bg-foreground/5 border border-foreground/10 rounded-2xl">
-                                    <div class="w-8 h-8 rounded-lg bg-foreground/10 flex items-center justify-center text-foreground/30 font-display font-black text-xs">M</div>
-                                    <div>
-                                        <p class="text-[11px] text-foreground font-black uppercase italic tracking-tight">{{ member.participant.name }}</p>
-                                        <p class="text-[8px] text-foreground/30 font-black uppercase tracking-widest">Operator</p>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-                <!-- Round 3 PPT Submission (Shortlisted Only) -->
-                {% if team.selected_for_round3 %}
-                <div class="space-y-8 reveal-content pt-12">
-                    <h4 class="text-[10px] font-black text-foreground/30 uppercase tracking-[0.4em] ml-6">Round 3 Submission Segment</h4>
-                    <div class="premium-glass p-12 rounded-[3.5rem] border border-violet-600/30 relative group overflow-hidden">
-                        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-violet-600/50 to-transparent"></div>
-                        <div class="flex flex-col md:flex-row justify-between items-center gap-12">
-                            <div class="space-y-4 text-center md:text-left">
-                                <h3 class="text-4xl font-display font-black text-foreground uppercase italic tracking-tighter">Presentation Material</h3>
-                                <div class="flex items-center justify-center md:justify-start gap-4">
-                                    <span class="px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest {% if ppt_submitted %}bg-green-500/10 text-green-500 border border-green-500/20{% else %}bg-yellow-400/10 text-yellow-400 border border-yellow-400/20{% endif %}">
-                                        {% if ppt_submitted %}Status: Submitted{% else %}Status: Action Required{% endif %}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-center gap-4">
-                                {% if ppt_status == 'LOCKED' %}
-                                <div class="text-center">
-                                    <span class="px-6 py-3 rounded-2xl bg-foreground/5 border border-foreground/10 text-[10px] font-black text-foreground/30 uppercase tracking-widest">
-                                        Locked – Not Yet Open
-                                    </span>
-                                    <p class="text-[8px] text-violet-600 font-bold uppercase tracking-widest mt-2 italic">Submission opens at {{ timing.ppt_submission_start|date:"d M H:i" }}</p>
-                                </div>
-                                {% elif ppt_status == 'CLOSED' %}
-                                <div class="text-center">
-                                    <span class="px-6 py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-[10px] font-black text-red-500 uppercase tracking-widest">
-                                        Closed – Submission Ended
-                                    </span>
-                                    <p class="text-[8px] text-foreground/30 font-bold uppercase tracking-widest mt-2 italic">Deadline has passed</p>
-                                </div>
-                                {% else %}
-                                <input type="file" id="pptInput" class="hidden" accept=".ppt,.pptx" onchange="handlePPTUpload(this)">
-                                <button onclick="document.getElementById('pptInput').click()" 
-                                        class="px-10 py-4 rounded-full bg-violet-600 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(124,58,237,0.3)]">
-                                    {% if ppt_submitted %}Replace PPTX File{% else %}Upload Presentation{% endif %}
-                                </button>
-                                <p class="text-[8px] text-foreground/40 font-bold uppercase tracking-widest">Open – Upload PPT</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <script>
-                async function handlePPTUpload(input) {
-                    if (!input.files || !input.files[0]) return;
-                    const file = input.files[0];
-                    
-                    // Simple validation
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    if (ext !== 'ppt' && ext !== 'pptx') {
-                        alert('Invalid format. Please upload a .ppt or .pptx file.');
-                        return;
-                    }
-
-                    const formData = new FormData();
-                    formData.append('ppt_file', file);
-                    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-
-                    const btn = input.nextElementSibling;
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = 'Uploading...';
-                    btn.disabled = true;
-
-                    try {
-                        const response = await fetch('{% url "upload_round3_ppt" %}', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        const data = await response.json();
-                        
-                        if (data.status === 'success') {
-                            alert('PPT uploaded successfully! Syncing unit data...');
-                            window.location.reload();
-                        } else {
-                            alert('Error: ' + data.message);
-                            btn.innerHTML = originalText;
-                            btn.disabled = false;
-                        }
-                    } catch (err) {
-                        alert('Critical network error during upload sequence.');
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                    }
-                }
-                </script>
-                {% endif %}
 
                 <!-- Event Progress -->
                 {% if registration.registration_type == 'PARTICIPANT' %}
@@ -323,15 +149,9 @@
                                             d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                     </svg>
                                 </div>
-                                {% if formation_status == 'OPEN' %}
                                 <a href="{% url 'round2' %}"
                                     class="text-[8px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-4 py-2 rounded-full border border-cyan-400/20 hover:bg-cyan-400 hover:text-background transition-all">▶
                                     Start Round</a>
-                                {% elif formation_status == 'LOCKED' %}
-                                <span class="text-[8px] font-black uppercase tracking-widest text-yellow-400/50 bg-yellow-400/5 px-4 py-2 rounded-full border border-yellow-400/10">⌛ Locked</span>
-                                {% else %}
-                                <span class="text-[8px] font-black uppercase tracking-widest text-red-500/50 bg-red-500/5 px-4 py-2 rounded-full border border-red-500/10">Closed</span>
-                                {% endif %}
                                 {% else %}
                                 <div
                                     class="w-12 h-12 rounded-2xl bg-foreground/5 flex items-center justify-center text-foreground/20">

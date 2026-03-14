@@ -3,11 +3,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.db.models import Q, Sum, Count
 from unfold.admin import ModelAdmin
-from .models import (
-    UserRegistration, FreeEntryWhitelist, AttendanceSession, 
-    AttendanceRecord, EventSettings, ReferralCode, Team, 
-    TeamMember, RoundNotification, Round3Submission, RoundTimingSettings
-)
+from .models import UserRegistration, FreeEntryWhitelist, AttendanceSession, AttendanceRecord, EventSettings, ReferralCode
 
 # --- FILTERS ---
 
@@ -106,33 +102,7 @@ mark_attendance_present_bulk.short_description = "📍 Mark Attendance (Active S
 
 def mark_round3_qualified(modeladmin, request, queryset):
     queryset.update(selected_for_round3=True, round3_unlocked=True)
-mark_round3_qualified.short_description = "🏆 Qualify for Round 3 (Individual)"
-
-def push_round2_selection(modeladmin, request, queryset):
-    from .models import RoundNotification
-    # Note: Email sending logic would go here. For now focusing on Dashboard Notifications.
-    selected_count = 0
-    not_selected_count = 0
-    
-    for reg in queryset:
-        if reg.selected_for_round2:
-            RoundNotification.objects.create(
-                participant=reg,
-                notification_type='ROUND2_SELECTED',
-                message="You have been shortlisted for Round 2. Please log in to your dashboard and form your team."
-            )
-            selected_count += 1
-        else:
-            RoundNotification.objects.create(
-                participant=reg,
-                notification_type='ROUND2_NOT_SELECTED',
-                message="You were not shortlisted for Round 2. However, you may still participate by joining a team formed by shortlisted participants."
-            )
-            not_selected_count += 1
-            
-    modeladmin.message_user(request, f"📢 Pushed Round 2 notifications: {selected_count} shortlisted, {not_selected_count} non-shortlisted.")
-
-push_round2_selection.short_description = "📢 Push Round 2 Selection Notification"
+mark_round3_qualified.short_description = "🏆 Qualify for Round 3"
 
 # --- ADMIN CLASSES ---
 
@@ -152,7 +122,7 @@ class UserRegistrationAdmin(ModelAdmin):
     
     search_fields = ('name', 'email', 'phone', 'college', 'referral_code_used__referral_code', 'idea_title')
     
-    actions = [export_as_csv, mark_round2_qualified, mark_round3_qualified, verify_payments_bulk, mark_attendance_present_bulk, push_round2_selection]
+    actions = [export_as_csv, mark_round2_qualified, mark_round3_qualified, verify_payments_bulk, mark_attendance_present_bulk]
     
     fieldsets = (
         ('IDENTITY', {
@@ -183,136 +153,10 @@ class UserRegistrationAdmin(ModelAdmin):
 class EventSettingsAdmin(ModelAdmin):
     list_display = ('event_name', 'is_registration_open', 'round1_name', 'round2_name')
 
-@admin.register(RoundTimingSettings)
-class RoundTimingSettingsAdmin(ModelAdmin):
-    list_display = ('__str__', 'team_formation_status_tag', 'ppt_submission_status_tag', 'team_formation_start', 'team_formation_end', 'ppt_submission_start', 'ppt_submission_end')
-    
-    def has_add_permission(self, request):
-        return not RoundTimingSettings.objects.exists()
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def team_formation_status_tag(self, obj):
-        from django.utils.html import format_html
-        status = obj.get_team_formation_status()
-        colors = {'LOCKED': '#ef4444', 'OPEN': '#22c55e', 'CLOSED': '#64748b'}
-        return format_html('<b style="color: {};">{}</b>', colors.get(status, 'black'), status)
-    team_formation_status_tag.short_description = "Formation Status"
-
-    def ppt_submission_status_tag(self, obj):
-        from django.utils.html import format_html
-        status = obj.get_ppt_submission_status()
-        colors = {'LOCKED': '#ef4444', 'OPEN': '#22c55e', 'CLOSED': '#64748b'}
-        return format_html('<b style="color: {};">{}</b>', colors.get(status, 'black'), status)
-    ppt_submission_status_tag.short_description = "Submission Status"
-
 @admin.register(FreeEntryWhitelist)
 class FreeEntryWhitelistAdmin(ModelAdmin):
     list_display = ('value', 'whitelist_type', 'description')
     list_filter = ('whitelist_type',)
     search_fields = ('value', 'description')
-
-
-
-class TeamMemberInline(admin.TabularInline):
-    model = TeamMember
-    extra = 0
-    readonly_fields = ('participant_email',)
-    
-    def participant_email(self, obj):
-        return obj.participant.email
-    participant_email.short_description = "Email"
-
-def export_teams_as_csv(modeladmin, request, queryset):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=teams_export.csv'
-    writer = csv.writer(response)
-    
-    writer.writerow(['Team ID', 'Team Name', 'Creator Name', 'Creator Email', 'Status', 'Selected for Round 3', 'Members', 'Created At'])
-    
-    for team in queryset:
-        members = ", ".join([f"{m.participant.name} ({m.participant.email})" for m in team.members.all()])
-        writer.writerow([
-            team.team_id,
-            team.team_name,
-            team.creator.name,
-            team.creator.email,
-            team.status,
-            'YES' if team.selected_for_round3 else 'NO',
-            members,
-            team.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        ])
-    return response
-export_teams_as_csv.short_description = "🚀 Export Selected Teams to CSV"
-
-@admin.register(Team)
-class TeamAdmin(ModelAdmin):
-    list_display = ('team_id', 'team_name', 'creator_name', 'status_tag', 'member_count', 'selected_for_round3', 'created_at')
-    list_filter = ('status', 'selected_for_round3', 'created_at')
-    search_fields = ('team_id', 'team_name', 'creator__name', 'creator__email', 'members__participant__name', 'members__participant__email')
-    inlines = [TeamMemberInline]
-    actions = [export_teams_as_csv, 'push_to_round3']
-    
-    def creator_name(self, obj):
-        return obj.creator.name
-    creator_name.short_description = "Team Leader"
-    
-    def member_count(self, obj):
-        return obj.members.count() + 1
-    member_count.short_description = "Unit Size"
-
-    def status_tag(self, obj):
-        from django.utils.html import format_html
-        colors = {
-            'DRAFT': 'background: #3b82f620; color: #3b82f6; border: 1px solid #3b82f640;',
-            'CONFIRMED': 'background: #22d3ee20; color: #22d3ee; border: 1px solid #22d3ee40; font-weight: bold;'
-        }
-        return format_html(
-            '<span style="padding: 4px 10px; border-radius: 20px; font-size: 10px; text-transform: uppercase; {}">{} {}</span>',
-            colors.get(obj.status, ''),
-            obj.status,
-            '🔒' if obj.status == 'CONFIRMED' else '📝'
-        )
-    status_tag.short_description = "Security Status"
-
-    def push_to_round3(self, request, queryset):
-        queryset.update(selected_for_round3=True)
-        # Notify all members
-        from .models import RoundNotification
-        for team in queryset:
-            for member_rel in team.members.all():
-                RoundNotification.objects.create(
-                    participant=member_rel.participant,
-                    notification_type='ROUND3_SELECTED',
-                    message=f"Congratulations! Your team {team.team_id} ({team.team_name}) has been shortlisted for Round 3."
-                )
-            RoundNotification.objects.create(
-                participant=team.creator,
-                notification_type='ROUND3_SELECTED',
-                message=f"Congratulations! Your team {team.team_id} ({team.team_name}) has been shortlisted for Round 3."
-            )
-        self.message_user(request, f"⭐ {queryset.count()} teams shortlisted for Round 3.")
-    push_to_round3.short_description = "⭐ Shortlist Teams for Round 3"
-
-@admin.register(Round3Submission)
-class Round3SubmissionAdmin(ModelAdmin):
-    list_display = ('team_id_display', 'team_name_display', 'uploaded_by', 'ppt_download_link', 'uploaded_at')
-    search_fields = ('team__team_id', 'team__team_name', 'uploaded_by__name')
-
-    def team_id_display(self, obj):
-        return obj.team.team_id
-    team_id_display.short_description = "Team ID"
-
-    def team_name_display(self, obj):
-        return obj.team.team_name
-    team_name_display.short_description = "Team Name"
-
-    def ppt_download_link(self, obj):
-        from django.utils.html import format_html
-        if obj.ppt_file:
-            return format_html('<a href="{}" target="_blank" style="color: #8b5cf6; font-weight: bold;">📥 Download PPT</a>', obj.ppt_file.url)
-        return "No File"
-    ppt_download_link.short_description = "Presentation"
 
 from .admin_attendance import * # Load attendance from separate file
