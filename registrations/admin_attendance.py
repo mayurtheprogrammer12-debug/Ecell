@@ -35,14 +35,21 @@ class AttendanceSessionAdmin(ModelAdmin):
 
     def get_qr_preview(self, obj):
         if obj.session_id:
+            from django.conf import settings
             import qrcode
             import base64
             from io import BytesIO
             
-            domain = "ennovatex.up.railway.app"
-            url = f"https://{domain}/attendance/checkin/{obj.session_id}/"
-            
-            qr = qrcode.QRCode(version=1, box_size=5, border=2)
+            # Use SITE_URL from settings if available, fallback to request.get_host()
+            site_url = getattr(settings, 'SITE_URL', None)
+            if site_url:
+                base_url = site_url.rstrip('/')
+                url = f"{base_url}/attendance/checkin/{obj.session_id}/"
+            else:
+                # request object is not directly available in ModelAdmin methods this way 
+                # but we can try to use common domain or fallback to settings
+                domain = "ennovatex26.in" # Hard fallback for admin preview
+                url = f"https://{domain}/attendance/checkin/{obj.session_id}/"
             qr.add_data(url)
             qr.make(fit=True)
             img = qr.make_image(fill_color="black", back_color="white")

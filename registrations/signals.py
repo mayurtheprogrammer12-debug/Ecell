@@ -37,7 +37,9 @@ def send_email_in_background(subject, plain_message, from_email, to_email, html_
 
 @receiver(post_save, sender=UserRegistration)
 def send_registration_emails(sender, instance, created, **kwargs):
-    dashboard_url = "https://ennovatex.up.railway.app/dashboard/"
+    # Use SITE_URL from settings if available
+    site_url = getattr(settings, 'SITE_URL', 'https://ennovatex26.in').rstrip('/')
+    dashboard_url = f"{site_url}/dashboard/"
 
     # 1. Registration Confirmation
     # Sending logic moved to views.py to ensure it triggers exactly after payment submission/free registration
@@ -50,7 +52,7 @@ def send_registration_emails(sender, instance, created, **kwargs):
             context = {
                 'participant_name': instance.name,
                 'dashboard_url': dashboard_url,
-                'logo_url': "https://ennovatex.up.railway.app/static/images/logo.png"
+                'logo_url': f"{site_url}/static/images/logo.png"
             }
             html_message = render_to_string('emails/round2_selection.html', context)
             plain_message = strip_tags(html_message)
