@@ -424,9 +424,16 @@ def attendance_checkin(request, session_id):
 
 def generate_attendance_qr(session_id, request):
     # Absolute URL for the QR code
-    domain = request.get_host()
-    protocol = 'https' if request.is_secure() else 'http'
-    url = f"{protocol}://{domain}/attendance/checkin/{session_id}/"
+    # Priority: 1. settings.SITE_URL, 2. request.get_host()
+    site_url = getattr(settings, 'SITE_URL', None)
+    if site_url:
+        # Ensure site_url doesn't end with a slash for consistent path joining
+        base_url = site_url.rstrip('/')
+        url = f"{base_url}/attendance/checkin/{session_id}/"
+    else:
+        domain = request.get_host()
+        protocol = 'https' if request.is_secure() else 'http'
+        url = f"{protocol}://{domain}/attendance/checkin/{session_id}/"
     
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(url)

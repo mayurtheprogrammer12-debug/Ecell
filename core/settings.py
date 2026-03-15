@@ -21,6 +21,10 @@ ALLOWED_HOSTS = [
     'www.ennovatex26.in',
 ]
 
+# Site URL for QR code generation and other absolute links
+SITE_URL = os.getenv('SITE_URL', 'https://ennovatex26.in')
+USE_X_FORWARDED_HOST = True
+
 INSTALLED_APPS = [
     "unfold",
     "unfold.contrib.filters",
@@ -88,6 +92,11 @@ else:
 
 # Database
 # Use dj-database-url to parse the DATABASE_URL environment variable if it exists
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL and DATABASE_URL.startswith('mysql://'):
+    import pymysql
+    pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///' + str(DATA_ROOT / 'db.sqlite3'),
