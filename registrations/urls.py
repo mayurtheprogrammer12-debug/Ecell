@@ -13,6 +13,7 @@ urlpatterns = [
     path('round2/confirm/', views.confirm_team, name='confirm_team'),
     path('round3/upload-ppt/', views.upload_round3_ppt, name='upload_ppt'),
     path('payment-success/<int:reg_id>/', views.registration_success, name='registration_success'),
+    path('payment/verify/', views.payment_verify, name='payment_verify'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
