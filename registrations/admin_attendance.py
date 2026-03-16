@@ -50,6 +50,13 @@ class AttendanceSessionAdmin(ModelAdmin):
                 # but we can try to use common domain or fallback to settings
                 domain = "ennovatex26.in" # Hard fallback for admin preview
                 url = f"https://{domain}/attendance/checkin/{obj.session_id}/"
+            
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
             qr.add_data(url)
             qr.make(fit=True)
             img = qr.make_image(fill_color="black", back_color="white")
