@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .models import (
     UserRegistration, AttendanceSession, AttendanceRecord,
@@ -444,7 +445,7 @@ def manage_team(request):
     search_query = request.GET.get('search', '')
     if search_query:
         available_participants = available_participants.filter(
-            models.Q(name__icontains=search_query) | models.Q(email__icontains=search_query)
+            Q(name__icontains=search_query) | Q(email__icontains=search_query)
         )
 
     context = {
