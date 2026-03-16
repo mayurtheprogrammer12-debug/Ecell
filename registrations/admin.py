@@ -3,7 +3,11 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.db.models import Q, Sum, Count
 from unfold.admin import ModelAdmin
-from .models import UserRegistration, FreeEntryWhitelist, AttendanceSession, AttendanceRecord, EventSettings, ReferralCode
+from .models import (
+    UserRegistration, FreeEntryWhitelist, AttendanceSession, AttendanceRecord, 
+    EventSettings, ReferralCode, Team, TeamMember, RoundNotification, 
+    Round3Submission, RoundTimingSettings
+)
 
 # --- FILTERS ---
 
@@ -54,6 +58,7 @@ class IsFreeEligibleFilter(admin.SimpleListFilter):
 
 # --- ACTIONS ---
 
+@admin.action(description="🚀 Export Selected to Excel (CSV)")
 def export_as_csv(modeladmin, request, queryset):
     meta = modeladmin.model._meta
     field_names = [field.name for field in meta.fields]
@@ -74,19 +79,18 @@ def export_as_csv(modeladmin, request, queryset):
 
     return response
 
-export_as_csv.short_description = "🚀 Export Selected to Excel (CSV)"
-
+@admin.action(description="✅ Qualify for Round 2")
 def mark_round2_qualified(modeladmin, request, queryset):
     for obj in queryset:
         obj.selected_for_round2 = True
         obj.round2_unlocked = True
         obj.save()
-mark_round2_qualified.short_description = "✅ Qualify for Round 2"
 
+@admin.action(description="💰 Verify Payments")
 def verify_payments_bulk(modeladmin, request, queryset):
     queryset.update(payment_status='VERIFIED')
-verify_payments_bulk.short_description = "💰 Verify Payments"
 
+@admin.action(description="📍 Mark Attendance (Active Session)")
 def mark_attendance_present_bulk(modeladmin, request, queryset):
     try:
         latest_session = AttendanceSession.objects.filter(is_active=True).latest('created_at')
@@ -98,11 +102,14 @@ def mark_attendance_present_bulk(modeladmin, request, queryset):
             )
     except AttendanceSession.DoesNotExist:
         pass
-mark_attendance_present_bulk.short_description = "📍 Mark Attendance (Active Session)"
 
+@admin.action(description="🏆 Qualify for Round 3")
 def mark_round3_qualified(modeladmin, request, queryset):
     queryset.update(selected_for_round3=True, round3_unlocked=True)
-mark_round3_qualified.short_description = "🏆 Qualify for Round 3"
+
+@admin.action(description="📦 Qualify TEAM for Round 3")
+def mark_team_round3_qualified(modeladmin, request, queryset):
+    queryset.update(selected_for_round3=True)
 
 # --- ADMIN CLASSES ---
 
@@ -158,5 +165,31 @@ class FreeEntryWhitelistAdmin(ModelAdmin):
     list_display = ('value', 'whitelist_type', 'description')
     list_filter = ('whitelist_type',)
     search_fields = ('value', 'description')
+
+@admin.register(Team)
+class TeamAdmin(ModelAdmin):
+    list_display = ('team_id', 'team_name', 'creator', 'status', 'selected_for_round3', 'created_at')
+    list_filter = ('status', 'selected_for_round3', 'created_at')
+    search_fields = ('team_name', 'team_id', 'creator__name', 'creator__email')
+    actions = [export_as_csv, mark_team_round3_qualified]
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(ModelAdmin):
+    list_display = ('participant', 'team', 'added_at')
+    search_fields = ('participant__name', 'team__team_name', 'team__team_id')
+
+@admin.register(RoundNotification)
+class RoundNotificationAdmin(ModelAdmin):
+    list_display = ('participant', 'notification_type', 'is_read', 'created_at')
+    list_filter = ('notification_type', 'is_read', 'created_at')
+
+@admin.register(Round3Submission)
+class Round3SubmissionAdmin(ModelAdmin):
+    list_display = ('team', 'uploaded_by', 'uploaded_at')
+    search_fields = ('team__team_name', 'team__team_id', 'uploaded_by__name')
+
+@admin.register(RoundTimingSettings)
+class RoundTimingSettingsAdmin(ModelAdmin):
+    list_display = ('id', 'team_formation_start', 'team_formation_end', 'ppt_submission_start', 'ppt_submission_end')
 
 from .admin_attendance import * # Load attendance from separate file
