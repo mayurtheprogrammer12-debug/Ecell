@@ -18,4 +18,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('round1/submit/', views.round1_submit, name='round1_submit'),
     path('attendance/session/<uuid:session_id>/qr/', views.show_session_qr, name='show_session_qr'),
+    path('attendance/checkin/<uuid:session_id>/', views.attendance_checkin, name='attendance_checkin'),
 ]
