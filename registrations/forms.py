@@ -10,7 +10,7 @@ class ParticipantForm(forms.ModelForm):
 
     class Meta:
         model = UserRegistration
-        fields = ['name', 'gender', 'age', 'phone', 'email', 'city', 'college', 'referral_code', 'password', 'confirm_password']
+        fields = ['name', 'gender', 'age', 'phone', 'email', 'city', 'college']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
             'gender': forms.Select(attrs={'class': 'form-select'}),
@@ -66,7 +66,7 @@ class ExhibitorForm(forms.ModelForm):
 
     class Meta:
         model = UserRegistration
-        fields = ['exhibitor_category', 'name', 'age', 'gender', 'email', 'phone', 'org_name', 'description', 'password', 'confirm_password']
+        fields = ['exhibitor_category', 'name', 'age', 'gender', 'email', 'phone', 'org_name', 'description']
         widgets = {
             'exhibitor_category': forms.Select(attrs={'class': 'form-select'}),
             'name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
